@@ -124,13 +124,17 @@ ${sec(
               <a href="mailto:${SITE.emailSales}" class="mt-0.5 block font-display text-[1.0625rem] text-ink hover:text-teal">${SITE.emailSales}</a>
             </span>
           </li>
-          <li class="flex gap-4">
+          ${
+            SITE.phone
+              ? `<li class="flex gap-4">
             <span class="icon-tile">${icon("phone", "h-5 w-5")}</span>
             <span>
               <span class="block text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-slate-mid">Telephone</span>
               <a href="tel:${SITE.phoneHref}" class="mt-0.5 block font-display text-[1.0625rem] text-ink hover:text-teal">${SITE.phone}</a>
             </span>
-          </li>
+          </li>`
+              : ""
+          }
           <li class="flex gap-4">
             <span class="icon-tile">${icon("clock", "h-5 w-5")}</span>
             <span>

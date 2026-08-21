@@ -120,15 +120,21 @@ repository, then set:
 Cloudflare builds and deploys on push. If you use this, delete
 `.github/workflows/deploy.yml` so the two do not deploy over each other.
 
-### Attaching the custom domain
+### The custom domain
 
-Once the Worker exists: **Workers & Pages → b4es-website → Settings → Domains &
-Routes → Add custom domain.** Cloudflare creates the DNS record and issues the
-certificate. Do apex and `www` separately, then add a Redirect Rule on the zone
-sending one to the other so the site has a single canonical hostname.
+`b4es.co.uk` and `www.b4es.co.uk` are already declared as custom domains in
+`wrangler.jsonc`. Cloudflare creates the DNS records and issues certificates on
+the first successful deploy, provided the zone is in the same Cloudflare account
+as the API token.
 
-Finally, set `baseUrl` in `src/data/site.mjs` to the live origin — it is what
-canonical tags, Open Graph URLs and `sitemap.xml` are built from.
+The apex is canonical — `baseUrl` in `src/data/site.mjs` drives canonical tags,
+Open Graph URLs and `sitemap.xml`. Add a zone **Redirect Rule** sending
+`www` → apex so only one hostname actually serves content; it runs at the edge,
+before the Worker.
+
+If the zone is not yet in the account, delete the `routes` block from
+`wrangler.jsonc`, deploy to the `*.workers.dev` subdomain, and attach the domain
+afterwards from Workers & Pages → b4es-website → Settings → Domains & Routes.
 
 ---
 
@@ -138,15 +144,22 @@ Search the codebase for `TODO` — everything needing a real value is marked.
 
 **1. Replace placeholders in `src/data/site.mjs`**
 
-| Field | Current | Needed |
+Unknown values are left **empty**, never filled with a plausible stand-in, and
+every template hides the corresponding element while a value is blank. Fill one
+in and it appears automatically — no template edits required.
+
+| Field | Current | Effect while empty |
 |---|---|---|
-| `domain` / `baseUrl` | `b4es.co.uk` | The live domain |
-| `email`, `emailSales`, `emailCareers` | `@b4es.co.uk` | Live mailboxes |
-| `phone` / `phoneHref` | `+44 (0)20 7946 0300` | **Real number.** This is in Ofcom's reserved fictional range, so it dials nobody |
-| `address` | `TODO` | Registered office |
-| `companyNumber` | `TODO` | Companies House number |
-| `icoRef` | `TODO` | ICO registration reference |
-| `linkedin` | placeholder | Real profile URL |
+| `domain` / `baseUrl` | `b4es.co.uk` ✅ | — |
+| `email`, `emailSales`, `emailCareers` | `@b4es.co.uk` | Verify these mailboxes exist and are monitored |
+| `phone` / `phoneHref` | *empty* | Telephone row hidden in header, footer, contact page and JSON-LD |
+| `address` | *empty* | "Registered office" sentence omitted from the privacy notice |
+| `companyNumber` | *empty* | "Registered in England and Wales" omitted from privacy and terms |
+| `icoRef` | *empty* | ICO registration paragraph omitted from the privacy notice |
+| `linkedin` | placeholder | Footer link points nowhere useful — update or remove |
+
+The phone number was deliberately emptied rather than left as a placeholder: an
+invented number is a false statement on a site whose whole pitch is candour.
 
 **2. Connect the contact form.** `src/pages/support.mjs` has a `TODO` block above
 the form. Set its `action` to your handler (Formspree, Netlify Forms, a Worker,
@@ -175,6 +188,15 @@ a leadership grid; while it is empty, an editorial paragraph shows instead.
 UK track record to point at yet, and inventing one would be both dishonest and
 easy to catch. The site argues from the paid pilot instead. Add real ones as they
 arrive.
+
+---
+
+## Build-time output cleaning
+
+HTML comments are stripped from `dist/`. Source files carry developer notes —
+TODOs, review warnings, guidance on wiring the contact form — which are useful
+in the repo and actively unhelpful in view-source on a live commercial site.
+Write notes freely in `src/`; they never reach production.
 
 ---
 

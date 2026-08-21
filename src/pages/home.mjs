@@ -444,7 +444,7 @@ ${ctaBand()}
       description:
         "Outsourced accounting, tax, payroll and back-office delivery for UK accountancy practices and growing UK businesses.",
       email: SITE.email,
-      telephone: SITE.phone,
+      ...(SITE.phone ? { telephone: SITE.phone } : {}),
       areaServed: { "@type": "Country", name: "United Kingdom" },
       knowsAbout: [
         "Outsourced bookkeeping",

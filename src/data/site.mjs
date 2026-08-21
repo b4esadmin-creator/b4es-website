@@ -2,9 +2,13 @@
 // Global site configuration.
 //
 // >>> PLACEHOLDERS <<<
-// Every value marked TODO must be replaced before the site goes live.
-// Phone numbers use Ofcom's 020 7946 0xxx range, which is reserved for
-// fictional use, so nothing here can dial a real person by accident.
+// Values marked TODO still need real content.
+//
+// Anything not yet known is left EMPTY rather than filled with a plausible
+// stand-in, and every template below hides the corresponding element when the
+// value is empty. A missing phone number reads as "we haven't listed one";
+// an invented one is a false statement on a site selling to accountants.
+// Fill a value in and it appears automatically — no template edits needed.
 // ============================================================================
 
 export const SITE = {
@@ -17,18 +21,23 @@ export const SITE = {
   email: "hello@b4es.co.uk", // TODO: replace with live mailbox
   emailSales: "newbusiness@b4es.co.uk", // TODO
   emailCareers: "careers@b4es.co.uk", // TODO
-  phone: "+44 (0)20 7946 0300", // TODO: replace — currently a reserved test number
-  phoneHref: "+442079460300",
+  // TODO: add the real business number, e.g. "+44 (0)20 1234 5678".
+  // Leave both empty until one exists — the header, footer and contact page
+  // omit the telephone row entirely while they are blank.
+  phone: "",
+  phoneHref: "",
 
+  // TODO: registered office. Leave blank until incorporation is complete —
+  // the privacy and terms pages drop the sentence rather than print a gap.
   address: {
-    line1: "TODO — registered office address",
-    line2: "London",
-    postcode: "TODO",
+    line1: "",
+    line2: "",
+    postcode: "",
     country: "United Kingdom",
   },
 
-  companyNumber: "TODO — Companies House number",
-  icoRef: "TODO — ICO registration reference",
+  companyNumber: "", // TODO: Companies House number once incorporated
+  icoRef: "", // TODO: ICO registration reference once registered
 
   linkedin: "https://www.linkedin.com/company/b4es", // TODO
 

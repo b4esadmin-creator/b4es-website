@@ -57,8 +57,16 @@ export function privacyPage() {
       {
         h: "Who we are",
         p: [
-          `${SITE.fullName} (“B4ES”, “we”, “us”) is the data controller for personal data collected through this website and in the course of our own business relationships. Registered in England and Wales, company number ${SITE.companyNumber}. Registered office: ${SITE.address.line1}, ${SITE.address.line2}, ${SITE.address.postcode}.`,
-          `Our ICO registration reference is ${SITE.icoRef}.`,
+          `${SITE.fullName} (“B4ES”, “we”, “us”) is the data controller for personal data collected through this website and in the course of our own business relationships.${
+            SITE.companyNumber
+              ? ` Registered in England and Wales, company number ${SITE.companyNumber}.`
+              : ""
+          }${
+            SITE.address.line1
+              ? ` Registered office: ${[SITE.address.line1, SITE.address.line2, SITE.address.postcode].filter(Boolean).join(", ")}.`
+              : ""
+          }`,
+          ...(SITE.icoRef ? [`Our ICO registration reference is ${SITE.icoRef}.`] : []),
           `Contact us about anything in this notice at <a href="mailto:${SITE.email}" class="font-semibold text-teal hover:underline">${SITE.email}</a>.`,
         ],
       },
@@ -140,7 +148,11 @@ export function termsPage() {
       {
         h: "About these terms",
         p: [
-          `This website is operated by ${SITE.fullName}, registered in England and Wales, company number ${SITE.companyNumber}. By using the site you accept these terms. If you do not accept them, please do not use the site.`,
+          `This website is operated by ${SITE.fullName}${
+            SITE.companyNumber
+              ? `, registered in England and Wales, company number ${SITE.companyNumber}`
+              : ""
+          }. By using the site you accept these terms. If you do not accept them, please do not use the site.`,
         ],
       },
       {

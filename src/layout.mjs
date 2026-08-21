@@ -153,8 +153,12 @@ function header(current) {
     <p class="flex items-start gap-2">${icon("globe", "mt-[0.2rem] h-3.5 w-3.5 shrink-0 text-teal-light")} UK-facing delivery, aligned to UK working hours and UK filing deadlines</p>
     <p class="hidden items-center gap-4 sm:flex">
       <a href="mailto:${SITE.email}" class="transition-colors hover:text-white">${SITE.email}</a>
-      <span class="text-white/20">|</span>
-      <a href="tel:${SITE.phoneHref}" class="transition-colors hover:text-white">${SITE.phone}</a>
+      ${
+        SITE.phone
+          ? `<span class="text-white/20">|</span>
+      <a href="tel:${SITE.phoneHref}" class="transition-colors hover:text-white">${SITE.phone}</a>`
+          : ""
+      }
     </p>
   </div>
 </div>
@@ -212,7 +216,11 @@ function footer() {
         </p>
         <div class="mt-7 space-y-3 text-[0.9375rem]">
           <p class="flex items-start gap-3 text-slate-soft">${icon("mail", "mt-0.5 h-4 w-4 shrink-0 text-teal-light")}<a href="mailto:${SITE.email}" class="transition-colors hover:text-white">${SITE.email}</a></p>
-          <p class="flex items-start gap-3 text-slate-soft">${icon("phone", "mt-0.5 h-4 w-4 shrink-0 text-teal-light")}<a href="tel:${SITE.phoneHref}" class="transition-colors hover:text-white">${SITE.phone}</a></p>
+          ${
+            SITE.phone
+              ? `<p class="flex items-start gap-3 text-slate-soft">${icon("phone", "mt-0.5 h-4 w-4 shrink-0 text-teal-light")}<a href="tel:${SITE.phoneHref}" class="transition-colors hover:text-white">${SITE.phone}</a></p>`
+              : ""
+          }
           <p class="flex items-start gap-3 text-slate-soft">${icon("clock", "mt-0.5 h-4 w-4 shrink-0 text-teal-light")}${SITE.hours}</p>
         </div>
       </div>
@@ -249,6 +257,18 @@ const FONTS = `<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">`;
 
+/**
+ * Strips HTML comments from the rendered output.
+ *
+ * Source files carry developer notes (TODOs, review warnings, guidance on
+ * wiring the contact form). Those are useful in the repo and actively
+ * unhelpful in view-source on a live commercial site, so they are removed at
+ * build time. JSON-LD blocks contain no comments, so a global strip is safe.
+ */
+function stripComments(html) {
+  return html.replace(/<!--[\s\S]*?-->/g, "");
+}
+
 export function page({
   title,
   description,
@@ -265,7 +285,7 @@ export function page({
     ? `<script type="application/ld+json">${JSON.stringify(schema)}</script>`
     : "";
 
-  return `<!doctype html>
+  return stripComments(`<!doctype html>
 <html lang="en-GB">
 <head>
 <meta charset="utf-8">
@@ -297,5 +317,5 @@ ${body}
 ${footer()}
 <script src="${JS_SRC}" defer></script>
 </body>
-</html>`;
+</html>`);
 }
