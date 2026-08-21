@@ -48,7 +48,8 @@ ${sec(
            Until then the form composes a pre-filled email in the visitor's
            mail client, so it is functional but not tracked.
            ================================================================ -->
-      <form id="enquiryForm" class="mt-9 space-y-5" method="post" action="">
+      <form id="enquiryForm" class="mt-9 space-y-5" method="post" action=""
+        data-fallback-email="${SITE.email}">
         <div class="grid gap-5 sm:grid-cols-2">
           <div>
             <label class="field-label" for="name">Your name</label>
@@ -157,35 +158,6 @@ ${sec(
   </div>`
 )}
 
-<script>
-/* Mailto fallback — remove once a real form handler is connected. */
-(function () {
-  var f = document.getElementById('enquiryForm');
-  if (!f) return;
-  f.addEventListener('submit', function (e) {
-    if (f.getAttribute('action')) return; // a real handler is configured
-    e.preventDefault();
-    var g = function (id) {
-      var el = document.getElementById(id);
-      return el ? el.value : '';
-    };
-    var subject = 'Website enquiry — ' + (g('company') || g('name') || 'New enquiry');
-    var lines = [
-      'Name: ' + g('name'),
-      'Firm or company: ' + g('company'),
-      'Email: ' + g('email'),
-      'Phone: ' + g('phone'),
-      'Reason: ' + g('reason'),
-      'Service of interest: ' + g('service'),
-      '',
-      g('message')
-    ];
-    window.location.href =
-      'mailto:${SITE.email}?subject=' + encodeURIComponent(subject) +
-      '&body=' + encodeURIComponent(lines.join('\\n'));
-  });
-})();
-</script>
 `;
 
   return {

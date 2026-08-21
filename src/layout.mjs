@@ -1,6 +1,33 @@
+import { readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
+
 import { SITE, NAV, FOOTER_NAV, LEGAL_NAV } from "./data/site.mjs";
 import { SERVICES, CATEGORIES } from "./data/services.mjs";
 import { icon, arrow } from "./icons.mjs";
+
+/* ------------------------------------------------------------ asset hash */
+
+const DIST = join(dirname(fileURLToPath(import.meta.url)), "..", "dist");
+
+/**
+ * Short content hash for a built asset, appended as ?v= so the file can be
+ * cached immutably at the edge and still update the moment its bytes change.
+ * Falls back to no query string if the file is not built yet.
+ */
+function v(relPath) {
+  try {
+    const buf = readFileSync(join(DIST, relPath));
+    return `${relPath}?v=${createHash("sha256").update(buf).digest("hex").slice(0, 10)}`;
+  } catch {
+    return relPath;
+  }
+}
+
+const CSS_HREF = "/" + v("assets/css/site.css");
+const JS_SRC = "/" + v("assets/js/site.js");
+const ICON_HREF = "/" + v("assets/img/favicon.svg");
 
 /* ---------------------------------------------------------------- logo */
 
@@ -256,10 +283,10 @@ export function page({
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${fullTitle}">
 <meta name="twitter:description" content="${description}">
-<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/assets/img/favicon.svg">
+<link rel="icon" href="${ICON_HREF}" type="image/svg+xml">
+<link rel="apple-touch-icon" href="${ICON_HREF}">
 ${FONTS}
-<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="${CSS_HREF}">
 ${jsonLd}
 </head>
 <body>
@@ -268,18 +295,7 @@ ${header(path)}
 ${body}
 </main>
 ${footer()}
-<script>
-(function () {
-  var btn = document.getElementById('navToggle');
-  var nav = document.getElementById('mobileNav');
-  if (!btn || !nav) return;
-  btn.addEventListener('click', function () {
-    var open = btn.getAttribute('aria-expanded') === 'true';
-    btn.setAttribute('aria-expanded', String(!open));
-    nav.hidden = open;
-  });
-})();
-</script>
+<script src="${JS_SRC}" defer></script>
 </body>
 </html>`;
 }
