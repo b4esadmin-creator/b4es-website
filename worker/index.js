@@ -183,7 +183,7 @@ async function notify(env, s, meta) {
 
   try {
     await env.ENQUIRY_EMAIL.send({
-      from: env.ENQUIRY_FROM || "website@b4es.co.uk",
+      from: { email: env.ENQUIRY_FROM || "website@b4es.co.uk", name: "B4ES website" },
       // Passed explicitly for clarity and so local dev works. The binding's
       // `destination_address` still constrains where mail can actually go, so
       // this cannot be redirected by changing code alone.
@@ -191,10 +191,11 @@ async function notify(env, s, meta) {
       subject,
       text,
       html,
-      // Lets the team hit Reply and reach the enquirer directly. Bare address
-      // only: a display name is attacker-controlled and could contain
-      // characters that confuse an address parser. The name is in the body.
-      headers: { "Reply-To": headerSafe(s.email) },
+      // Dedicated API field, not a custom header: Email Service rejects a
+      // custom Reply-To. Using the structured form means the platform handles
+      // quoting, so an attacker-controlled display name cannot break the
+      // address parser.
+      replyTo: { email: s.email, name: s.name },
     });
     return { ok: true };
   } catch (err) {
