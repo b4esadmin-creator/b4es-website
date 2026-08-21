@@ -40,16 +40,19 @@ ${sec(
         lede: "The more specific you are, the more useful our first reply will be. A real example beats a general enquiry every time.",
       })}
 
-      <!-- ================================================================
-           TODO — CONNECT THIS FORM TO A HANDLER.
-           Set the action attribute to your form endpoint (Formspree,
-           Netlify Forms, Cloudflare Pages Functions, your own API) and
-           remove the mailto fallback script at the bottom of this page.
-           Until then the form composes a pre-filled email in the visitor's
-           mail client, so it is functional but not tracked.
-           ================================================================ -->
-      <form id="enquiryForm" class="mt-9 space-y-5" method="post" action=""
-        data-fallback-email="${SITE.email}">
+      <!-- Posts to /api/enquiry, handled by worker/index.js on the same origin.
+           Every submission is stored in D1 before any email is attempted, so an
+           email outage cannot lose an enquiry. Works without JavaScript: a plain
+           POST redirects to /thank-you/. -->
+      <form id="enquiryForm" class="mt-9 space-y-5" method="post" action="/api/enquiry"
+        data-fallback-email="${SITE.email}" novalidate>
+
+        <!-- Honeypot. Hidden from people and assistive tech; bots fill it in. -->
+        <div class="absolute left-[-9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+          <label for="website">Leave this field empty</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+        <input type="hidden" id="started_at" name="started_at" value="">
         <div class="grid gap-5 sm:grid-cols-2">
           <div>
             <label class="field-label" for="name">Your name</label>
@@ -99,7 +102,11 @@ ${sec(
             for how we handle your information.
           </label>
         </div>
-        <button type="submit" class="btn-primary w-full sm:w-auto">Send enquiry</button>
+        <div id="formStatus" role="status" aria-live="polite"></div>
+
+        <button type="submit" id="formSubmit" class="btn-primary w-full sm:w-auto">
+          <span data-label>Send enquiry</span>
+        </button>
         <p class="text-[0.8125rem] text-slate-mid">
           We reply to every enquiry within one working day.
         </p>
@@ -176,6 +183,75 @@ ${sec(
       name: "Contact B4ES",
       url: `${SITE.baseUrl}/contact/`,
     },
+  };
+}
+
+/* ============================================================== thank you */
+
+export function thankYouPage() {
+  const body = `
+${hero({
+  eyebrow: "Enquiry received",
+  title: "Thank you \u2014 that has reached us.",
+  lede:
+    "We reply to every enquiry within one working day, from a person rather than an autoresponder. If it is urgent, email us directly and say so in the subject line.",
+  primary: { href: "/", label: "Back to the homepage" },
+  secondary: { href: "/insights/", label: "Read our insights" },
+  trail: [{ label: "Home", href: "/" }, { label: "Contact", href: "/contact/" }, { label: "Thank you" }],
+})}
+
+${sec(
+  "section",
+  `
+  <div class="grid items-start gap-12 lg:grid-cols-[1.1fr_1fr]">
+    <div>
+      ${sectionHead({
+        eyebrow: "What happens next",
+        title: "No pursuit sequence, no drip campaign",
+        lede: "Three steps, and you control the pace of all of them.",
+      })}
+      <ol class="mt-8 space-y-6">
+        ${[
+          ["A reply within one working day", "From someone who read what you wrote, addressing the specifics rather than sending a brochure."],
+          ["A thirty-minute scoping call", "At a time that suits you. We look at your service mix, peak periods and software, and tell you plainly whether we can help."],
+          ["A written proposal within five working days", "Scope, engagement model, resourcing, turnaround and price. The figure in the proposal is the figure on the invoice."],
+        ]
+          .map(
+            ([t, d], i) => `<li class="flex gap-5">
+          <span class="num-marker">${i + 1}</span>
+          <span>
+            <span class="block font-display text-[1.1875rem] leading-snug text-ink">${t}</span>
+            <span class="mt-1.5 block text-[0.9375rem] leading-relaxed text-slate-deep">${d}</span>
+          </span>
+        </li>`
+          )
+          .join("")}
+      </ol>
+    </div>
+    <div class="space-y-5">
+      ${callout({
+        tone: "teal",
+        ic: "shield",
+        title: "Doing supplier diligence?",
+        body: `If you mentioned diligence in your message, the draft data processing agreement, control framework summary and incident procedure will come with our first reply \u2014 before any commercial conversation.`,
+      })}
+      ${callout({
+        tone: "plain",
+        ic: "mail",
+        title: "Need us sooner?",
+        body: `Email <a href="mailto:${SITE.email}" class="font-semibold text-teal hover:underline">${SITE.email}</a> directly and put \u201curgent\u201d in the subject line.`,
+      })}
+    </div>
+  </div>`
+)}
+`;
+
+  return {
+    path: "/thank-you/",
+    title: "Thank you",
+    description: "Your enquiry has reached B4ES. We reply to every enquiry within one working day.",
+    body,
+    noindex: true,
   };
 }
 
