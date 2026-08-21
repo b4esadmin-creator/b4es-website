@@ -1,0 +1,15 @@
+# Cloudflare Workers static assets — redirects.
+# Docs: https://developers.cloudflare.com/workers/static-assets/redirects/
+#
+# Format: <from> <to> <status>
+#
+# Trailing slashes are handled automatically by the `html_handling` setting in
+# wrangler.jsonc ("auto-trailing-slash"), so they do not need rules here.
+#
+# apex <-> www is NOT handled here: a Worker only receives requests for
+# hostnames routed to it. Set that up once, in the Cloudflare dashboard, as a
+# Bulk Redirect or a Redirect Rule on the zone — it is cheaper and it runs
+# before the Worker.
+#
+# Add legacy-URL redirects below as the site evolves, for example:
+# /old-services-page  /services/  301

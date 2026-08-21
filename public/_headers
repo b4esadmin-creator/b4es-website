@@ -1,0 +1,43 @@
+# Cloudflare Workers static assets — response headers.
+# Docs: https://developers.cloudflare.com/workers/static-assets/headers/
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data:; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; upgrade-insecure-requests
+
+# NOTE ON THE CSP
+# The site ships no inline scripts and no inline styles, so script-src and
+# style-src stay strict. Two things will require an edit:
+#   * Wiring the contact form to an external handler (Formspree, etc.)
+#     -> add that origin to form-action.
+#   * Adding analytics, a chat widget or embedded video
+#     -> add the origin to script-src / connect-src / frame-src as required.
+# Do not add 'unsafe-inline' to script-src to make a third-party snippet work;
+# use its nonce/hash option or a first-party proxy instead.
+
+# HSTS: includeSubDomains is set but `preload` deliberately is not. Adding
+# preload is very hard to reverse — only do it once every subdomain is
+# confirmed HTTPS-only.
+
+# Built assets carry a ?v=<content-hash> query string generated at build time,
+# so they can be cached indefinitely and still update the instant they change.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML is always revalidated so content edits go live immediately.
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/sitemap.xml
+  Cache-Control: public, max-age=3600
+
+/robots.txt
+  Cache-Control: public, max-age=3600

@@ -1,0 +1,48 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+
+  // Cloudflare Workers static assets.
+  // Docs: https://developers.cloudflare.com/workers/static-assets/
+  //
+  // This project has no Worker script — it is assets only — so there is
+  // deliberately no "main" and no assets "binding".
+
+  "name": "b4es-website",
+  "compatibility_date": "2026-08-21",
+
+  "assets": {
+    // Build output only. Nothing else in the repo is ever uploaded.
+    "directory": "./dist",
+
+    // Serve the nearest 404.html for unmatched paths (this is a static site,
+    // not a single-page app).
+    "not_found_handling": "404-page",
+
+    // /about -> /about/ ; matches the directory-per-page output of build.mjs
+    // and the canonical URLs baked into each page.
+    "html_handling": "auto-trailing-slash"
+  },
+
+  "observability": {
+    "enabled": true
+  },
+
+  // CUSTOM DOMAIN
+  //
+  // Both hostnames are attached so neither 404s. Cloudflare creates the DNS
+  // records and manages the certificates on first deploy; the zone must
+  // already exist in the same Cloudflare account.
+  //
+  // Canonical URLs, Open Graph tags and sitemap.xml all point at the apex
+  // (set by baseUrl in src/data/site.mjs), so the apex is the canonical host.
+  // For cleanliness, add a zone Redirect Rule sending www -> apex; it runs at
+  // the edge before the Worker and is cheaper than serving both.
+  //
+  // If the zone is not yet in this Cloudflare account, delete this block,
+  // deploy to the workers.dev subdomain first, and attach the domain later
+  // from Workers & Pages -> b4es-website -> Settings -> Domains & Routes.
+  "routes": [
+    { "pattern": "b4es.co.uk", "custom_domain": true },
+    { "pattern": "www.b4es.co.uk", "custom_domain": true }
+  ]
+}
