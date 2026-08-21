@@ -52,7 +52,8 @@ src/
   styles.css          Tailwind v4 source + design tokens + component classes
 
 public/               Copied verbatim into dist/
-  assets/js/site.js   Mobile nav + contact-form fallback
+  assets/js/head.js   Sets .js-ready before paint (render-blocking, ~600 bytes)
+  assets/js/site.js   Mobile nav, scroll motion engine, contact form
   assets/img/         Favicon
   _headers            Security headers and caching rules
   _redirects          URL redirects
@@ -242,6 +243,44 @@ Set a real `IP_SALT` secret before relying on the hash being unguessable:
 ```bash
 npx wrangler secret put IP_SALT
 ```
+
+---
+
+## Motion
+
+Scroll animations are in `src/styles.css` (the Motion layer) and the motion
+engine in `public/assets/js/site.js`. The vocabulary is deliberate rather than
+decorative — it mirrors what B4ES does:
+
+- **The mark draws itself** — the three ascending bars of the logo scale up in
+  sequence, and the same rhythm sets the stagger on every card grid.
+- **Capacity transfer** (`capacityTransfer()`) — the signature piece on the
+  homepage. Two bars show the same team's week before and after processing moves
+  out, with segment widths animating between the two states, plus a hatched lane
+  showing what B4ES absorbed. Figures are an illustrative model and are labelled
+  as such on the page.
+- **Overnight advantage** (`timezoneStrip()`) — a 24-hour band showing the two
+  working days offset by five hours, with the live overlap highlighted.
+- **The process draws as you scroll** — the connector line on the five-stage
+  list fills with scroll position and each step marker lights as you reach it.
+- **Scroll progress rail** in the sticky header, and slow parallax drift on the
+  ambient gradients in dark bands.
+
+Three rules hold it together:
+
+1. **Visible by default.** Every hidden start state is scoped under `.js-ready`,
+   set by `head.js` before first paint. If JavaScript fails, nothing is hidden.
+2. **Reduced motion is honoured twice** — `head.js` never adds `.js-ready`, and
+   the stylesheet force-resets every animated property under the media query. No
+   reader who asked for less motion gets any.
+3. **Reveals use a drain-list sweep, not IntersectionObserver.** IO only reports
+   elements intersecting when it samples, so a fast flick or an anchor jump can
+   carry an element past the viewport with no callback — leaving it invisible
+   permanently. A sweep over a shrinking pending list is correct at any scroll
+   speed and costs nothing once drained. **Do not "optimise" this back to IO.**
+
+Counters keep their true value in `aria-label` before the visible text is zeroed,
+so assistive tech never announces a count-up as 0.
 
 ---
 

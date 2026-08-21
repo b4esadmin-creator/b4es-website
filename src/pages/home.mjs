@@ -13,6 +13,8 @@ import {
   softwareBand,
   callout,
   sec,
+  capacityTransfer,
+  timezoneStrip,
 } from "../components.mjs";
 
 const heroAside = `
@@ -166,8 +168,8 @@ ${hero({
       ["magnifier", "Second-person review"],
     ]
       .map(
-        ([ic, label]) =>
-          `<span class="inline-flex items-center gap-2 text-[0.8125rem] font-medium text-slate-deep">
+        ([ic, label], i) =>
+          `<span class="inline-flex items-center gap-2 text-[0.8125rem] font-medium text-slate-deep" data-reveal="up" style="--d:${i}">
             <span class="text-teal">${icon(ic, "h-4 w-4")}</span>${label}
           </span>`
       )
@@ -202,8 +204,10 @@ ${sec(
   </div>`
 )}
 
+${capacityTransfer()}
+
 ${sec(
-  "section band-bone",
+  "section",
   `
   <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
     ${sectionHead({
@@ -289,7 +293,7 @@ ${sec(
     })}
     <div class="mt-12 grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
       ${DIFFERENTIATORS.map(
-        (d) => `<div>
+        (d, i) => `<div data-reveal="rise" style="--d:${i % 3}">
         <div class="icon-tile-dark mb-5">${icon(d.icon, "h-5 w-5")}</div>
         <h3 class="font-display text-[1.1875rem] leading-snug text-white">${d.title}</h3>
         <p class="mt-2.5 text-[0.9375rem] leading-relaxed text-slate-soft">${d.body}</p>
@@ -299,10 +303,10 @@ ${sec(
     <div class="mt-16 border-t border-white/10 pt-12">
       ${statBand(
         [
-          { value: "2014", label: "Year our delivery partner was established" },
-          { value: "5", label: "Countries in the partner network — UK, Pakistan, Canada, Saudi Arabia, USA" },
-          { value: "8", label: "Specialist service lines, including a dedicated actuarial practice" },
-          { value: "4–5 hrs", label: "Delivery team time zone ahead of the UK — work lands before you start" },
+          { value: "2014", count: 2014, label: "Year our delivery partner was established" },
+          { value: "5", count: 5, label: "Countries in the partner network — UK, Pakistan, Canada, Saudi Arabia, USA" },
+          { value: "8", count: 8, label: "Specialist service lines, including a dedicated actuarial practice" },
+          { value: "5 hrs", count: 5, suffix: " hrs", label: "Delivery team time zone ahead of the UK — work lands before you start" },
         ],
         {
           light: true,
@@ -331,6 +335,8 @@ ${sec(
     <div>${steps(HOW)}</div>
   </div>`
 )}
+
+${timezoneStrip()}
 
 ${sec(
   "section band-bone",
@@ -402,7 +408,7 @@ ${sec(
   </div>
   <div class="mt-11 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
     ${SECTORS.map(
-      (s) => `<a href="/sectors/#${s.slug}" class="card-hover">
+      (s, i) => `<a href="/sectors/#${s.slug}" class="card-hover" data-reveal="rise" style="--d:${i % 4}">
       <div class="icon-tile mb-4">${icon(s.icon, "h-5 w-5")}</div>
       <h3 class="font-display text-[1.0625rem] leading-snug text-ink">${s.name}</h3>
       <p class="mt-2 text-[0.875rem] leading-relaxed text-slate-mid">${s.blurb}</p>
