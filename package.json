@@ -1,0 +1,19 @@
+{
+  "name": "b4es-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "B4ES — Better 4 Enterprise Solutions. Marketing site for UK-facing outsourced accounting, tax, payroll and back-office delivery.",
+  "type": "module",
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/styles.css -o ./assets/css/site.css --minify",
+    "build:html": "node build.mjs",
+    "build": "npm run build:css && npm run build:html",
+    "watch:css": "tailwindcss -i ./src/styles.css -o ./assets/css/site.css --watch",
+    "dev": "npm run build && node --run serve",
+    "serve": "node -e \"const{createServer}=require('node:http'),{readFile,stat}=require('node:fs'),{join,extname}=require('node:path');const T={'.html':'text/html','.css':'text/css','.js':'text/javascript','.svg':'image/svg+xml','.xml':'application/xml','.txt':'text/plain','.png':'image/png','.jpg':'image/jpeg','.woff2':'font/woff2'};createServer((q,s)=>{let p=decodeURIComponent(q.url.split('?')[0]);let f=join(process.cwd(),p);stat(f,(e,st)=>{if(!e&&st.isDirectory())f=join(f,'index.html');readFile(f,(e2,d)=>{if(e2){readFile(join(process.cwd(),'404.html'),(e3,d3)=>{s.writeHead(404,{'Content-Type':'text/html'});s.end(e3?'Not found':d3)});return}s.writeHead(200,{'Content-Type':T[extname(f)]||'application/octet-stream'});s.end(d)})})}).listen(4173,()=>console.log('http://localhost:4173'))\""
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.16",
+    "tailwindcss": "^4.1.16"
+  }
+}
