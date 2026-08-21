@@ -276,6 +276,7 @@ export function page({
   body,
   schema = null,
   ogType = "website",
+  noindex = false,
 }) {
   const fullTitle =
     path === "/" ? `${SITE.name} — ${title}` : `${title} | ${SITE.name}`;
@@ -292,7 +293,9 @@ export function page({
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${fullTitle}</title>
 <meta name="description" content="${description}">
-<link rel="canonical" href="${canonical}">
+<link rel="canonical" href="${canonical}">${
+  noindex ? '\n<meta name="robots" content="noindex, follow">' : ""
+}
 <meta name="theme-color" content="#08161f">
 <meta property="og:type" content="${ogType}">
 <meta property="og:site_name" content="${SITE.name}">

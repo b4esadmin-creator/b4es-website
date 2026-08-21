@@ -80,7 +80,7 @@ export function privacyPage() {
       {
         h: "What we collect",
         p: [
-          "<ul><li><strong>Enquiry information</strong> — name, firm or company, email address, telephone number and the content of your message.</li><li><strong>Engagement information</strong> — the contact, contractual and operational details needed to provide services and manage the relationship.</li><li><strong>Recruitment information</strong> — anything contained in a CV or application you send us.</li><li><strong>Technical information</strong> — limited server log data such as IP address, browser type and pages requested, generated automatically when you visit the site.</li></ul>",
+          "<ul><li><strong>Enquiry information</strong> — name, firm or company, email address, telephone number and the content of your message, submitted through the contact form on this site.</li><li><strong>Anti-abuse information</strong> — when you submit the contact form we record a one-way salted hash of your IP address and the country your request came from, solely to rate-limit automated abuse. The hash cannot be reversed to recover your IP address, and we do not use it to identify or track you.</li><li><strong>Engagement information</strong> — the contact, contractual and operational details needed to provide services and manage the relationship.</li><li><strong>Recruitment information</strong> — anything contained in a CV or application you send us.</li><li><strong>Technical information</strong> — limited server log data such as IP address, browser type and pages requested, generated automatically when you visit the site.</li></ul>",
         ],
       },
       {
@@ -93,6 +93,7 @@ export function privacyPage() {
       {
         h: "Who we share it with",
         p: [
+          "Contact form submissions are stored in our own database on Cloudflare infrastructure, which also hosts this website and delivers the notification email. No separate third-party form or email provider is involved.",
           "We share personal data only where necessary: with our delivery partner where they are involved in providing services to you, under a written agreement imposing confidentiality and security obligations; with professional advisers such as accountants, insurers and lawyers; with service providers who support our operations, such as email and IT hosting; and with regulators or law enforcement where we are legally required to do so.",
           "We do not share your information with third parties for their own marketing purposes.",
         ],

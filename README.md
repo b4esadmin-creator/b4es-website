@@ -161,13 +161,19 @@ in and it appears automatically — no template edits required.
 The phone number was deliberately emptied rather than left as a placeholder: an
 invented number is a false statement on a site whose whole pitch is candour.
 
-**2. Connect the contact form.** `src/pages/support.mjs` has a `TODO` block above
-the form. Set its `action` to your handler (Formspree, Netlify Forms, a Worker,
-your own API). Until then, `public/assets/js/site.js` composes a pre-filled email
-in the visitor's mail client — functional, but nothing is captured or tracked.
+**2. Enable Email Routing so enquiry notifications send.** The contact form is
+live and every submission is already stored in D1 — see **Contact form** below —
+but the notification email needs a one-time setup:
 
-If the handler is on another origin, add it to `form-action` in `public/_headers`
-or the CSP will block the submission.
+1. Cloudflare dashboard → **Compute → Email Service → Email Routing** → enable it
+   on `b4es.co.uk`.
+2. Add and verify a **destination address** (your real inbox).
+3. Make sure it matches `send_email[0].destination_address` and `vars.ENQUIRY_TO`
+   in `wrangler.jsonc` — both are `hello@b4es.co.uk` today.
+
+Until that is done the Worker stores each enquiry and records `notified = 0`
+against the row, so nothing is lost. Sending to a verified destination address is
+free on every Cloudflare plan.
 
 **3. Confirm the security page claims.** `/security/` lists ISO 27001, Cyber
 Essentials and ICO registration as roadmap items rather than as held. That is
@@ -197,6 +203,45 @@ HTML comments are stripped from `dist/`. Source files carry developer notes —
 TODOs, review warnings, guidance on wiring the contact form — which are useful
 in the repo and actively unhelpful in view-source on a live commercial site.
 Write notes freely in `src/`; they never reach production.
+
+---
+
+## Contact form
+
+`POST /api/enquiry`, handled by `worker/index.js`. The Worker runs **only** for
+`/api/*` (`run_worker_first` in `wrangler.jsonc`) — all 36 pages are still served
+straight from the asset store without invoking Worker code.
+
+**D1 is the source of truth.** The row is written *before* any notification is
+attempted, so an email outage cannot lose an enquiry — it just leaves
+`notified = 0`, which is queryable and replayable.
+
+Protections, all verified end to end:
+
+| Concern | Handling |
+|---|---|
+| Spam bots | Off-screen honeypot field, plus rejection of submissions completed in under 3s. Both return success so a bot gets no signal to adapt. |
+| Flooding | 5 submissions per IP per hour, counted from the same table — no extra store to provision |
+| Privacy | IP is stored only as a salted SHA-256 hash, never raw |
+| Header injection | Control characters stripped from every field; `Reply-To` uses the bare address, never an attacker-controlled display name |
+| Cross-site posting | Cross-origin submissions rejected |
+| No JavaScript | Plain form POST works and redirects to `/thank-you/` |
+
+Reading enquiries:
+
+```bash
+npx wrangler d1 execute b4es-enquiries --remote \
+  --command "SELECT id, created_at, name, company, email, service, notified FROM enquiries ORDER BY id DESC LIMIT 20"
+```
+
+Anything with `notified = 0` reached the database but not the inbox — check
+`notify_error` on the row.
+
+Set a real `IP_SALT` secret before relying on the hash being unguessable:
+
+```bash
+npx wrangler secret put IP_SALT
+```
 
 ---
 
