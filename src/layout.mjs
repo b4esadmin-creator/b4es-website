@@ -27,16 +27,17 @@ function v(relPath) {
 
 const CSS_HREF = "/" + v("assets/css/site.css");
 const JS_SRC = "/" + v("assets/js/site.js");
+const JS_HEAD = "/" + v("assets/js/head.js");
 const ICON_HREF = "/" + v("assets/img/favicon.svg");
 
 /* ---------------------------------------------------------------- logo */
 
 export function logoMark(size = 30) {
-  return `<svg width="${size}" height="${size}" viewBox="0 0 32 32" fill="none" aria-hidden="true" class="shrink-0">
+  return `<svg width="${size}" height="${size}" viewBox="0 0 32 32" fill="none" aria-hidden="true" class="shrink-0" data-reveal="fade">
     <rect width="32" height="32" rx="8" fill="#08161f"/>
-    <rect x="7.5" y="17" width="4" height="6" rx="1" fill="#0e9384"/>
-    <rect x="14" y="12.5" width="4" height="10.5" rx="1" fill="#35b5a5"/>
-    <rect x="20.5" y="8" width="4" height="15" rx="1" fill="#b8894a"/>
+    <rect class="mark-bar" style="--d:0" x="7.5" y="17" width="4" height="6" rx="1" fill="#0e9384"/>
+    <rect class="mark-bar" style="--d:1" x="14" y="12.5" width="4" height="10.5" rx="1" fill="#35b5a5"/>
+    <rect class="mark-bar" style="--d:2" x="20.5" y="8" width="4" height="15" rx="1" fill="#b8894a"/>
   </svg>`;
 }
 
@@ -178,6 +179,7 @@ function header(current) {
       </button>
     </div>
   </div>
+  <div class="progress-rail" data-progress aria-hidden="true"><span></span></div>
   <div id="mobileNav" hidden class="border-t border-line bg-white lg:hidden">
     <div class="wrap py-2">
       <ul>${mobileLinks}</ul>
@@ -310,6 +312,7 @@ export function page({
 <link rel="apple-touch-icon" href="${ICON_HREF}">
 ${FONTS}
 <link rel="stylesheet" href="${CSS_HREF}">
+<script src="${JS_HEAD}"></script>
 ${jsonLd}
 </head>
 <body>

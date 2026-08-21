@@ -510,13 +510,197 @@
   .text-balance { text-wrap: balance; }
 }
 
+/* ============================================================
+   Motion
+   ------------------------------------------------------------
+   The animation vocabulary mirrors what B4ES actually does:
+   ascending bars (the mark), capacity moving off a practice's
+   plate, and a process that draws itself as you move through it.
+
+   Progressive enhancement rule: everything is VISIBLE by default.
+   Only `.js-ready` (set by assets/js/head.js) enables the hidden
+   start state, so a JS failure leaves a fully readable page.
+   ============================================================ */
+
+@theme {
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-firm: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@layer components {
+
+  /* ---------- scroll progress rail (in the sticky header) ---------- */
+
+  .progress-rail {
+    @apply pointer-events-none absolute inset-x-0 bottom-0 h-[2px] overflow-hidden;
+  }
+
+  .progress-rail span {
+    @apply block h-full origin-left;
+    width: 100%;
+    transform: scaleX(var(--p, 0));
+    background: linear-gradient(
+      90deg,
+      var(--color-teal) 0%,
+      var(--color-teal-light) 55%,
+      var(--color-gold) 100%
+    );
+    transition: transform 120ms linear;
+  }
+
+  /* ---------- reveal primitives ---------- */
+
+  .js-ready [data-reveal] {
+    opacity: 0;
+    transition:
+      opacity 700ms var(--ease-out-soft),
+      transform 700ms var(--ease-out-soft),
+      filter 700ms var(--ease-out-soft);
+    transition-delay: calc(var(--d, 0) * 70ms);
+    will-change: opacity, transform;
+  }
+
+  .js-ready [data-reveal="up"]    { transform: translate3d(0, 26px, 0); }
+  .js-ready [data-reveal="left"]  { transform: translate3d(-28px, 0, 0); }
+  .js-ready [data-reveal="right"] { transform: translate3d(28px, 0, 0); }
+  .js-ready [data-reveal="scale"] { transform: scale(0.965); }
+  .js-ready [data-reveal="fade"]  { transform: none; }
+  .js-ready [data-reveal="rise"]  { transform: translate3d(0, 40px, 0) scale(0.985); }
+
+  .js-ready [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  /* Once revealed, drop the hint so hover transforms stay crisp. */
+  .js-ready [data-reveal].is-done { will-change: auto; }
+
+  /* ---------- the mark: three ascending bars ---------- */
+
+  .js-ready .mark-bar {
+    transform-box: fill-box;
+    transform-origin: bottom center;
+    transform: scaleY(0);
+    transition: transform 800ms var(--ease-out-soft);
+    transition-delay: calc(var(--d, 0) * 120ms + 150ms);
+  }
+
+  .js-ready .is-in .mark-bar,
+  .js-ready .mark-bar.is-in { transform: scaleY(1); }
+
+  /* ---------- capacity transfer (the signature piece) ---------- */
+
+  .cap-track {
+    @apply relative flex h-14 w-full overflow-hidden rounded-lg;
+    background: color-mix(in oklab, var(--color-ink) 8%, transparent);
+  }
+
+  .cap-seg {
+    @apply relative flex items-center justify-center overflow-hidden
+           text-[0.75rem] font-semibold whitespace-nowrap;
+    width: var(--w);
+    transition: width 1100ms var(--ease-out-firm);
+    transition-delay: calc(var(--d, 0) * 90ms);
+  }
+
+  .js-ready .cap-track[data-cap] .cap-seg { width: var(--from, var(--w)); }
+  .js-ready .cap-track[data-cap].is-in .cap-seg { width: var(--w); }
+
+  .cap-seg-label {
+    @apply hidden px-2 opacity-0 lg:block;
+    transition: opacity 500ms var(--ease-out-soft) 700ms;
+  }
+  .cap-track.is-in .cap-seg-label,
+  .js-ready .cap-track:not([data-cap]) .cap-seg-label { @apply opacity-100; }
+
+  .cap-compliance { background: var(--color-ink-600); color: #fff; }
+  .cap-review     { background: var(--color-slate-mid); color: #fff; }
+  .cap-advisory   { background: var(--color-teal); color: #fff; }
+  .cap-moved {
+    background: repeating-linear-gradient(
+      -45deg,
+      color-mix(in oklab, var(--color-gold) 22%, transparent) 0 8px,
+      transparent 8px 16px
+    );
+    border: 1px dashed color-mix(in oklab, var(--color-gold) 55%, transparent);
+    color: var(--color-gold);
+  }
+
+  /* ---------- process line that draws as you scroll ---------- */
+
+  .draw-line {
+    @apply absolute left-0 top-0 w-px origin-top;
+    background: linear-gradient(180deg, var(--color-teal), var(--color-teal-light));
+    height: 100%;
+    transform: scaleY(var(--p, 0));
+    transition: transform 200ms linear;
+  }
+
+  .js-ready .step-dot {
+    transition: background-color 400ms var(--ease-out-soft),
+                border-color 400ms var(--ease-out-soft),
+                color 400ms var(--ease-out-soft),
+                transform 400ms var(--ease-out-soft);
+  }
+
+  .step-dot.is-lit {
+    @apply border-teal bg-teal text-white;
+    transform: scale(1.08);
+  }
+
+  /* ---------- counters ---------- */
+
+  .tabular { font-variant-numeric: tabular-nums; }
+
+  /* ---------- time-zone dial ---------- */
+
+  .tz-hand {
+    transform-box: fill-box;
+    transform-origin: bottom center;
+    transition: transform 1400ms var(--ease-out-firm);
+  }
+
+  /* ---------- ambient depth on dark bands ---------- */
+
+  .js-ready .drift {
+    transform: translate3d(0, var(--drift, 0px), 0);
+    transition: transform 100ms linear;
+  }
+
+  /* ---------- underline that wipes in on section headings ---------- */
+
+  .rule-wipe {
+    @apply block h-px origin-left bg-line;
+    transform: scaleX(0);
+    transition: transform 900ms var(--ease-out-firm) 120ms;
+  }
+  .rule-wipe.is-in { transform: scaleX(1); }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
   }
+
+  /* Nothing may stay hidden or displaced when motion is suppressed. */
+  .js-ready [data-reveal],
+  .js-ready [data-reveal].is-in {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+  .js-ready .mark-bar { transform: none !important; }
+  .js-ready .cap-track[data-cap] .cap-seg { width: var(--w) !important; }
+  .cap-seg-label { opacity: 1 !important; }
+  .draw-line { transform: scaleY(1) !important; }
+  .rule-wipe { transform: scaleX(1) !important; }
+  .js-ready .drift { transform: none !important; }
 }
 
 /* Print */
