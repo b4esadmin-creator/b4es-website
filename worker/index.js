@@ -187,7 +187,7 @@ async function notify(env, s, meta) {
       // Passed explicitly for clarity and so local dev works. The binding's
       // `destination_address` still constrains where mail can actually go, so
       // this cannot be redirected by changing code alone.
-      to: env.ENQUIRY_TO || "info@b4es.co.uk",
+      to: env.ENQUIRY_TO || "b4es.admin@gmail.com",
       subject,
       text,
       html,
