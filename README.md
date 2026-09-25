@@ -54,7 +54,7 @@ src/
 public/               Copied verbatim into dist/
   assets/js/head.js   Sets .js-ready before paint (render-blocking, ~600 bytes)
   assets/js/site.js   Mobile nav, scroll motion engine, contact form
-  assets/img/         Favicon
+  assets/img/         Brand-kit logo (colour + white), favicon, apple-touch-icon
   _headers            Security headers and caching rules
   _redirects          URL redirects
 
@@ -83,7 +83,7 @@ Append to `ARTICLES` in `src/pages/insights.mjs`. Same deal.
 
 ### Asset caching
 
-`site.css`, `site.js` and the favicon are referenced with a `?v=<content-hash>`
+`site.css`, `site.js`, the logos and the favicon are referenced with a `?v=<content-hash>`
 query string computed at build time. That lets `_headers` cache everything under
 `/assets/*` as `immutable` for a year while still updating the instant the bytes
 change. Do not remove the hashing without also relaxing that cache rule.
@@ -252,8 +252,6 @@ Scroll animations are in `src/styles.css` (the Motion layer) and the motion
 engine in `public/assets/js/site.js`. The vocabulary is deliberate rather than
 decorative — it mirrors what B4ES does:
 
-- **The mark draws itself** — the three ascending bars of the logo scale up in
-  sequence, and the same rhythm sets the stagger on every card grid.
 - **Capacity transfer** (`capacityTransfer()`) — the signature piece on the
   homepage. Two bars show the same team's week before and after processing moves
   out, with segment widths animating between the two states, plus a hatched lane

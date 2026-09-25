@@ -398,7 +398,7 @@
   /* ---------- Nav ---------- */
 
   .nav-link {
-    @apply inline-flex items-center gap-1 rounded-md px-3 py-2 text-[0.9375rem]
+    @apply inline-flex items-center gap-1 whitespace-nowrap rounded-md px-2.5 py-2 xl:px-3 text-[0.9375rem]
            font-medium text-ink-700 transition-colors hover:text-teal;
   }
 
@@ -500,10 +500,6 @@
            border border-teal-light/30 bg-teal-light/10 font-display
            text-[0.9375rem] font-semibold text-teal-light;
   }
-
-  .logo-mark {
-    @apply font-display text-[1.375rem] font-bold tracking-[-0.03em];
-  }
 }
 
 @layer utilities {
@@ -514,8 +510,7 @@
    Motion
    ------------------------------------------------------------
    The animation vocabulary mirrors what B4ES actually does:
-   ascending bars (the mark), capacity moving off a practice's
-   plate, and a process that draws itself as you move through it.
+   capacity moving off a practice's plate, and a process that draws itself as you move through it.
 
    Progressive enhancement rule: everything is VISIBLE by default.
    Only `.js-ready` (set by assets/js/head.js) enables the hidden
@@ -575,19 +570,6 @@
 
   /* Once revealed, drop the hint so hover transforms stay crisp. */
   .js-ready [data-reveal].is-done { will-change: auto; }
-
-  /* ---------- the mark: three ascending bars ---------- */
-
-  .js-ready .mark-bar {
-    transform-box: fill-box;
-    transform-origin: bottom center;
-    transform: scaleY(0);
-    transition: transform 800ms var(--ease-out-soft);
-    transition-delay: calc(var(--d, 0) * 120ms + 150ms);
-  }
-
-  .js-ready .is-in .mark-bar,
-  .js-ready .mark-bar.is-in { transform: scaleY(1); }
 
   /* ---------- capacity transfer (the signature piece) ---------- */
 
@@ -695,7 +677,6 @@
     transform: none !important;
     filter: none !important;
   }
-  .js-ready .mark-bar { transform: none !important; }
   .js-ready .cap-track[data-cap] .cap-seg { width: var(--w) !important; }
   .cap-seg-label { opacity: 1 !important; }
   .draw-line { transform: scaleY(1) !important; }
