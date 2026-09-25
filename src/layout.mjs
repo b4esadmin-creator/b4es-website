@@ -226,17 +226,17 @@ function footer() {
 
     <div class="mt-14 border-t border-white/10 pt-8">
       <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
-        <p class="text-[0.8125rem] text-slate-mid">
+        <p class="text-[0.8125rem] text-slate-soft/85">
           &copy; ${new Date().getFullYear()} ${SITE.name} &mdash; ${SITE.fullName}. All rights reserved.
         </p>
         <ul class="flex flex-wrap gap-x-6 gap-y-2">
           ${LEGAL_NAV.map(
             (l) =>
-              `<li><a href="${l.href}" class="text-[0.8125rem] text-slate-mid transition-colors hover:text-white">${l.label}</a></li>`
+              `<li><a href="${l.href}" class="text-[0.8125rem] text-slate-soft/85 transition-colors hover:text-white">${l.label}</a></li>`
           ).join("")}
         </ul>
       </div>
-      <p class="mt-6 max-w-4xl text-[0.75rem] leading-relaxed text-slate-mid/80">
+      <p class="mt-6 max-w-4xl text-[0.75rem] leading-relaxed text-slate-soft/75">
         B4ES provides finance, accounting and business process delivery services. We are not a
         firm of registered auditors and we do not provide regulated audit opinions, regulated
         investment advice or legal advice. Where we support audit engagements we act solely as a
@@ -293,7 +293,7 @@ export function page({
 <link rel="canonical" href="${canonical}">${
   noindex ? '\n<meta name="robots" content="noindex, follow">' : ""
 }
-<meta name="theme-color" content="#08161f">
+<meta name="theme-color" content="#022454">
 <meta property="og:type" content="${ogType}">
 <meta property="og:site_name" content="${SITE.name}">
 <meta property="og:title" content="${fullTitle}">

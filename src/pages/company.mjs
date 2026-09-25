@@ -514,7 +514,7 @@ ${sec(
             <ul class="check-list mt-4">${m.good.map((g) => `<li>${g}</li>`).join("")}</ul>
           </div>
           <div>
-            <p class="text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-[#8a6430]">Where it does not</p>
+            <p class="text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-gold-deep">Where it does not</p>
             <ul class="dash-list mt-4">${m.watch.map((w) => `<li>${w}</li>`).join("")}</ul>
           </div>
         </div>
@@ -891,7 +891,7 @@ ${sec(
         <li>Direct influence on process while it is still being written</li>
         <li>Clear progression tied to technical capability rather than tenure</li>
       </ul>
-      <p class="mt-7 text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-[#8a6430]">And to be clear</p>
+      <p class="mt-7 text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-gold-deep">And to be clear</p>
       <ul class="dash-list mt-3">
         <li>It is an early-stage business, with the ambiguity that implies</li>
         <li>Deadline periods are genuinely demanding — January is January</li>

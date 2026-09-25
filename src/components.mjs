@@ -38,7 +38,7 @@ export function hero({
           .map((t, i) =>
             i === trail.length - 1
               ? `<li aria-current="page" class="text-slate-soft">${t.label}</li>`
-              : `<li class="flex items-center gap-2"><a href="${t.href}" class="transition-colors hover:text-teal-light">${t.label}</a><span class="text-white/25">/</span></li>`
+              : `<li class="flex items-center gap-2"><a href="${t.href}" class="transition-colors hover:text-teal-light">${t.label}</a><span class="text-white/40">/</span></li>`
           )
           .join("")}</ol></nav></div>`
       : ""
@@ -243,7 +243,7 @@ export function callout({ tone = "teal", title, body, ic = "spark" }) {
   };
   return `<div class="rounded-card border ${map[tone]} p-6 sm:p-7" data-reveal="up">
     <div class="flex gap-4">
-      <span class="mt-0.5 shrink-0 ${tone === "gold" ? "text-[#8a6430]" : "text-teal-dark"}">${icon(ic, "h-5 w-5")}</span>
+      <span class="mt-0.5 shrink-0 ${tone === "gold" ? "text-gold-deep" : "text-teal-dark"}">${icon(ic, "h-5 w-5")}</span>
       <div>
         <p class="font-display text-[1.0625rem] text-ink">${title}</p>
         <p class="mt-2 text-[0.9375rem] leading-relaxed text-slate-deep">${body}</p>

@@ -366,8 +366,8 @@ export function articlePage(slug) {
   <div class="relative z-10">
     <nav aria-label="Breadcrumb" class="wrap pt-6">
       <ol class="flex flex-wrap items-center gap-2 text-[0.8125rem] text-slate-mid">
-        <li class="flex items-center gap-2"><a href="/" class="hover:text-teal-light">Home</a><span class="text-white/25">/</span></li>
-        <li class="flex items-center gap-2"><a href="/insights/" class="hover:text-teal-light">Insights</a><span class="text-white/25">/</span></li>
+        <li class="flex items-center gap-2"><a href="/" class="hover:text-teal-light">Home</a><span class="text-white/40">/</span></li>
+        <li class="flex items-center gap-2"><a href="/insights/" class="hover:text-teal-light">Insights</a><span class="text-white/40">/</span></li>
         <li class="text-slate-soft">${a.topic}</li>
       </ol>
     </nav>

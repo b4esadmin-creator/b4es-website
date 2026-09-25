@@ -204,7 +204,7 @@
     if (!statusBox) return;
     var tone =
       kind === "error"
-        ? "border-[#b8894a]/40 bg-[#f6efe3] text-[#7a5628]"
+        ? "border-gold/40 bg-gold-wash text-gold-deep"
         : "border-teal/30 bg-teal-wash text-teal-dark";
     statusBox.innerHTML =
       '<div class="rounded-lg border ' + tone + ' px-4 py-3 text-[0.9375rem] leading-relaxed">' +
