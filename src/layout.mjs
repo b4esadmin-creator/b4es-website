@@ -29,23 +29,18 @@ const CSS_HREF = "/" + v("assets/css/site.css");
 const JS_SRC = "/" + v("assets/js/site.js");
 const JS_HEAD = "/" + v("assets/js/head.js");
 const ICON_HREF = "/" + v("assets/img/favicon.svg");
+const TOUCH_ICON_HREF = "/" + v("assets/img/apple-touch-icon.png");
 
 /* ---------------------------------------------------------------- logo */
 
-export function logoMark(size = 30) {
-  return `<svg width="${size}" height="${size}" viewBox="0 0 32 32" fill="none" aria-hidden="true" class="shrink-0" data-reveal="fade">
-    <rect width="32" height="32" rx="8" fill="#08161f"/>
-    <rect class="mark-bar" style="--d:0" x="7.5" y="17" width="4" height="6" rx="1" fill="#0e9384"/>
-    <rect class="mark-bar" style="--d:1" x="14" y="12.5" width="4" height="10.5" rx="1" fill="#35b5a5"/>
-    <rect class="mark-bar" style="--d:2" x="20.5" y="8" width="4" height="15" rx="1" fill="#b8894a"/>
-  </svg>`;
-}
+// Horizontal lockup from the B4ES brand kit. The white variant is for dark
+// surfaces (footer). Intrinsic size is 827x272; CSS sets the rendered height.
+const LOGO_SRC = "/" + v("assets/img/b4es-logo.svg");
+const LOGO_WHITE_SRC = "/" + v("assets/img/b4es-logo-white.svg");
 
-export function logo({ light = false, size = 30 } = {}) {
-  const tone = light ? "text-white" : "text-ink";
-  return `<a href="/" class="group inline-flex items-center gap-2.5" aria-label="${SITE.name} — ${SITE.fullName}, home">
-    ${logoMark(size)}
-    <span class="logo-mark ${tone} leading-none">B4<span class="text-teal">ES</span></span>
+export function logo({ light = false, cls = "h-11 sm:h-12 lg:h-10 xl:h-11" } = {}) {
+  return `<a href="/" class="inline-flex shrink-0 items-center" aria-label="${SITE.name} — ${SITE.fullName}, home">
+    <img src="${light ? LOGO_WHITE_SRC : LOGO_SRC}" alt="${SITE.name}" width="827" height="272" class="${cls} w-auto">
   </a>`;
 }
 
@@ -165,13 +160,13 @@ function header(current) {
 </div>
 
 <header class="no-print sticky top-0 z-50 border-b border-line bg-white/95 backdrop-blur-md">
-  <div class="wrap relative flex items-center justify-between gap-6 py-3.5">
+  <div class="wrap relative flex items-center justify-between gap-4 py-3.5">
     ${logo()}
     <nav aria-label="Primary" class="hidden lg:block">
       <ul class="flex items-center gap-0.5">${items}</ul>
     </nav>
     <div class="flex items-center gap-2">
-      <a href="/contact/" class="btn-primary btn-sm hidden sm:inline-flex">Book a scoping call</a>
+      <a href="/contact/" class="btn-primary btn-sm hidden sm:inline-flex lg:hidden xl:inline-flex">Book a scoping call</a>
       <button type="button" id="navToggle" aria-expanded="false" aria-controls="mobileNav"
         class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-line text-ink lg:hidden">
         <span class="sr-only">Open menu</span>
@@ -211,7 +206,7 @@ function footer() {
   <div class="wrap relative z-10 py-16 md:py-20">
     <div class="grid gap-12 lg:grid-cols-[1.15fr_2.4fr]">
       <div>
-        ${logo({ light: true, size: 34 })}
+        ${logo({ light: true, cls: "h-14" })}
         <p class="mt-5 max-w-sm text-[0.9375rem] leading-relaxed text-slate-soft">
           ${SITE.fullName}. Outsourced finance, accounting and back-office delivery for
           UK accountancy practices and growing UK businesses.
@@ -309,7 +304,7 @@ export function page({
 <meta name="twitter:title" content="${fullTitle}">
 <meta name="twitter:description" content="${description}">
 <link rel="icon" href="${ICON_HREF}" type="image/svg+xml">
-<link rel="apple-touch-icon" href="${ICON_HREF}">
+<link rel="apple-touch-icon" href="${TOUCH_ICON_HREF}">
 ${FONTS}
 <link rel="stylesheet" href="${CSS_HREF}">
 <script src="${JS_HEAD}"></script>
