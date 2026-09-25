@@ -47,13 +47,15 @@
   //
   // REQUIRES (one-time, in the dashboard):
   //   1. Email Routing enabled on the b4es.co.uk zone
-  //   2. the destination address below verified
+  //   2. the destination address below verified (the same Gmail inbox that
+  //      info@b4es.co.uk forwards to — a routed b4es.co.uk address cannot be
+  //      a verified destination)
   // Until then the Worker still stores every enquiry; it just records
   // notified = 0 against the row.
   "send_email": [
     {
       "name": "ENQUIRY_EMAIL",
-      "destination_address": "info@b4es.co.uk"
+      "destination_address": "b4es.admin@gmail.com"
     }
   ],
 
@@ -61,7 +63,7 @@
     // Sender must be on a domain onboarded to Email Routing.
     "ENQUIRY_FROM": "website@b4es.co.uk",
     // Must match the binding's destination_address above.
-    "ENQUIRY_TO": "info@b4es.co.uk"
+    "ENQUIRY_TO": "b4es.admin@gmail.com"
   },
 
   "observability": {

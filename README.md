@@ -168,9 +168,11 @@ but the notification email needs a one-time setup:
 
 1. Cloudflare dashboard → **Compute → Email Service → Email Routing** → enable it
    on `b4es.co.uk`.
-2. Add and verify a **destination address** (your real inbox).
-3. Make sure it matches `send_email[0].destination_address` and `vars.ENQUIRY_TO`
-   in `wrangler.jsonc` — both are `info@b4es.co.uk` today.
+2. Add and verify `b4es.admin@gmail.com` as a **destination address**, and route
+   `info@b4es.co.uk` to it.
+3. That address must match `send_email[0].destination_address` and
+   `vars.ENQUIRY_TO` in `wrangler.jsonc` (both `b4es.admin@gmail.com` today). A
+   routed `@b4es.co.uk` address cannot be a verified destination.
 
 Until that is done the Worker stores each enquiry and records `notified = 0`
 against the row, so nothing is lost. Sending to a verified destination address is
