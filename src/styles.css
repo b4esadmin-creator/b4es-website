@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @source "./**/*.mjs";
+@source "../public/assets/js/*.js";
 
 /* ============================================================
    B4ES — Better 4 Enterprise Solutions
@@ -8,28 +9,34 @@
    ============================================================ */
 
 @theme {
-  /* Core palette — deep petrol ink, teal accent, warm gold, bone surface */
-  --color-ink: #08161f;
-  --color-ink-800: #0d2431;
-  --color-ink-700: #123243;
-  --color-ink-600: #1a4356;
-  --color-slate-deep: #3d5f6f;
-  --color-slate-mid: #6a8794;
-  --color-slate-soft: #9ab0ba;
+  /* Core palette — taken from the B4ES brand kit logo:
+       navy #022454, blue #05527A, teal #0A8AA3, gold #E1B76D.
+     `teal` is the logo teal deepened a touch (#087A95) so text and white-on-teal
+     buttons meet WCAG AA; the exact logo teal lives in --color-brand-teal and
+     the logo gradient below. */
+  --color-ink: #022454;
+  --color-ink-800: #0b2b57;
+  --color-ink-700: #12386b;
+  --color-ink-600: #1b4a82;
+  --color-slate-deep: #3b5170;
+  --color-slate-mid: #5e7289;
+  --color-slate-soft: #a3b4c8;
 
-  --color-teal: #0e9384;
-  --color-teal-dark: #0a6f65;
-  --color-teal-light: #35b5a5;
-  --color-teal-wash: #e6f4f2;
+  --color-teal: #087a95;
+  --color-teal-dark: #05527a;
+  --color-teal-light: #2bb3c9;
+  --color-teal-wash: #e6f3f6;
+  --color-brand-teal: #0a8aa3;
 
-  --color-gold: #b8894a;
-  --color-gold-light: #d8ab6d;
-  --color-gold-wash: #f6efe3;
+  --color-gold: #e1b76d;
+  --color-gold-light: #edcd94;
+  --color-gold-wash: #fbf3e3;
+  --color-gold-deep: #86621f;
 
-  --color-bone: #f8f6f1;
-  --color-mist: #eef2f3;
-  --color-line: #dfe6e8;
-  --color-line-dark: #1d3d4d;
+  --color-bone: #f5f7fa;
+  --color-mist: #eaf0f6;
+  --color-line: #dbe3ec;
+  --color-line-dark: #1b3f6e;
 
   /* Typography */
   --font-display: "Source Serif 4", Georgia, "Times New Roman", serif;
@@ -45,10 +52,13 @@
 
   --radius-card: 0.875rem;
 
-  --shadow-soft: 0 1px 2px rgba(8, 22, 31, 0.04),
-    0 8px 24px -8px rgba(8, 22, 31, 0.08);
-  --shadow-lift: 0 2px 4px rgba(8, 22, 31, 0.05),
-    0 20px 48px -16px rgba(8, 22, 31, 0.16);
+  --shadow-soft: 0 1px 2px rgba(2, 36, 84, 0.05),
+    0 8px 24px -8px rgba(2, 36, 84, 0.1);
+  --shadow-lift: 0 2px 4px rgba(2, 36, 84, 0.06),
+    0 20px 48px -16px rgba(2, 36, 84, 0.2);
+
+  /* The logo's arrow: navy-blue into teal. */
+  --gradient-brand: linear-gradient(135deg, #05527a 0%, #0a8aa3 100%);
 }
 
 /* ============================================================
@@ -157,11 +167,25 @@
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3
            text-[0.9375rem] font-semibold transition-all duration-200 whitespace-nowrap;
-    @apply bg-teal text-white hover:bg-teal-dark;
-    box-shadow: 0 1px 2px rgba(8, 22, 31, 0.08), 0 10px 24px -10px rgba(14, 147, 132, 0.6);
+    @apply text-white;
+    background: linear-gradient(135deg, var(--color-teal-dark) 0%, var(--color-teal) 100%);
+    box-shadow: 0 1px 2px rgba(2, 36, 84, 0.1), 0 10px 24px -10px rgba(10, 138, 163, 0.6);
   }
 
-  .btn-primary:hover { transform: translateY(-1px); }
+  .btn-primary:hover {
+    background: linear-gradient(135deg, var(--color-ink-700) 0%, var(--color-teal-dark) 100%);
+    transform: translateY(-1px);
+  }
+
+  /* On navy the blue gradient disappears, so the primary action takes the
+     logo's gold accent instead (navy on gold is 8:1). */
+  .band-dark .btn-primary {
+    @apply text-ink;
+    background: var(--color-gold);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 10px 24px -10px rgba(225, 183, 109, 0.55);
+  }
+
+  .band-dark .btn-primary:hover { background: var(--color-gold-light); }
 
   .btn-ink {
     @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3
@@ -237,7 +261,7 @@
 
   .pill-gold {
     @apply inline-flex items-center gap-1.5 rounded-full bg-gold-wash px-3 py-1
-           text-[0.8125rem] font-semibold text-[#8a6430];
+           text-[0.8125rem] font-semibold text-gold-deep;
   }
 
   .pill-light {
@@ -300,6 +324,9 @@
 
   .band-dark {
     @apply relative overflow-hidden bg-ink text-slate-soft;
+    /* Brand navy is lighter than a near-black, so mid-slate text would drop
+       below AA on it. Lift the token for everything inside a dark band. */
+    --color-slate-mid: #8499b1;
   }
 
   .band-dark h2, .band-dark h3, .band-dark h4 { @apply text-white; }
@@ -470,7 +497,7 @@
 
   select.field {
     @apply appearance-none bg-no-repeat pr-10;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%236a8794' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%235e7289' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
     background-position: right 1rem center;
   }
 
@@ -536,8 +563,8 @@
     transform: scaleX(var(--p, 0));
     background: linear-gradient(
       90deg,
-      var(--color-teal) 0%,
-      var(--color-teal-light) 55%,
+      var(--color-teal-dark) 0%,
+      var(--color-brand-teal) 55%,
       var(--color-gold) 100%
     );
     transition: transform 120ms linear;
@@ -605,15 +632,15 @@
       color-mix(in oklab, var(--color-gold) 22%, transparent) 0 8px,
       transparent 8px 16px
     );
-    border: 1px dashed color-mix(in oklab, var(--color-gold) 55%, transparent);
-    color: var(--color-gold);
+    border: 1px dashed color-mix(in oklab, var(--color-gold) 70%, transparent);
+    color: var(--color-gold-deep);
   }
 
   /* ---------- process line that draws as you scroll ---------- */
 
   .draw-line {
     @apply absolute left-0 top-0 w-px origin-top;
-    background: linear-gradient(180deg, var(--color-teal), var(--color-teal-light));
+    background: linear-gradient(180deg, var(--color-teal-dark), var(--color-brand-teal));
     height: 100%;
     transform: scaleY(var(--p, 0));
     transition: transform 200ms linear;

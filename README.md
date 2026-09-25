@@ -316,12 +316,19 @@ compliance obligations.
 
 ## Design system
 
-Defined once in `src/styles.css` under `@theme`.
+Defined once in `src/styles.css` under `@theme`. The palette is taken from the
+brand-kit logo (navy `#022454`, blue `#05527A`, teal `#0A8AA3`, gold `#E1B76D`).
 
-- **Ink** `#08161f` — near-black petrol, used for dark bands and headings
-- **Teal** `#0e9384` — primary accent
-- **Gold** `#b8894a` — secondary accent, used sparingly for caution and contrast
-- **Bone** `#f8f6f1` — warm alternate section background
+- **Ink** `#022454` — logo navy, used for dark bands and headings
+- **Teal** `#087A95` — primary accent; the logo teal deepened a touch so text
+  and white-on-teal buttons pass WCAG AA. Exact logo teal is `brand-teal`.
+- **Teal dark** `#05527A` — logo blue; hovers, icon tiles, gradient start
+- **Gold** `#E1B76D` — logo gold; the primary button on navy bands, progress
+  rail and callouts. Use `gold-deep` `#86621F` for gold text on light surfaces.
+- **Bone** `#f5f7fa` — cool alternate section background
+- Primary buttons use the logo's arrow gradient (blue → teal) on light
+  surfaces and solid gold on navy. Inside `.band-dark` the `slate-mid` token is
+  lifted so secondary text stays AA on navy.
 - **Display type** Source Serif 4 · **Body type** Inter (both via Google Fonts)
 
 Component classes (`.card`, `.btn-primary`, `.check-list`, `.acc`, …) keep the
