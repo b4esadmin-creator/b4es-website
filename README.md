@@ -170,7 +170,7 @@ but the notification email needs a one-time setup:
    on `b4es.co.uk`.
 2. Add and verify a **destination address** (your real inbox).
 3. Make sure it matches `send_email[0].destination_address` and `vars.ENQUIRY_TO`
-   in `wrangler.jsonc` — both are `hello@b4es.co.uk` today.
+   in `wrangler.jsonc` — both are `info@b4es.co.uk` today.
 
 Until that is done the Worker stores each enquiry and records `notified = 0`
 against the row, so nothing is lost. Sending to a verified destination address is
