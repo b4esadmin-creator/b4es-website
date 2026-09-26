@@ -27,12 +27,12 @@ export const SITE = {
   phone: "",
   phoneHref: "",
 
-  // TODO: registered office. Leave blank until incorporation is complete —
-  // the privacy and terms pages drop the sentence rather than print a gap.
+  // Registered office, from the LLP Members' Agreement dated 25 September 2026
+  // (clause 2.2 also names it as the principal place of business).
   address: {
-    line1: "",
-    line2: "",
-    postcode: "",
+    line1: "41 Woodside Close",
+    line2: "Grays",
+    postcode: "RM16 2DN",
     country: "United Kingdom",
   },
 
@@ -41,7 +41,7 @@ export const SITE = {
   offices: [
     {
       label: "Registered office",
-      lines: [], // TODO: e.g. ["Building, Street", "Town", "Postcode"]
+      lines: ["Better 4 Enterprise Solutions LLP", "41 Woodside Close", "Grays", "RM16 2DN"],
       country: "United Kingdom",
     },
     {
