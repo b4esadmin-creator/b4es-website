@@ -68,46 +68,15 @@ function megaServices() {
     <div class="mega-inner grid grid-cols-[1fr_auto]">
       <div class="grid grid-cols-3 gap-x-2 gap-y-6 p-6">${cols}</div>
       <div class="w-[16.5rem] border-l border-line bg-bone p-6">
-        <p class="eyebrow">Start here</p>
-        <p class="mt-3 font-display text-[1.125rem] leading-snug text-ink">Not sure which services to move first?</p>
-        <p class="mt-2 text-[0.875rem] leading-relaxed text-slate-mid">Most firms begin with one service line and one cycle. We will tell you which one, based on where your capacity actually hurts.</p>
-        <a href="/services/" class="link-arrow mt-4">All services ${arrow("h-3.5 w-3.5")}</a>
-        <div class="rule my-5"></div>
-        <a href="/contact/" class="btn-primary btn-sm w-full">Book a scoping call</a>
-      </div>
-    </div>
-  </div>`;
-}
-
-function megaAudience() {
-  const card = (href, title, desc, points) => `<a href="${href}" class="block rounded-xl border border-line bg-white p-6 transition-all hover:border-teal/40 hover:bg-bone">
-    <p class="font-display text-[1.1875rem] text-ink">${title}</p>
-    <p class="mt-2 text-[0.875rem] leading-relaxed text-slate-mid">${desc}</p>
-    <ul class="mt-4 space-y-1.5">
-      ${points.map((p) => `<li class="text-[0.8125rem] text-slate-deep">— ${p}</li>`).join("")}
-    </ul>
-    <span class="link-arrow mt-4">Explore ${arrow("h-3.5 w-3.5")}</span>
-  </a>`;
-
-  return `<div class="mega w-[min(50rem,calc(100vw-3rem))]">
-    <div class="mega-inner p-6">
-      <div class="grid gap-4 sm:grid-cols-2">
-        ${card(
-          "/for-accountants/",
-          "Accountancy practices",
-          "White-label delivery capacity that extends your team without adding fixed headcount. You keep the client, the brand and the relationship.",
-          ["Compliance and tax delivery", "Peak-season surge capacity", "Fully white-labelled"]
-        )}
-        ${card(
-          "/for-business/",
-          "Growing UK businesses",
-          "A complete outsourced finance function for businesses that have outgrown a bookkeeper but cannot yet justify a finance team.",
-          ["Day-to-day finance operations", "Management reporting", "Fractional CFO input"]
-        )}
-      </div>
-      <div class="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-bone px-5 py-4">
-        <p class="text-[0.875rem] text-slate-deep">Working in a specific sector? We map our process to how your industry actually runs.</p>
-        <a href="/sectors/" class="link-arrow">Sector expertise ${arrow("h-3.5 w-3.5")}</a>
+        <p class="eyebrow">Who we help</p>
+        <ul class="mt-3 space-y-1">
+          <li><a class="mega-item -mx-4" href="/for-accountants/"><span class="mega-item-title">Accountancy practices</span><span class="mega-item-desc block">White-label delivery capacity</span></a></li>
+          <li><a class="mega-item -mx-4" href="/for-business/"><span class="mega-item-title">Growing UK businesses</span><span class="mega-item-desc block">An outsourced finance function</span></a></li>
+          <li><a class="mega-item -mx-4" href="/sectors/"><span class="mega-item-title">Sectors</span><span class="mega-item-desc block">Process mapped to your industry</span></a></li>
+        </ul>
+        <div class="rule my-4"></div>
+        <a href="/services/" class="link-arrow">All services ${arrow("h-3.5 w-3.5")}</a>
+        <a href="/contact/" class="btn-primary btn-sm mt-4 w-full">Contact us</a>
       </div>
     </div>
   </div>`;
@@ -118,7 +87,7 @@ function header(current) {
     const active = current && current.startsWith(n.href) && n.href !== "/";
     const cls = `nav-link${active ? " text-teal" : ""}`;
     if (n.mega) {
-      const mega = n.mega === "services" ? megaServices() : megaAudience();
+      const mega = megaServices();
       return `<li class="has-mega static">
         <a href="${n.href}" class="${cls}">${n.label}${icon("chevronDown", "h-3.5 w-3.5 text-slate-soft")}</a>
         ${mega}
@@ -129,15 +98,15 @@ function header(current) {
 
   const mobileLinks = [
     ...NAV.map((n) => ({ label: n.label, href: n.href })),
-    { label: "For accountancy practices", href: "/for-accountants/" },
-    { label: "For businesses", href: "/for-business/" },
-    { label: "Sectors", href: "/sectors/" },
-    { label: "FAQs", href: "/faqs/" },
-    { label: "Careers", href: "/careers/" },
+    { label: "For accountancy practices", href: "/for-accountants/", sub: true },
+    { label: "For businesses", href: "/for-business/", sub: true },
+    { label: "How we work", href: "/how-we-work/", sub: true },
+    { label: "Security", href: "/security/", sub: true },
+    { label: "Insights", href: "/insights/", sub: true },
   ]
     .map(
       (n) =>
-        `<li><a href="${n.href}" class="block border-b border-line py-3.5 text-[1.0625rem] font-medium text-ink">${n.label}</a></li>`
+        `<li><a href="${n.href}" class="block border-b border-line ${n.sub ? "py-3 text-[0.9375rem] text-slate-deep" : "py-3.5 text-[1.0625rem] font-medium text-ink"}">${n.label}</a></li>`
     )
     .join("");
 
@@ -166,7 +135,6 @@ function header(current) {
       <ul class="flex items-center gap-0.5">${items}</ul>
     </nav>
     <div class="flex items-center gap-2">
-      <a href="/contact/" class="btn-primary btn-sm hidden sm:inline-flex lg:hidden xl:inline-flex">Book a scoping call</a>
       <button type="button" id="navToggle" aria-expanded="false" aria-controls="mobileNav"
         class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-line text-ink lg:hidden">
         <span class="sr-only">Open menu</span>
@@ -178,7 +146,7 @@ function header(current) {
   <div id="mobileNav" hidden class="border-t border-line bg-white lg:hidden">
     <div class="wrap py-2">
       <ul>${mobileLinks}</ul>
-      <a href="/contact/" class="btn-primary mt-5 mb-4 w-full">Book a scoping call</a>
+      <a href="/contact/" class="btn-primary mt-5 mb-4 w-full">Contact us</a>
     </div>
   </div>
 </header>`;

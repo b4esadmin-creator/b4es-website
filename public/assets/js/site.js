@@ -30,6 +30,75 @@
   }
 
 
+  /* ---------------------------------------------------------------- tabs
+   *
+   * Markup comes from tabs() in src/components.mjs. Without this script every
+   * panel is simply shown in sequence. Runs before the motion code so reveal
+   * items inside hidden panels are released immediately rather than waiting
+   * on a scroll position they cannot have.
+   */
+
+  var tabSets = Array.prototype.slice.call(document.querySelectorAll("[data-tabs]"));
+
+  var selectTab = function (set, id, focus) {
+    var tabs = set.querySelectorAll('[role="tab"]');
+    var found = false;
+    Array.prototype.forEach.call(tabs, function (t) {
+      var on = t.getAttribute("aria-controls") === id;
+      if (on) found = true;
+      t.setAttribute("aria-selected", String(on));
+      t.tabIndex = on ? 0 : -1;
+      if (on && focus) t.focus();
+      var panel = document.getElementById(t.getAttribute("aria-controls"));
+      if (panel) panel.hidden = !on;
+    });
+    // Newly shown content may hold drawn lines or counters; let motion re-measure.
+    window.dispatchEvent(new Event("scroll"));
+    return found;
+  };
+
+  var openFromHash = function () {
+    var id = decodeURIComponent(location.hash.slice(1));
+    if (!id) return;
+    tabSets.forEach(function (set) {
+      var tab = set.querySelector('[role="tab"][aria-controls="' + id.replace(/"/g, "") + '"]');
+      if (tab && selectTab(set, id, false)) set.scrollIntoView({ block: "start" });
+    });
+  };
+
+  tabSets.forEach(function (set) {
+    var tabs = Array.prototype.slice.call(set.querySelectorAll('[role="tab"]'));
+    if (!tabs.length) return;
+    selectTab(set, tabs[0].getAttribute("aria-controls"), false);
+
+    set.addEventListener("click", function (e) {
+      var t = e.target.closest('[role="tab"]');
+      if (!t || !set.contains(t)) return;
+      var id = t.getAttribute("aria-controls");
+      selectTab(set, id, false);
+      try { history.replaceState(null, "", "#" + id); } catch (err) {}
+    });
+
+    set.addEventListener("keydown", function (e) {
+      var i = tabs.indexOf(document.activeElement);
+      if (i < 0) return;
+      var next = null;
+      if (e.key === "ArrowRight") next = tabs[(i + 1) % tabs.length];
+      else if (e.key === "ArrowLeft") next = tabs[(i - 1 + tabs.length) % tabs.length];
+      else if (e.key === "Home") next = tabs[0];
+      else if (e.key === "End") next = tabs[tabs.length - 1];
+      if (!next) return;
+      e.preventDefault();
+      selectTab(set, next.getAttribute("aria-controls"), true);
+    });
+  });
+
+  if (tabSets.length) {
+    openFromHash();
+    window.addEventListener("hashchange", openFromHash);
+  }
+
+
   /* ============================================================ motion
    *
    * The animation vocabulary mirrors what B4ES does: ascending bars (the

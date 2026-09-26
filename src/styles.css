@@ -658,6 +658,74 @@
     transform: scale(1.08);
   }
 
+  /* ---------- tabs ---------- */
+
+  /* Without JS the bar is hidden and every panel shows in sequence. */
+  .tab-list { display: none; }
+  .tab-panel + .tab-panel { @apply mt-16; }
+
+  .js-ready .tab-list {
+    @apply mb-10 flex w-fit max-w-full gap-1 overflow-x-auto rounded-full border border-line bg-bone p-1;
+    scrollbar-width: none;
+  }
+  .js-ready .tab-list::-webkit-scrollbar { display: none; }
+  .js-ready .tab-panel + .tab-panel { margin-top: 0; }
+  .js-ready .tab-panel[hidden] { display: none; }
+  .js-ready .tab-panel:not([hidden]) { animation: tab-in 420ms var(--ease-out-soft); }
+
+  .tab {
+    @apply shrink-0 cursor-pointer whitespace-nowrap rounded-full px-4 py-2 text-[0.875rem]
+           font-semibold text-slate-deep transition-colors hover:bg-mist hover:text-ink sm:px-5;
+  }
+  .tab[aria-selected="true"] { @apply bg-ink text-white hover:bg-ink hover:text-white; }
+
+  .tabs-light .tab-list { @apply border-white/10 bg-white/[0.05]; }
+  .tabs-light .tab { @apply text-slate-soft hover:bg-white/10 hover:text-white; }
+  .tabs-light .tab[aria-selected="true"] { @apply bg-gold text-ink hover:bg-gold hover:text-ink; }
+
+  @keyframes tab-in {
+    from { opacity: 0; transform: translate3d(0, 10px, 0); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* ---------- illustrations ---------- */
+
+  .art { @apply h-auto w-full; overflow: visible; }
+
+  .art-bar {
+    transform-box: fill-box;
+    transform-origin: bottom center;
+    animation: art-rise 900ms var(--ease-out-soft) both;
+    animation-delay: calc(var(--i, 0) * 110ms + 150ms);
+  }
+  .art-draw {
+    stroke-dasharray: 600;
+    stroke-dashoffset: 600;
+    animation: art-draw 1600ms var(--ease-out-firm) forwards;
+    animation-delay: calc(var(--i, 0) * 150ms + 500ms);
+  }
+  .art-pop {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: art-pop 600ms var(--ease-out-soft) both;
+    animation-delay: calc(var(--i, 0) * 160ms + 900ms);
+  }
+  .art-float { animation: art-pop 600ms var(--ease-out-soft) 1.4s both, art-float 4s ease-in-out 2s infinite; }
+  .art-flow { animation: art-flow 1.6s linear infinite; }
+  .art-flow-rev { animation-direction: reverse; }
+  .art-pulse {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: art-pulse 2.8s ease-out infinite;
+  }
+
+  @keyframes art-rise  { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  @keyframes art-draw  { to { stroke-dashoffset: 0; } }
+  @keyframes art-pop   { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
+  @keyframes art-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  @keyframes art-flow  { to { stroke-dashoffset: -32; } }
+  @keyframes art-pulse { 0% { transform: scale(.8); opacity: .35; } 100% { transform: scale(1.5); opacity: 0; } }
+
   /* ---------- counters ---------- */
 
   .tabular { font-variant-numeric: tabular-nums; }
@@ -709,6 +777,7 @@
   .draw-line { transform: scaleY(1) !important; }
   .rule-wipe { transform: scaleX(1) !important; }
   .js-ready .drift { transform: none !important; }
+  .art-dot { display: none; } /* SMIL motion ignores the CSS duration override */
 }
 
 /* Print */
