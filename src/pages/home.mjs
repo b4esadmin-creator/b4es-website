@@ -172,16 +172,33 @@ ${ctaBand()}
 
   return {
     path: "/",
-    title: "Outsourced Accounting, Tax & Payroll for UK Practices and Businesses",
+    // Brand-first so searches for "B4ES", "Better 4" or "Better 4 Enterprise
+    // Solutions" match the title; layout.mjs uses the home title as given.
+    title: "Better 4 Enterprise Solutions (B4ES) | Outsourced Accounting, Tax & Payroll UK",
     description:
-      "B4ES provides white-label outsourced accounting, tax, payroll, audit support and back-office delivery for UK accountancy practices, plus a complete outsourced finance function for growing UK businesses.",
+      "Better 4 Enterprise Solutions LLP (B4ES) provides white-label outsourced accounting, tax, payroll, audit support and back-office delivery for UK accountancy practices, plus a complete outsourced finance function for growing UK businesses.",
     body,
+    // One graph: the business (with every name people search for) and the
+    // WebSite, which Google uses to choose the site name shown in results.
     schema: {
       "@context": "https://schema.org",
+      "@graph": [
+    {
       "@type": "ProfessionalService",
+      "@id": `${SITE.baseUrl}/#organization`,
       name: SITE.name,
-      legalName: SITE.fullName,
+      alternateName: [SITE.fullName, `${SITE.fullName} LLP`, "Better 4"],
+      legalName: `${SITE.fullName} LLP`,
       url: SITE.baseUrl,
+      logo: `${SITE.baseUrl}/assets/img/b4es-logo.svg`,
+      image: `${SITE.baseUrl}/assets/img/og-b4es.png`,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "41 Woodside Close",
+        addressLocality: "Grays",
+        postalCode: "RM16 2DN",
+        addressCountry: "GB",
+      },
       description:
         "Outsourced accounting, tax, payroll and back-office delivery for UK accountancy practices and growing UK businesses.",
       email: SITE.email,
@@ -196,6 +213,16 @@ ${ctaBand()}
         "Payroll bureau services",
         "Audit support",
         "Management accounts",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE.baseUrl}/#website`,
+      name: SITE.name,
+      alternateName: [SITE.fullName, `${SITE.fullName} LLP`],
+      url: `${SITE.baseUrl}/`,
+      publisher: { "@id": `${SITE.baseUrl}/#organization` },
+    },
       ],
     },
   };

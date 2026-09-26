@@ -39,6 +39,7 @@ async function emit(path, html) {
 }
 
 function sitemap(paths, baseUrl) {
+  const lastmod = new Date().toISOString().slice(0, 10);
   const priority = (p) =>
     p === "/" ? "1.0" : p.split("/").filter(Boolean).length === 1 ? "0.8" : "0.6";
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -47,6 +48,7 @@ ${paths
   .map(
     (p) => `  <url>
     <loc>${baseUrl}${p}</loc>
+    <lastmod>${lastmod}</lastmod>
     <priority>${priority(p)}</priority>
   </url>`
   )
