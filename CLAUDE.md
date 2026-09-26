@@ -91,17 +91,19 @@ edit cells.
   category tabs. Motion is a slow CSS float, off under reduced motion.
   The home proposition card moved from the hero to a section just below it.
 - **Home hero video (26 Sep 2026, Yawar):** the home illustration is replaced
-  by a 48 s loop, `public/assets/video/b4es-loop.mp4` (H.264) with a
-  `.webm` (VP9) fallback and `b4es-loop-poster.webp`, via `heroVideo()` in
-  `src/components.mjs`. Recorded from Yawar's "b4es_loop_presentation.html"
-  with his music track. Changes from his file: slide 1's stock London photo
-  swapped for our Canva London scene (no-photos rule, unknown licence), the
-  62% line softened to "In many practices, fee earners spend up to 62%…",
-  brand colours, larger type, site SVG logo. It autoplays muted; a "Sound
-  on" button (site.js) plays the music; reduced motion keeps it paused with
-  controls. To re-record: open the slideshow at 1280×720 in Playwright with
-  recordVideo, then ffmpeg-mux the audio (both formats).
-  thebpo.net was the loose reference, but B4ES keeps its own look.
+  by Yawar's 46 s video (WhatsApp MP4, its own soundtrack), cropped of 8 px
+  side bars to 832×468 and re-encoded: `public/assets/video/b4es-loop.mp4`
+  (H.264), `.webm` (VP9) fallback, `b4es-loop-poster.webp`; `heroVideo()`
+  in `src/components.mjs`. It uses the London photo and the original line
+  "Your fee earners are spending 62%…", both Yawar's explicit choice after
+  the photo-licence and advertising-claim risks were flagged. Autoplays
+  muted; reduced motion keeps
+  it paused with controls. Layout after pwc.com (Yawar's choice): a
+  full-width band above the hero (`videoBand()` in `src/components.mjs`),
+  nothing overlaid because the video has its own headlines; hero copy and
+  buttons follow below. Small Pause (WCAG 2.2.2) and Sound buttons top-right.
+  The source is only 832 px wide, so full-width it looks soft on desktop;
+  replace the files with a 1920×1080 export when one is available.
 - **Strategic Partners:** theBPO (Karachi, est. 2014) is the only partner;
   add more via `PARTNERS` in `src/data/site.mjs`.
 - **Contact details:** site email `info@b4es.co.uk`. Registered office
@@ -145,11 +147,9 @@ edit cells.
   at Yawar's request (26 Sep 2026); the only caveat left is the
   "Illustrative example" label above the first bar. Keep that label: the
   figures are a model, not client data.
-- **Hero video music licence**: the track came as a WhatsApp audio file
-  with no artist or title. Confirm B4ES has the right to use it commercially
-  (or swap for a licensed track) before promoting the site.
-- **Hero video slide 2** uses two illustrations with people (from Yawar's
-  file) in a different style from our Canva set; swap if the partners want
-  one look.
+- **Hero video rights**: confirm B4ES may use its music and the London
+  photo commercially (neither source is known) before promoting the site.
+- **No-photos rule**: the hero video is the one exception (London photo,
+  photo-style people on slide 2), at Yawar's request.
 - Placeholders still empty in `src/data/site.mjs`: phone, Companies House
   number, ICO reference, LinkedIn URL.

@@ -428,38 +428,47 @@ export function illoSpot(category, { eager = false, cls = "" } = {}) {
   return `<div class="illo-spot ${cls}" aria-hidden="true">${illoImg(`cat-${category}`, SPOT, { eager })}</div>`;
 }
 
-/* ---------------------------------------------------------- hero video
+/* ---------------------------------------------------------- video band
  *
- * The 48-second B4ES loop (slides recorded from the partners' presentation,
- * music supplied by Yawar). Browsers only autoplay muted video, so it starts
- * silent with a "Sound on" button; site.js wires the button and keeps it
- * paused under reduced motion. The slide text is repeated for screen readers.
+ * Full-width band at the top of the home page (layout after pwc.com): the
+ * partners' 46-second B4ES video edge to edge, nothing laid over it because
+ * the video carries its own headlines, with the hero copy directly below.
+ * Browsers only autoplay muted video, so it starts silent; small Pause and
+ * Sound buttons sit top-right (site.js). Pause is required for motion that
+ * autoplays for more than five seconds (WCAG 2.2.2). Under reduced motion it
+ * stays paused with native controls. The slide text is repeated for screen
+ * readers.
  */
 
-export function heroVideo() {
+export function videoBand() {
   const mp4 = "/" + v("assets/video/b4es-loop.mp4");
   const webm = "/" + v("assets/video/b4es-loop.webm");
   const poster = "/" + v("assets/video/b4es-loop-poster.webp");
-  return `<figure class="hero-video">
-    <div class="illo-frame">
-      <video class="hero-video-media" poster="${poster}" width="1280" height="720"
-        autoplay muted loop playsinline preload="metadata" aria-describedby="heroVideoText" data-hero-video>
-        <source src="${mp4}" type="video/mp4">
-        <source src="${webm}" type="video/webm">
-      </video>
-      <button type="button" class="hero-video-sound" data-hero-sound aria-pressed="false">
-        ${icon("volume", "h-4 w-4")}<span data-hero-sound-label>Sound on</span>
+  return `<section class="video-band" aria-label="B4ES introduction video">
+  <figure class="video-band-inner">
+    <video class="video-band-media" poster="${poster}" width="832" height="468"
+      autoplay muted loop playsinline preload="metadata" aria-describedby="heroVideoText" data-hero-video>
+      <source src="${mp4}" type="video/mp4">
+      <source src="${webm}" type="video/webm">
+    </video>
+    <div class="video-band-controls" data-hero-controls>
+      <button type="button" class="video-band-btn" data-hero-pause aria-pressed="false">
+        ${icon("pause", "h-3.5 w-3.5")}<span data-hero-pause-label>Pause</span>
+      </button>
+      <button type="button" class="video-band-btn" data-hero-sound aria-pressed="false">
+        ${icon("volume", "h-3.5 w-3.5")}<span data-hero-sound-label>Sound on</span>
       </button>
     </div>
     <figcaption id="heroVideoText" class="sr-only">
-      A short animated introduction to B4ES. In many practices, fee earners spend up to 62% of their
-      week on compliance processing; it does not have to be that way. B4ES delivers the processing
-      and you keep the relationships. Services include bookkeeping and year-end accounts; VAT, MTD
-      and corporation tax; payroll and HR; and management accounts and CFO advisory: 14 service lines,
+      A short animated introduction to B4ES. Your fee earners are spending 62% of their week on
+      compliance processing; it does not have to be that way. B4ES delivers the processing and you
+      keep the relationships. Services include bookkeeping and year-end accounts; VAT, MTD and
+      corporation tax; payroll and HR; and management accounts and CFO advisory: 14 service lines,
       one agreed scope, your brand and your software. Market-leading quality, materially better
       pricing, and the client relationship stays with you, in writing. b4es.co.uk, info@b4es.co.uk.
     </figcaption>
-  </figure>`;
+  </figure>
+</section>`;
 }
 
 /* ------------------------------------------------------------------ misc */
