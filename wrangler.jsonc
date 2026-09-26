@@ -74,9 +74,9 @@
     //
     // Enquiries go here. info@ is routed to Gmail by Email Routing.
     "ENQUIRY_TO_RESEND": "info@b4es.co.uk",
-    // Optional Resend segment id for confirmed newsletter subscribers. Empty
-    // means contacts are added without a segment.
-    "RESEND_SEGMENT_ID": ""
+    // Resend segment "Newsletter": confirmed subscribers are added to it.
+    // Empty means contacts are added without a segment.
+    "RESEND_SEGMENT_ID": "93397087-7dcb-40cf-b49d-04b1916f6921"
   },
 
   "observability": {
