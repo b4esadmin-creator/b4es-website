@@ -80,6 +80,47 @@ edit cells.
   static assets, with a small Worker for `/api/enquiry` and D1 database
   `b4es-enquiries` storing contact-form submissions.
 
+## Ledger app (ledger.b4es.co.uk)
+
+A private double-entry bookkeeping app, separate from the public site: its
+own Worker `b4es-ledger` (code in `apps/ledger/`), its own D1 database
+`b4es-ledger` (EU jurisdiction) and its own deploy workflow
+(`.github/workflows/ledger-deploy.yml`). Design decisions agreed with the
+partners (26 Sep 2026):
+
+- **Sign-in:** Cloudflare Access (Zero Trust, free) with one-time PIN. Each
+  partner signs in with their **own personal email**; the allow-list lives in
+  the Access policy in the Cloudflare dashboard, never in this repo. The
+  Worker also verifies the Access JWT on every request and **fails closed**
+  (shows "set-up pending") until `TEAM_DOMAIN` and `POLICY_AUD` are set in
+  `apps/ledger/wrangler.jsonc`. First sign-in auto-creates a partner record.
+- **Posting:** whoever makes an entry chooses **Post now** or **Send for
+  second approval**. A second approval must be by a different partner
+  (enforced in the database). Entries proposed by Claude always go to the
+  approval queue; Claude never posts. Mandatory second approval for certain
+  transaction types can be added later.
+- **Integrity rules (database triggers):** entries must balance, amounts are
+  integer pence, posted entries are never edited or deleted (correct by
+  reversal), locked financial years reject postings, the audit log is
+  append-only. Do not weaken these.
+- **Ledger code ships like the website** (PR, green checks, merge); approvals
+  of *entries* happen in the app under each partner's login.
+- **Entities:** B4ES LLP first (incorporation in progress, not VAT
+  registered yet, first year end 31 Dec 2026, members' capital treated as
+  equity). Client companies are added later as extra entities, after
+  data-processing terms and a DPIA are in place.
+- **Cloudflare plan:** free for now (Workers Paid, $5/month, recommended
+  before real client data for a longer D1 restore window).
+- **Roadmap:** 1 core ledger, reports, dashboard, approvals, PWA; 2 Claude
+  Code proposes entries via an Access service token; 3 claude.ai connector
+  (remote MCP on mcp.b4es.co.uk); 4 bank statement upload and
+  reconciliation; 5 in-app AI categorisation (Anthropic API key); 6 VAT
+  returns and more reports.
+- **Owner steps still needed:** Zero Trust + Access app for
+  ledger.b4es.co.uk (send AUD tag and team domain), enable R2 (backups,
+  statements), GitHub deploy token needs D1:Edit, 2-step verification on the
+  shared Gmail and Cloudflare.
+
 ## Project state (as of 26 Sep 2026)
 
 - **Branding:** logo, favicon and theme come from the brand kit (PRs #5, #6).
