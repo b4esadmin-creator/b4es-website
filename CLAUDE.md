@@ -160,7 +160,8 @@ edit cells.
   data-centre restriction); Google Workspace. Recommended: Zoho EU or
   Workspace. Only one provider can own the MX records. If it isn't
   Cloudflare Email Routing, the contact-form notification must be switched
-  to that provider's SMTP or Resend. There are currently no MX records.
+  to that provider's SMTP or Resend. MX records now point to Cloudflare
+  Email Routing (see below).
 - **Sheet bridge**: `scripts/sheet-bridge.gs` is written and a copy is in
   Drive ("B4ES sheet bridge script (paste into Apps Script)"). The partners
   are deploying it; afterwards `B4ES_SHEET_URL` and `B4ES_SHEET_SECRET` must
@@ -184,17 +185,20 @@ edit cells.
   photo commercially (neither source is known) before promoting the site.
 - **No-photos rule**: the hero video is the one exception (London photo,
   photo-style people on slide 2), at Yawar's request.
-- **SEO steps only the partners can do** (b4es.admin@gmail.com):
-  1. Google Search Console: add a Domain property for b4es.co.uk, verify with
-     the DNS TXT record in Cloudflare DNS, submit
-     https://b4es.co.uk/sitemap.xml, and use URL inspection → Request
-     indexing on the home page. 2. Bing Webmaster Tools: import from Search
-     Console. 3. Cloudflare → SSL/TLS → Edge Certificates → turn on "Always
-     Use HTTPS" (http://b4es.co.uk currently serves 200 instead of
-     redirecting). 4. Create the LinkedIn company page and Google Business
-     Profile (service-area business, address hidden); then add the LinkedIn
-     URL to `SITE.linkedin` and as `sameAs` in the home schema. 5. Get a few
-     links to the site (Companies House listing once registered, partners'
-     own LinkedIn profiles, directories).
+- **SEO, partner steps** (done 26 Sep 2026 via Yawar's browser): Search
+  Console Domain property verified by DNS TXT (`google-site-verification=…`
+  on b4es.co.uk, seen publicly), sitemap submitted, home page indexing
+  requested, Bing Webmaster import, and Cloudflare "Always Use HTTPS" on
+  (http:// and www now 301 to https://b4es.co.uk). Still to do: LinkedIn
+  company page and Google Business Profile (service-area, address hidden;
+  partners to decide), then add the LinkedIn URL to `SITE.linkedin` and as
+  `sameAs` in the home schema; and a few links to the site (Companies House
+  once registered, partners' LinkedIn profiles, directories).
+- **Email Routing is on**: b4es.co.uk MX records point to Cloudflare Email
+  Routing (route1-3.mx.cloudflare.net) with a Cloudflare SPF record, as of
+  26 Sep 2026. So the business-email decision is effectively Cloudflare
+  Email Routing unless the partners change it. Check that
+  b4es.admin@gmail.com is a verified destination and info@ has a routing
+  rule; contact-form notifications (`notified = 0` rows) should then send.
 - Placeholders still empty in `src/data/site.mjs`: phone, Companies House
   number, ICO reference, LinkedIn URL.
