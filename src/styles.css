@@ -726,6 +726,20 @@
   @keyframes art-flow  { to { stroke-dashoffset: -32; } }
   @keyframes art-pulse { 0% { transform: scale(.8); opacity: .35; } 100% { transform: scale(1.5); opacity: 0; } }
 
+  /* Canva raster illustrations (illoScene / illoSpot in components.mjs). */
+  .illo-img { @apply block h-auto w-full; }
+  .illo-frame {
+    @apply mx-auto max-w-xl overflow-hidden rounded-2xl ring-1 ring-white/10;
+    box-shadow: 0 30px 60px -20px rgb(0 10 30 / 0.55);
+  }
+  .illo-spot {
+    @apply mx-auto overflow-hidden rounded-2xl bg-white ring-1 ring-line;
+    box-shadow: 0 24px 48px -24px rgb(2 36 84 / 0.35);
+  }
+  .band-dark .illo-spot { @apply ring-white/10; }
+  .illo-float { animation: illo-float 7s ease-in-out 1.2s infinite; }
+  @keyframes illo-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
   /* ---------- counters ---------- */
 
   .tabular { font-variant-numeric: tabular-nums; }

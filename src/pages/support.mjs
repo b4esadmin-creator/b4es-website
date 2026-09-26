@@ -1,7 +1,7 @@
 import { SITE, PARTNER } from "../data/site.mjs";
 import { SERVICES } from "../data/services.mjs";
 import { icon, arrow } from "../icons.mjs";
-import { hero, sectionHead, accordion, ctaBand, callout, sec } from "../components.mjs";
+import { hero, sectionHead, accordion, ctaBand, callout, sec, illoScene } from "../components.mjs";
 
 /* ================================================================ contact */
 
@@ -61,6 +61,7 @@ ${hero({
     "We would rather spend the first conversation understanding where your capacity actually hurts than presenting capability slides. If it turns out outsourcing is not the right answer for your firm, we will say so on that call.",
   primary: { href: "#form", label: "Send an enquiry" },
   secondary: { href: "/security/", label: "Security position" },
+  aside: illoScene("contact"),
   trail: [{ label: "Home", href: "/" }, { label: "Contact" }],
 })}
 

@@ -14,6 +14,7 @@ import {
   tabs,
   linkCard,
   artGrowth,
+  illoScene,
 } from "../components.mjs";
 
 /* ================================================================== about */
@@ -234,6 +235,7 @@ ${hero({
     "Most outsourcing goes wrong in transition rather than in delivery. Access is rushed, process is undocumented, volume ramps too fast and nobody agrees what “finished” looks like. This is how we avoid that, stage by stage.",
   primary: { href: "/contact/", label: "Contact us" },
   secondary: { href: "/engagement-models/", label: "Engagement models" },
+  aside: illoScene("how-we-work"),
   trail: [{ label: "Home", href: "/" }, { label: "How we work" }],
 })}
 

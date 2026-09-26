@@ -16,7 +16,7 @@ const DIST = join(dirname(fileURLToPath(import.meta.url)), "..", "dist");
  * cached immutably at the edge and still update the moment its bytes change.
  * Falls back to no query string if the file is not built yet.
  */
-function v(relPath) {
+export function v(relPath) {
   try {
     const buf = readFileSync(join(DIST, relPath));
     return `${relPath}?v=${createHash("sha256").update(buf).digest("hex").slice(0, 10)}`;

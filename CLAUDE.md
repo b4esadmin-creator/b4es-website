@@ -67,7 +67,20 @@ edit cells.
 - **Pages keep scroll short:** related sections sit in in-page tabs via
   `tabs()` in `src/components.mjs` (deep links like `/why-us/#security`).
   Brand SVG illustrations `artGrowth`, `artNetwork`, `artShield` with CSS
-  motion. No stock photos (partners' choice).
+  motion (About, Why Us, Strategic Partners hero).
+- **Illustrations (26 Sep 2026, requested by Yawar):** partners agreed to
+  add illustrations, still **no photos**. Made in Canva in the brand
+  palette; source design "B4ES navy illustration canvas" in the shared Canva
+  account (one page per image). WebP files in
+  `public/assets/img/illustrations/` (`<name>-640/1120.webp` for navy
+  scenes, `cat-<category>-480/800.webp` for white spots). Use
+  `illoScene(name)` / `illoSpot(category)` from `src/components.mjs`.
+  Scenes: Home, Services, For accountants, For business, How we work,
+  Contact heroes, and the Strategic Partners "How our partnerships work"
+  section. Spots: every service page hero (by category) and the Services
+  category tabs. Motion is a slow CSS float, off under reduced motion.
+  The home proposition card moved from the hero to a section just below it.
+  thebpo.net was the loose reference, but B4ES keeps its own look.
 - **Strategic Partners:** theBPO (Karachi, est. 2014) is the only partner;
   add more via `PARTNERS` in `src/data/site.mjs`.
 - **Contact details:** site email `info@b4es.co.uk`. Registered office
@@ -100,5 +113,9 @@ edit cells.
   b4es.co.uk DNS at Abacus (it asked for A records → 66.71.220.1); that
   would take the live site and contact form off Cloudflare. Test on a
   subdomain first if hosting there is ever wanted.
+- **Illustrations not yet on**: Engagement models, Security, Careers,
+  FAQs, Insights, Sectors (About and Why Us keep their SVGs; legal pages
+  stay plain). The For business scene has a small "$" coin; regenerate it
+  in Canva if the partners want it gone. No stats/counters for now (Yawar).
 - Placeholders still empty in `src/data/site.mjs`: phone, Companies House
   number, ICO reference, LinkedIn URL.

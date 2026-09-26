@@ -1,5 +1,6 @@
 import { icon, arrow } from "./icons.mjs";
 import { SITE } from "./data/site.mjs";
+import { v } from "./layout.mjs";
 
 /* ------------------------------------------------------------ breadcrumbs */
 
@@ -396,6 +397,35 @@ export function artShield(cls = "") {
     <path class="art-draw" style="--i:4" d="M161 150 l6 6 l12 -13" fill="none" stroke="#022454" stroke-width="4"
       stroke-linecap="round" stroke-linejoin="round"/>
   </svg>`;
+}
+
+/* ---------------------------------------------------- canva illustrations
+ *
+ * Raster illustrations made in Canva in the brand palette (source design
+ * "B4ES navy illustration canvas" in the partners' Canva account). Each is
+ * a WebP in two widths under public/assets/img/illustrations/. Scenes sit on
+ * navy for dark heroes; "cat-*" spots sit on white, one per service category.
+ * All are decorative, so alt is empty and the copy carries the meaning.
+ */
+
+const SCENE = { w: 1120, h: 837, sizes: [640, 1120], srcSizes: "(min-width: 1024px) 34rem, 92vw" };
+const SPOT = { w: 800, h: 800, sizes: [480, 800], srcSizes: "(min-width: 1024px) 22rem, 70vw" };
+
+function illoImg(name, kind, { eager = false, cls = "" } = {}) {
+  const src = (w) => "/" + v(`assets/img/illustrations/${name}-${w}.webp`);
+  const [sm, lg] = kind.sizes;
+  return `<img src="${src(lg)}" srcset="${src(sm)} ${sm}w, ${src(lg)} ${lg}w" sizes="${kind.srcSizes}"
+    width="${kind.w}" height="${kind.h}" alt="" ${eager ? `fetchpriority="high"` : `loading="lazy"`} decoding="async" class="illo-img ${cls}">`;
+}
+
+// Navy scene framed for a dark hero or band. `name` is the file stem, e.g. "home".
+export function illoScene(name, { eager = true } = {}) {
+  return `<div class="illo-frame illo-float" aria-hidden="true">${illoImg(name, SCENE, { eager })}</div>`;
+}
+
+// White-background spot on a rounded card; reads on dark and light surfaces.
+export function illoSpot(category, { eager = false, cls = "" } = {}) {
+  return `<div class="illo-spot ${cls}" aria-hidden="true">${illoImg(`cat-${category}`, SPOT, { eager })}</div>`;
 }
 
 /* ------------------------------------------------------------------ misc */
