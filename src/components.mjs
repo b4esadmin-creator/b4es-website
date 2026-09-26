@@ -441,12 +441,12 @@ export function illoSpot(category, { eager = false, cls = "" } = {}) {
  */
 
 export function videoBand() {
-  const mp4 = "/" + v("assets/video/b4es-loop.mp4");
-  const webm = "/" + v("assets/video/b4es-loop.webm");
-  const poster = "/" + v("assets/video/b4es-loop-poster.webp");
+  const mp4 = "/" + v("assets/video/b4es-hero.mp4");
+  const webm = "/" + v("assets/video/b4es-hero.webm");
+  const poster = "/" + v("assets/video/b4es-hero-poster.webp");
   return `<section class="video-band" aria-label="B4ES introduction video">
   <figure class="video-band-inner">
-    <video class="video-band-media" poster="${poster}" width="832" height="468"
+    <video class="video-band-media" poster="${poster}" width="1920" height="1080"
       autoplay muted loop playsinline preload="metadata" aria-describedby="heroVideoText" data-hero-video>
       <source src="${mp4}" type="video/mp4">
       <source src="${webm}" type="video/webm">
