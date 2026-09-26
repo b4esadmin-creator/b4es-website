@@ -1,6 +1,6 @@
 import { SITE } from "../data/site.mjs";
 import { arrow } from "../icons.mjs";
-import { hero, sectionHead, ctaBand, callout, sec } from "../components.mjs";
+import { hero, sectionHead, ctaBand, callout, sec, illoScene } from "../components.mjs";
 
 /* ---------------------------------------------------------------- article data */
 
@@ -281,6 +281,7 @@ ${hero({
     "No thought leadership and no listicles. These are the arguments we would make in a scoping call, written out properly — including the parts that argue against using us.",
   primary: { href: "/contact/", label: "Contact us" },
   secondary: { href: "/faqs/", label: "Read the FAQs" },
+  aside: illoScene("insights"),
   trail: [{ label: "Home", href: "/" }, { label: "Insights" }],
 })}
 

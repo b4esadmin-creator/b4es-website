@@ -511,6 +511,7 @@ ${hero({
     "Generic bookkeeping produces generic results and a long list of queries. These are the sectors where we hold specific process knowledge — the treatments, the schemes and the reporting that make each one different from the last.",
   primary: { href: "/contact/", label: "Discuss your sector" },
   secondary: { href: "/services/", label: "All services" },
+  aside: illoScene("sectors"),
   trail: [{ label: "Home", href: "/" }, { label: "Sectors" }],
 })}
 
