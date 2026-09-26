@@ -27,7 +27,7 @@ const edgeTab = `
   ${sectionHead({
     eyebrow: "Our edge",
     title: "Six commitments we are prepared to put in a contract",
-    lede: "Most outsourcing pitches are a list of adjectives. These are the specific structural choices that differ between providers, and the ones worth interrogating when you compare us to anyone else.",
+    lede: "These are the structural choices where providers differ, and the ones to question closely when you compare us with anyone else.",
     max: "max-w-3xl",
   })}
   <div class="mt-10">${grid(DIFFERENTIATORS.map((d) => featureCard(d)), 3)}</div>
@@ -41,7 +41,7 @@ const edgeTab = `
       ],
       {
         light: false,
-        note: "B4ES is a new UK-facing venture built on an established delivery capability. The figures describe our delivery partner; our own track record starts with your pilot, which is precisely why we offer one.",
+        note: "B4ES is a new UK-facing venture built on an established delivery capability. The figures describe our delivery partner; our own track record starts with your pilot, which is why we offer one.",
       }
     )}
   </div>`;
@@ -50,7 +50,7 @@ const marketTab = `
   ${sectionHead({
     eyebrow: "The market as it stands",
     title: "Four pressures hitting UK practices at once",
-    lede: "The operating conditions of the UK profession in 2026, and why delivery capacity has become a strategic question rather than an administrative one.",
+    lede: "The operating conditions of the UK profession in 2026, and why delivery capacity has become a strategic question for practices.",
     max: "max-w-3xl",
   })}
   <div class="mt-10">
@@ -60,8 +60,8 @@ const marketTab = `
     ${callout({
       tone: "plain",
       ic: "target",
-      title: "The honest version of the outsourcing argument",
-      body: "Outsourcing does not fix a pricing, workflow or client-quality problem. It magnifies all three. What it does fix is a capacity problem: predictable, process-driven work that consumes qualified hours without generating proportionate fees. If your constraint is something else, we would rather tell you on the first call.",
+      title: "What outsourcing can and cannot fix",
+      body: "Outsourcing does not fix a pricing, workflow or client-quality problem; it makes each of them worse. It does fix a capacity problem: predictable, process-driven work that consumes qualified hours without generating proportionate fees. If your constraint is something else, we would rather tell you on the first call.",
     })}
   </div>`;
 
@@ -71,7 +71,7 @@ const howTab = `
       ${sectionHead({
         eyebrow: "How we work",
         title: "From first call to steady state in five defined stages",
-        lede: "No indefinite discovery phase and no committing before you have seen the work. Every stage has an output you can evaluate before the next one starts.",
+        lede: "Every stage has an output you can evaluate before the next one starts, so discovery does not drag on and you see the work before you commit.",
       })}
       <div class="mt-8 max-w-sm">
         ${linkCard({
@@ -141,7 +141,7 @@ export function whyUsPage() {
   const body = `
 ${hero({
   eyebrow: "Why B4ES",
-  title: "Established-firm quality. A materially better rate. Your client stays yours.",
+  title: "Established-firm quality at a materially better rate, and your client stays yours.",
   lede:
     "The case for B4ES in five parts: what we commit to, the market we work in, how an engagement runs, how you buy it, and how your clients' data is protected. Pick the part you care about most.",
   primary: { href: "/contact/", label: "Contact us" },

@@ -56,7 +56,7 @@ export const SITE = {
 
   linkedin: "https://www.linkedin.com/company/b4es", // TODO
 
-  hours: "Monday to Friday, 09:00–17:30 UK time",
+  hours: "Monday to Friday, 09:00 to 17:30 UK time",
 };
 
 // The delivery partnership. The partners asked (26 Sep 2026) that the site

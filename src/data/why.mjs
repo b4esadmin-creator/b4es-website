@@ -6,19 +6,19 @@ export const PRESSURES = [
   {
     icon: "people",
     title: "The talent gap is structural",
-    body: "Severe shortages have left a large majority of UK practices unable to take on new client work. This is not a cyclical dip that better job adverts will fix — the pipeline into the profession has narrowed and the firms competing for that pipeline have deeper pockets.",
+    body: "Severe shortages have left a large majority of UK practices unable to take on new client work. Better job adverts will not fix it: the pipeline into the profession has narrowed, and the firms competing for it have deeper pockets.",
     meta: "Source: Accountancy Today, UK Accountancy Sector Q2 2026 analysis",
   },
   {
     icon: "calendar",
     title: "MTD turned one deadline into four",
-    body: "Around 780,000 taxpayers entered Making Tax Digital for Income Tax in April 2026, with the threshold falling to £30,000 in 2027 and £20,000 in 2028. Client contact frequency quadrupled. Headcount did not.",
+    body: "Around 780,000 taxpayers entered Making Tax Digital for Income Tax in April 2026, with the threshold falling to £30,000 in 2027 and £20,000 in 2028. Client contact frequency quadrupled, but headcount did not.",
     meta: "Source: HMRC published figures; 34% of accountants reported not being ready",
   },
   {
     icon: "wallet",
     title: "Every UK hire costs more",
-    body: "Employer National Insurance rose to 15% with the secondary threshold cut to £5,000. The arithmetic of solving a capacity problem by hiring has changed, and it has not changed in your favour.",
+    body: "Employer National Insurance rose to 15% with the secondary threshold cut to £5,000. Solving a capacity problem by hiring now costs more than it did.",
     meta: "Effective from April 2025",
   },
   {
@@ -33,17 +33,17 @@ export const DIFFERENTIATORS = [
   {
     icon: "handshake",
     title: "The client relationship never leaves you",
-    body: "We are a delivery resource, not a competitor in waiting. We do not hold your client engagement, we do not market to your client base, and our contract with you says so in writing. Non-solicitation is a clause, not a promise.",
+    body: "We are a delivery resource. We do not hold your client engagement or market to your client base, and non-solicitation is a written clause in our contract with you.",
   },
   {
     icon: "scale",
     title: "Better pricing without a quality trade",
-    body: "We are structured deliberately to undercut the established UK outsourcing firms on rate while matching them on review discipline. A lower price that produces rework is not a saving, and we do not pretend otherwise.",
+    body: "We are structured deliberately to undercut the established UK outsourcing firms on rate while matching them on review discipline, because a lower price that produces rework saves you nothing.",
   },
   {
     icon: "shield",
     title: "Second-person review on everything",
-    body: "Preparer and reviewer are always different people. Every file leaves us with a completed checklist naming who did the work and who checked it. You review a finished job, not a draft.",
+    body: "Preparer and reviewer are always different people. Every file leaves us with a completed checklist naming who did the work and who checked it. What reaches you is a finished job, ready for your review.",
   },
   {
     icon: "globe",
@@ -58,29 +58,29 @@ export const DIFFERENTIATORS = [
   {
     icon: "route",
     title: "An exit you could actually use",
-    body: "Documented processes, no proprietary lock-in and a defined handover pack from day one. A partnership you cannot leave is not a partnership — it is a dependency, and it prices accordingly.",
+    body: "Documented processes, no proprietary lock-in and a defined handover pack from day one. If you could not leave, you would be dependent on us, and dependency gets priced accordingly.",
   },
 ];
 
 export const HOW = [
   {
     title: "Scoping call",
-    body: "Thirty minutes on your service mix, your peak periods, your software and where the capacity actually hurts. We will tell you honestly if outsourcing is not the answer to your problem.",
+    body: "Thirty minutes on your service mix, your peak periods, your software and where capacity is tightest. If outsourcing is not the answer to your problem, we will tell you.",
   },
   {
     title: "Written proposal",
-    body: "Within five working days: recommended scope, engagement model, resourcing, turnaround commitments and pricing. No verbal quotes and no figures that change once you have committed.",
+    body: "Within five working days: recommended scope, engagement model, resourcing, turnaround commitments and pricing. Everything is in writing, and the figures do not change once you have committed.",
   },
   {
     title: "Paid pilot",
-    body: "A defined batch of real work — commonly ten to twenty jobs, or one payroll or VAT cycle — priced as a standalone engagement. You judge us on output, not references.",
+    body: "A defined batch of real work, commonly ten to twenty jobs or one payroll or VAT cycle, priced as a standalone engagement. You judge us on the work itself.",
   },
   {
     title: "Structured transition",
-    body: "Process documentation, software access, security sign-off, named team introductions and an agreed escalation path. Volume ramps deliberately rather than all at once.",
+    body: "Process documentation, software access, security sign-off, named team introductions and an agreed escalation path. Volume then ramps up in planned stages.",
   },
   {
     title: "Steady state and review",
-    body: "Agreed cadence, exception reporting and a scheduled service review. Where volume grows, we plan the resourcing ahead of the peak rather than reacting to it.",
+    body: "Agreed cadence, exception reporting and a scheduled service review. Where volume grows, we plan the resourcing before the peak arrives.",
   },
 ];

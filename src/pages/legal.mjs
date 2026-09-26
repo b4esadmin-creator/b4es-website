@@ -52,7 +52,7 @@ export function privacyPage() {
       "How B4ES collects, uses and protects personal data, the lawful bases we rely on, international transfers, retention and your rights under UK GDPR.",
     updated: "August 2026",
     intro:
-      "How we handle personal data — what we collect, why, how long we keep it, where it is processed and what rights you have.",
+      "How we handle personal data: what we collect, why, how long we keep it, where it is processed and what rights you have.",
     sections: [
       {
         h: "Who we are",
@@ -73,20 +73,20 @@ export function privacyPage() {
       {
         h: "Two different roles",
         p: [
-          "It is important to distinguish between two situations, because our obligations differ in each.",
+          "We act in one of two roles, and our obligations differ in each.",
           "<ul><li><strong>As a controller.</strong> When you contact us, enquire about our services, apply for a role or engage us directly as a business client, we decide how and why your personal data is used. This notice describes that processing.</li><li><strong>As a processor.</strong> When we deliver services to an accountancy practice, we process their clients' personal data on their documented instructions. In that situation the practice is the controller and their own privacy notice governs. Our processing is bound by a written agreement meeting the requirements of Article 28 of the UK GDPR.</li></ul>",
         ],
       },
       {
         h: "What we collect",
         p: [
-          "<ul><li><strong>Enquiry information</strong> — name, firm or company, email address, telephone number and the content of your message, submitted through the contact form on this site.</li><li><strong>Anti-abuse information</strong> — when you submit the contact form we record a one-way salted hash of your IP address and the country your request came from, solely to rate-limit automated abuse. The hash cannot be reversed to recover your IP address, and we do not use it to identify or track you.</li><li><strong>Engagement information</strong> — the contact, contractual and operational details needed to provide services and manage the relationship.</li><li><strong>Recruitment information</strong> — anything contained in a CV or application you send us.</li><li><strong>Technical information</strong> — limited server log data such as IP address, browser type and pages requested, generated automatically when you visit the site.</li></ul>",
+          "<ul><li><strong>Enquiry information</strong>: name, firm or company, email address, telephone number and the content of your message, submitted through the contact form on this site.</li><li><strong>Anti-abuse information</strong>: when you submit the contact form we record a one-way salted hash of your IP address and the country your request came from, solely to rate-limit automated abuse. The hash cannot be reversed to recover your IP address, and we do not use it to identify or track you.</li><li><strong>Engagement information</strong>: the contact, contractual and operational details needed to provide services and manage the relationship.</li><li><strong>Recruitment information</strong>: anything contained in a CV or application you send us.</li><li><strong>Technical information</strong>: limited server log data such as IP address, browser type and pages requested, generated automatically when you visit the site.</li></ul>",
         ],
       },
       {
         h: "Why we use it, and our lawful basis",
         p: [
-          "<ul><li><strong>Responding to enquiries</strong> — legitimate interests, in responding to a request you have made of us.</li><li><strong>Providing services and managing engagements</strong> — performance of a contract, or steps taken at your request before entering one.</li><li><strong>Recruitment</strong> — legitimate interests, in assessing candidates for roles.</li><li><strong>Legal and regulatory obligations</strong> — including accounting and anti-money-laundering record-keeping where applicable.</li><li><strong>Site security and integrity</strong> — legitimate interests, in keeping the site available and secure.</li></ul>",
+          "<ul><li><strong>Responding to enquiries</strong>: legitimate interests, in responding to a request you have made of us.</li><li><strong>Providing services and managing engagements</strong>: performance of a contract, or steps taken at your request before entering one.</li><li><strong>Recruitment</strong>: legitimate interests, in assessing candidates for roles.</li><li><strong>Legal and regulatory obligations</strong>: including accounting and anti-money-laundering record-keeping where applicable.</li><li><strong>Site security and integrity</strong>: legitimate interests, in keeping the site available and secure.</li></ul>",
           "We do not use your personal data for automated decision-making or profiling, and we do not sell it.",
         ],
       },
@@ -108,7 +108,7 @@ export function privacyPage() {
       {
         h: "How long we keep it",
         p: [
-          "<ul><li><strong>Enquiries that do not lead to an engagement</strong> — up to 24 months from last contact.</li><li><strong>Client engagement records</strong> — for the duration of the engagement and then for the period required by law and by our professional and insurance obligations, ordinarily at least six years.</li><li><strong>Recruitment applications</strong> — up to 12 months, unless you ask us to keep them longer for future roles.</li><li><strong>Server logs</strong> — a short rolling period for security and diagnostic purposes.</li></ul>",
+          "<ul><li><strong>Enquiries that do not lead to an engagement</strong>: up to 24 months from last contact.</li><li><strong>Client engagement records</strong>: for the duration of the engagement and then for the period required by law and by our professional and insurance obligations, ordinarily at least six years.</li><li><strong>Recruitment applications</strong>: up to 12 months, unless you ask us to keep them longer for future roles.</li><li><strong>Server logs</strong>: a short rolling period for security and diagnostic purposes.</li></ul>",
         ],
       },
       {
@@ -144,7 +144,7 @@ export function termsPage() {
       "Terms governing use of the B4ES website, including intellectual property, acceptable use, disclaimers and governing law.",
     updated: "August 2026",
     intro:
-      "The terms on which you may use this website. These govern the website only — services are provided under a separate written engagement agreement.",
+      "The terms on which you may use this website. These govern the website only. Services are provided under a separate written engagement agreement.",
     sections: [
       {
         h: "About these terms",
@@ -240,7 +240,7 @@ export function cookiesPage() {
       {
         h: "Categories",
         p: [
-          "<ul><li><strong>Strictly necessary</strong> — required for the site to function. These do not require consent.</li><li><strong>Functional</strong> — remember preferences such as a chosen language or region.</li><li><strong>Analytics</strong> — measure how visitors use the site.</li><li><strong>Marketing</strong> — track visitors across sites to build advertising profiles.</li></ul>",
+          "<ul><li><strong>Strictly necessary</strong>: required for the site to function. These do not require consent.</li><li><strong>Functional</strong>: remember preferences such as a chosen language or region.</li><li><strong>Analytics</strong>: measure how visitors use the site.</li><li><strong>Marketing</strong>: track visitors across sites to build advertising profiles.</li></ul>",
           "If we introduce anything beyond the strictly necessary category, we will update this page and ask for your consent before it is set.",
         ],
       },

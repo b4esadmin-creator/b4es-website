@@ -180,8 +180,8 @@ export function accordion(items, { open = 0 } = {}) {
 
 export function ctaBand({
   eyebrow = "Next step",
-  title = "Let’s find out where your capacity actually hurts.",
-  body = "A 30-minute scoping call, no pitch deck. We look at your service mix, your peak periods and your software, and tell you plainly whether we can help and where we would start.",
+  title = "Let’s find out where your capacity is stretched.",
+  body = "A 30-minute scoping call with no pitch deck. We look at your service mix, peak periods and software, then tell you plainly whether we can help and where we would start.",
   primary = { href: "/contact/", label: "Contact us" },
   secondary = { href: "/why-us/", label: "Why B4ES" },
   points = [
@@ -461,7 +461,7 @@ export function videoBand() {
     </div>
     <figcaption id="heroVideoText" class="sr-only">
       A short animated introduction to B4ES. Your fee earners are spending 62% of their week on
-      compliance processing; it does not have to be that way. B4ES delivers the processing and you
+      compliance processing. It does not have to be that way. B4ES delivers the processing and you
       keep the relationships. Services include bookkeeping and year-end accounts; VAT, MTD and
       corporation tax; payroll and HR; and management accounts and CFO advisory: 14 service lines,
       one agreed scope, your brand and your software. Market-leading quality, materially better
@@ -531,8 +531,8 @@ export function capacityTransfer() {
   <div class="wrap">
     ${sectionHead({
       eyebrow: "The core idea",
-      title: "Watch where your fee earners' week actually goes",
-      lede: "Outsourcing is not really about cost per hour. It is about which hours your most expensive people spend on work that only they can do. This is the same team, the same headcount, in both rows.",
+      title: "Watch where your fee earners' week goes",
+      lede: "Cost per hour matters less than whether your most expensive people spend their hours on work that only they can do. Both rows show the same team, with the same headcount.",
       max: "max-w-3xl",
     })}
 
@@ -569,7 +569,7 @@ export function capacityTransfer() {
           </div>
           <p class="mt-2 flex items-start gap-2 text-[0.8125rem] text-slate-deep">
             <span class="cap-moved mt-1 h-2.5 w-2.5 shrink-0 rounded-[3px]"></span>
-            <span>Delivered by B4ES &mdash; <span class="font-semibold text-ink tabular">46%</span> of the
+            <span>Delivered by B4ES: <span class="font-semibold text-ink tabular">46%</span> of the
             original workload, moved off your team's plate</span>
           </p>
         </div>
@@ -617,7 +617,7 @@ export function timezoneStrip({ bare = false } = {}) {
   const row = (label, b, cls, delay) => `<div class="mb-3" data-reveal="up" style="--d:${delay}">
     <p class="mb-1.5 flex flex-wrap items-baseline justify-between gap-x-3 text-[0.8125rem] font-semibold text-ink">
       <span>${label}</span>
-      <span class="font-normal tabular text-slate-mid">09:00 &ndash; 17:30 local</span>
+      <span class="font-normal tabular text-slate-mid">09:00 to 17:30 local</span>
     </p>
     <div class="relative h-8 w-full overflow-hidden rounded-md bg-mist">
       <div class="cap-track absolute inset-0 !h-8 !bg-transparent" data-cap>
@@ -637,7 +637,7 @@ export function timezoneStrip({ bare = false } = {}) {
         <ul class="check-list mt-7">
           <li data-reveal="up" style="--d:0">A full delivery shift completes before your office opens</li>
           <li data-reveal="up" style="--d:1">Three and a half hours of live overlap for queries and escalation every working day</li>
-          <li data-reveal="up" style="--d:2">Deadline days effectively gain a shift rather than losing an evening</li>
+          <li data-reveal="up" style="--d:2">On deadline days you gain a shift instead of losing an evening</li>
         </ul>
       </div>
 
@@ -662,7 +662,7 @@ export function timezoneStrip({ bare = false } = {}) {
         <div class="mt-5 flex items-start gap-3 border-t border-line pt-4" data-reveal="fade" style="--d:3">
           <span class="mt-0.5 h-3 w-3 shrink-0 rounded-sm border border-dashed border-teal/60 bg-teal-wash"></span>
           <p class="text-[0.875rem] leading-relaxed text-slate-deep">
-            <span class="font-semibold text-ink">09:00 &ndash; 12:30</span> &mdash; both desks staffed.
+            <span class="font-semibold text-ink">09:00 to 12:30</span>: both desks staffed.
             Work completed on the delivery floor after that lands overnight, ready for review when
             your office opens.
           </p>

@@ -58,7 +58,7 @@ ${hero({
   eyebrow: "Contact Us",
   title: "Start with a thirty-minute call and no deck.",
   lede:
-    "We would rather spend the first conversation understanding where your capacity actually hurts than presenting capability slides. If it turns out outsourcing is not the right answer for your firm, we will say so on that call.",
+    "The first conversation is about where your firm is short of capacity, and there are no capability slides. If outsourcing is not the right answer for you, we will say so on that call.",
   primary: { href: "#form", label: "Send an enquiry" },
   secondary: { href: "/security/", label: "Security position" },
   aside: illoScene("contact"),
@@ -73,7 +73,7 @@ ${sec(
       ${sectionHead({
         eyebrow: "Enquiry",
         title: "Tell us what you are dealing with",
-        lede: "The more specific you are, the more useful our first reply will be. A real example beats a general enquiry every time.",
+        lede: "The more specific you are, the more useful our first reply will be, and a real example helps most.",
       })}
 
       <!-- Posts to /api/enquiry, handled by worker/index.js on the same origin.
@@ -194,14 +194,14 @@ ${sec(
         tone: "teal",
         ic: "shield",
         title: "Doing supplier diligence?",
-        body: "Say so in the message and we will send the draft data processing agreement, the control framework summary and the incident procedure before any commercial conversation. It is a faster route to a decision for both of us.",
+        body: "Say so in the message and we will send the draft data processing agreement, the control framework summary and the incident procedure before any commercial conversation, so we can both reach a decision sooner.",
       })}
 
       ${callout({
         tone: "plain",
         ic: "target",
         title: "What happens next",
-        body: "A reply within one working day, then a thirty-minute scoping call at a time that suits you. If it goes well, a written proposal within five working days of that call. No pursuit sequence, no drip campaign, and no calls you did not agree to.",
+        body: "We reply within one working day, then arrange a thirty-minute scoping call at a time that suits you. If that goes well, you get a written proposal within five working days of the call. We will not put you on a sales sequence or an email campaign, or call you unless you have agreed to it.",
       })}
     </div>
   </div>`
@@ -230,9 +230,9 @@ export function thankYouPage() {
   const body = `
 ${hero({
   eyebrow: "Enquiry received",
-  title: "Thank you \u2014 that has reached us.",
+  title: "Thank you. Your enquiry has reached us.",
   lede:
-    "We reply to every enquiry within one working day, from a person rather than an autoresponder. If it is urgent, email us directly and say so in the subject line.",
+    "Someone from the team replies to every enquiry within one working day. If it is urgent, email us directly and say so in the subject line.",
   primary: { href: "/", label: "Back to the homepage" },
   secondary: { href: "/insights/", label: "Read our insights" },
   trail: [{ label: "Home", href: "/" }, { label: "Contact", href: "/contact/" }, { label: "Thank you" }],
@@ -245,12 +245,12 @@ ${sec(
     <div>
       ${sectionHead({
         eyebrow: "What happens next",
-        title: "No pursuit sequence, no drip campaign",
-        lede: "Three steps, and you control the pace of all of them.",
+        title: "We will not chase you with sales emails",
+        lede: "There are three steps, and you set the pace for each one.",
       })}
       <ol class="mt-8 space-y-6">
         ${[
-          ["A reply within one working day", "From someone who read what you wrote, addressing the specifics rather than sending a brochure."],
+          ["A reply within one working day", "Someone who has read your message writes back about the specifics you raised. We do not send a brochure."],
           ["A thirty-minute scoping call", "At a time that suits you. We look at your service mix, peak periods and software, and tell you plainly whether we can help."],
           ["A written proposal within five working days", "Scope, engagement model, resourcing, turnaround and price. The figure in the proposal is the figure on the invoice."],
         ]
@@ -271,7 +271,7 @@ ${sec(
         tone: "teal",
         ic: "shield",
         title: "Doing supplier diligence?",
-        body: `If you mentioned diligence in your message, the draft data processing agreement, control framework summary and incident procedure will come with our first reply \u2014 before any commercial conversation.`,
+        body: `If you mentioned diligence in your message, the draft data processing agreement, control framework summary and incident procedure will come with our first reply, before any commercial conversation.`,
       })}
       ${callout({
         tone: "plain",
@@ -301,19 +301,19 @@ const FAQ_GROUPS = [
     items: [
       {
         q: "Who owns the client relationship?",
-        a: "Where we work with an accountancy practice, you do — entirely. Your firm holds the engagement letter, the review responsibility, the advice and the fee. B4ES is contracted to you as a delivery resource and is bound by written non-solicitation. Where we work directly with a business, B4ES holds that engagement and our delivery partner has no relationship with you at all.",
+        a: "Where we work with an accountancy practice, the relationship is entirely yours. Your firm holds the engagement letter, the review responsibility, the advice and the fee. B4ES is contracted to you as a delivery resource and is bound by written non-solicitation. Where we work directly with a business, B4ES holds that engagement and our delivery partner has no relationship with you at all.",
       },
       {
         q: "Will you ever approach our clients?",
-        a: "No, and it is a contractual term rather than a courtesy. We do not approach, market to or accept engagements from the client base of a practice we work for. If a practice client approached us directly we would decline and tell you.",
+        a: "No. It is a term of our contract with you. We do not approach, market to or accept engagements from the client base of a practice we work for. If a practice client approached us directly we would decline and tell you.",
       },
       {
         q: "Do our clients know about you?",
-        a: "Only if you choose to tell them. Operationally we can be entirely invisible — your branding, your templates, your email domain. Separately, your UK GDPR obligations require your engagement letters and privacy notice to reflect that data may be processed by a third party outside the UK. That is a disclosure obligation about the arrangement, not a requirement to name us.",
+        a: "Only if you choose to tell them. Day to day we can work entirely under your name, using your branding, templates and email domain. Separately, your UK GDPR obligations require your engagement letters and privacy notice to reflect that data may be processed by a third party outside the UK. You have to disclose the arrangement, but you do not have to name us.",
       },
       {
         q: "Can we work with you alongside an existing provider?",
-        a: "Yes, and several firms deliberately run two — for resilience, for a specific service line, or to benchmark on quality and price. We are comfortable being the second provider and will not make it awkward.",
+        a: "Yes. Several firms deliberately use two providers, whether for resilience, for a specific service line or to compare quality and price. We are comfortable being the second provider and will not make it awkward.",
       },
     ],
   },
@@ -321,20 +321,20 @@ const FAQ_GROUPS = [
     title: "Quality and control",
     items: [
       {
-        q: "How is quality actually controlled?",
+        q: "How do you control quality?",
         a: "Preparer and reviewer are always different people. Every file passes a second-person review against a standard checklist before it reaches you, and the completed checklist travels with the file naming who prepared it, who reviewed it and what was checked. Each client also has a documented process note covering treatments, preferences and prior-year judgements, so consistency survives staff changes on both sides.",
       },
       {
         q: "We tried outsourcing before and the files were unreviewable. Why is this different?",
-        a: "That is the most common failure mode in this market, and it is a file discipline problem rather than a technical one. The accounts were probably right; the file had no lead schedules, no cross-references and no explanation of judgements, so the partner rebuilt it. Our answer is the working paper standard and the completion checklist described above — and we would much rather you tested that on a paid pilot than accepted the claim.",
+        a: "It is the most common failure in this market, and it comes down to file discipline. The accounts were probably right, but the file had no lead schedules, no cross-references and no explanation of judgements, so the partner rebuilt it. We deal with this through the working paper standard and completion checklist described above. Please test that on a paid pilot before you rely on it.",
       },
       {
         q: "What happens when you make a mistake?",
-        a: "Rework on our error is not chargeable and does not consume your contracted hours. Every material error also produces a written root-cause note and a documented change to the process for that client, issued to you. An error that does not change a process will recur.",
+        a: "Rework on our error is not chargeable and does not consume your contracted hours. Every material error also produces a written root-cause note and a documented change to the process for that client, issued to you, because an error that does not change a process will recur.",
       },
       {
         q: "Do we get the same people each time?",
-        a: "Yes. You get named individuals introduced at transition, not an anonymous pool. If someone changes we tell you in advance and run the handover ourselves against the documented process notes.",
+        a: "Yes. We introduce you to named individuals at transition, and they stay on your work. If someone changes we tell you in advance and run the handover ourselves against the documented process notes.",
       },
     ],
   },
@@ -343,7 +343,7 @@ const FAQ_GROUPS = [
     items: [
       {
         q: "Where is our data processed?",
-        a: "Delivery is provided from our partner's operation in Pakistan, established in 2014, working to UK hours and UK standards. We state this openly on every engagement because you have obligations under UK GDPR that depend on knowing it — and because a provider who is vague about delivery location is telling you something.",
+        a: "Delivery is provided from our partner's operation in Pakistan, established in 2014, working to UK hours and UK standards. We state this on every engagement because your UK GDPR obligations depend on knowing it. If a provider is vague about where delivery happens, treat that as a warning sign.",
       },
       {
         q: "Does client data leave our systems?",
@@ -351,15 +351,15 @@ const FAQ_GROUPS = [
       },
       {
         q: "What documentation do you provide for our diligence?",
-        a: "A draft UK GDPR Article 28 data processing agreement, an information security control framework summary, support for your international transfer risk assessment, sub-processor disclosure, a business continuity outline, the incident and breach notification procedure, and a sample working paper file. All available before any commercial discussion.",
+        a: "A draft UK GDPR Article 28 data processing agreement, an information security control framework summary, support for your international transfer risk assessment, sub-processor disclosure, a business continuity outline, the incident and breach notification procedure, and a sample working paper file. All of it is available before any commercial discussion.",
       },
       {
         q: "Are you ISO 27001 certified?",
-        a: "Not yet, and we will not say otherwise. Our controls are built to align with the ISO 27001 Annex A control set, and independent certification is on our roadmap — we will publish it here when it is genuinely held. If certification is a hard requirement in your supplier policy, we are not yet the right provider and we would rather establish that in week one.",
+        a: "Not yet, and we will not say otherwise. Our controls are built to align with the ISO 27001 Annex A control set, and independent certification is on our roadmap. We will publish it here once we hold it. If certification is a hard requirement in your supplier policy, we are not yet the right provider, and it is better for both of us to establish that in week one.",
       },
       {
         q: "How does this affect our professional indemnity cover?",
-        a: "Check with your insurer before contracting. Most policies contemplate subcontracted work provided the practice reviews it and retains responsibility, which is precisely how our engagements are structured — but your policy wording governs.",
+        a: "Check with your insurer before contracting. Most policies contemplate subcontracted work provided the practice reviews it and retains responsibility, which is how our engagements are structured. Your policy wording still governs.",
       },
     ],
   },
@@ -368,11 +368,11 @@ const FAQ_GROUPS = [
     items: [
       {
         q: "Why is there no pricing on the website?",
-        a: "Because a published rate without context compares nothing useful. The same nominal hourly rate can mean a junior processor or a review-grade qualified accountant, standard or priority turnaround, clean records or a reconstruction. What we commit to is that the figure is written down before you decide and does not move afterwards, and that we are positioned meaningfully below the established UK outsourcing firms.",
+        a: "A published rate without context gives you nothing useful to compare. The same nominal hourly rate can mean a junior processor or a review-grade qualified accountant, standard or priority turnaround, clean records or a reconstruction. We commit to putting the figure in writing before you decide, keeping it fixed afterwards, and pricing well below the established UK outsourcing firms.",
       },
       {
         q: "Is there a minimum commitment?",
-        a: "Not on the pilot, and no long tie-in afterwards. Ongoing engagements carry a notice period appropriate to the model — shorter for per-job and ad-hoc, longer for a dedicated resource where we have made an employment commitment on your behalf. It is stated in the proposal.",
+        a: "Not on the pilot, and no long tie-in afterwards. Ongoing engagements carry a notice period appropriate to the model: shorter for per-job and ad-hoc work, longer for a dedicated resource where we have made an employment commitment on your behalf. The proposal states it.",
       },
       {
         q: "Are there hidden costs?",
@@ -380,7 +380,7 @@ const FAQ_GROUPS = [
       },
       {
         q: "What is the paid pilot?",
-        a: "A defined batch of real work — commonly ten to twenty jobs, or one full payroll or VAT cycle — priced as a standalone engagement with no obligation to continue. It exists because we are a new venture with no UK case studies, and asking you to take quality on trust would be unreasonable.",
+        a: "A defined batch of real work (commonly ten to twenty jobs, or one full payroll or VAT cycle), priced as a standalone engagement with no obligation to continue. We offer it because we are a new venture with no UK case studies, and it would be unreasonable to ask you to take our quality on trust.",
       },
     ],
   },
@@ -389,7 +389,7 @@ const FAQ_GROUPS = [
     items: [
       {
         q: "What software do you work in?",
-        a: "Yours. Xero, QuickBooks, Sage, FreeAgent and NetSuite on ledgers; IRIS, CCH, TaxCalc, Digita, VT, Capium and Alphatax on production and tax; BrightPay, Sage, IRIS and Staffology on payroll; Karbon, Senta, BrightManager and TaxDome on practice management; CaseWare, Mercia and Inflo on audit. If yours is not listed, tell us and we will confirm honestly whether we support it now or need a ramp.",
+        a: "Yours. Xero, QuickBooks, Sage, FreeAgent and NetSuite on ledgers; IRIS, CCH, TaxCalc, Digita, VT, Capium and Alphatax on production and tax; BrightPay, Sage, IRIS and Staffology on payroll; Karbon, Senta, BrightManager and TaxDome on practice management; CaseWare, Mercia and Inflo on audit. If yours is not listed, tell us and we will confirm whether we support it now or need time to get up to speed.",
       },
       {
         q: "What are your working hours?",
@@ -401,7 +401,7 @@ const FAQ_GROUPS = [
       },
       {
         q: "How quickly can we start?",
-        a: "A single service line for a small practice can be live in three to four weeks. A multi-service transition for a larger firm typically runs eight to twelve weeks. We will not compress that to win the work — a rushed transition costs more than a slow one, and usually costs it in your review time.",
+        a: "A single service line for a small practice can be live in three to four weeks. A multi-service transition for a larger firm typically runs eight to twelve weeks. We will not shorten that to win the work. A rushed transition costs more than a slow one, and the cost usually falls on your review time.",
       },
       {
         q: "What if we want to stop?",
@@ -417,7 +417,7 @@ ${hero({
   eyebrow: "FAQs",
   title: "The questions worth asking any outsourcing provider.",
   lede:
-    "Including the awkward ones. If our answer to any of these differs from a competitor's, that difference is worth interrogating rather than accepting — in either direction.",
+    "The awkward ones are included. Where our answer differs from a competitor's, question the difference, whichever of us it favours.",
   primary: { href: "/contact/", label: "Ask us something else" },
   secondary: { href: "/security/", label: "Security position" },
   aside: illoScene("faqs"),
@@ -442,7 +442,7 @@ ${sec(
 
 ${ctaBand({
   title: "Not answered here?",
-  body: "Send the question directly. We would rather deal with a hard question early than discover it was the real objection three meetings in.",
+  body: "Send us the question. It is better to deal with a hard question early than to find out three meetings in that it was the real objection.",
 })}
 `;
 

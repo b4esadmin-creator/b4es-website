@@ -50,7 +50,7 @@ function partnerProfile(p) {
       <h2 class="h-section">${p.descriptor}</h2>
       <p class="lede mt-5">${p.summary}</p>
       <div class="prose-body mt-6">
-        <p>What made them the right partner was the breadth of the technical bench rather than the price. That range means we can support specialist requests a pure processing operation would have to decline.</p>
+        <p>We chose them for the breadth of their technical bench more than for price. That range lets us support specialist requests a pure processing operation would have to decline.</p>
       </div>
       <ul class="mt-7 flex flex-wrap gap-2">
         ${p.offices.map((o) => `<li class="pill">${icon("pin", "h-3.5 w-3.5 text-teal")} ${o}</li>`).join("")}
@@ -94,7 +94,7 @@ ${PARTNERS.map((p, i) => sec(`section${i % 2 ? " band-bone" : ""}`, partnerProfi
     ${sectionHead({
       eyebrow: "Quality first",
       title: "We are inside our partners' recruitment, training and quality",
-      lede: "Our strategic partners are not a black box. We take part directly in how their people are recruited, trained and reviewed, and quality is the first priority we set for every one of them.",
+      lede: "We take part directly in how our strategic partners' people are recruited, trained and reviewed, and quality is the first priority we set for every one of them.",
       light: true,
       max: "max-w-3xl",
     })}

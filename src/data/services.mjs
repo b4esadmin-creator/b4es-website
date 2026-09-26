@@ -19,17 +19,17 @@ export const SERVICES = [
     audience: ["practice", "business"],
     icon: "ledger",
     short:
-      "Daily, weekly or monthly bookkeeping kept reconciled and review-ready — so year-end starts from clean data instead of a clean-up.",
+      "Daily, weekly or monthly bookkeeping, kept reconciled and ready for review, so year-end starts from clean data.",
     heroLede:
-      "Transactional bookkeeping is the largest single consumer of chargeable hours in most UK practices and the hardest work to recruit for. We take the processing, keep the ledgers reconciled to an agreed cut-off, and hand back files that are ready for review rather than ready for repair.",
+      "Transactional bookkeeping is the largest single consumer of chargeable hours in most UK practices and the hardest work to recruit for. We take the processing, keep the ledgers reconciled to an agreed cut-off, and hand back files your reviewer can work on without fixing them first.",
     problem: {
       title: "Why firms hand this over first",
-      body: "Bookkeeping is high-volume, low-margin and relentlessly deadline-driven. It is also the work that most reliably burns out junior staff and the work clients least want to pay a UK charge-out rate for. Left in-house it crowds out advisory capacity; done badly offshore it creates a review burden worse than the original job.",
+      body: "Bookkeeping is high-volume, low-margin work on fixed deadlines. It burns out junior staff more reliably than anything else, and it is the work clients least want to pay a UK charge-out rate for. Left in-house it crowds out advisory capacity; done badly offshore it creates a review burden worse than the original job.",
       points: [
         "Recruitment for AAT-level roles is slow and expensive, and retention at that grade is poor.",
         "Quarterly MTD obligations have turned an annual clean-up into a recurring cycle.",
-        "Client record quality varies wildly — the work is unpredictable, so it never fits a hiring plan.",
-        "Every hour spent on data entry is an hour not spent on the advisory work that carries the margin.",
+        "Client record quality varies widely, so the workload is unpredictable and never fits a hiring plan.",
+        "Hours spent on data entry come out of the advisory work that carries the margin.",
       ],
     },
     deliverables: {
@@ -52,7 +52,7 @@ export const SERVICES = [
             "Supplier statement reconciliation and query logs",
             "Fixed asset register maintenance and depreciation runs",
             "Intercompany reconciliation and consolidation support",
-            "Control account reconciliation — VAT, PAYE, wages, directors' loan",
+            "Control account reconciliation: VAT, PAYE, wages, directors' loan",
           ],
         },
         {
@@ -90,11 +90,11 @@ export const SERVICES = [
       },
       {
         q: "How do you handle client queries?",
-        a: "We never contact your clients directly unless you specifically ask us to under your own brand. Queries are logged, evidenced and batched into a single structured list so your team raises them once rather than piecemeal.",
+        a: "We never contact your clients directly unless you specifically ask us to under your own brand. Queries are logged, evidenced and batched into a single structured list so your team can raise them with the client in one go.",
       },
       {
         q: "What happens with poor-quality records?",
-        a: "We flag a records-quality issue within the first cycle rather than absorbing it silently. You get an assessment of what is missing, what it will take to fix, and a recommendation on whether to re-scope the client's fee.",
+        a: "We flag any records-quality issue within the first cycle. You get an assessment of what is missing, what it will take to fix, and a recommendation on whether to re-scope the client's fee.",
       },
     ],
     related: ["year-end-accounts", "vat-mtd", "management-accounts"],
@@ -111,12 +111,12 @@ export const SERVICES = [
     short:
       "Statutory accounts prepared to FRS 102 or FRS 105, with full working papers, ready for your partner review and signature.",
     heroLede:
-      "We prepare the file, not just the numbers. Every year-end job comes back with a complete, cross-referenced working paper set so your reviewer can form a judgement in minutes rather than rebuilding the job to understand it.",
+      "Every year-end job comes back with the accounts and a complete, cross-referenced working paper set, so your reviewer can form a judgement in minutes without having to rebuild the job first.",
     problem: {
       title: "The review burden is the real cost",
-      body: "Most firms that have tried outsourcing and stopped did not stop because the accounts were wrong. They stopped because the file was unreviewable — no lead schedules, no cross-references, no explanation of judgements — so the partner ended up doing the job twice. Preparation without a disciplined file is not a saving.",
+      body: "Most firms that tried outsourcing and gave up did so because the file could not be reviewed, not because the accounts were wrong. With no lead schedules, cross-references or explanation of judgements, the partner ended up doing the job twice.",
       points: [
-        "Year-end work concentrates into a few brutal months around the 31 December and 31 March filing peaks.",
+        "Year-end work concentrates into a few hard months around the 31 December and 31 March filing peaks.",
         "Basis period reform and MTD have compressed the timetable further for unincorporated clients.",
         "Partner time spent unpicking a poorly documented file is the most expensive time in the firm.",
       ],
@@ -138,7 +138,7 @@ export const SERVICES = [
           label: "The working paper file",
           items: [
             "Lead schedule for every material balance, cross-referenced to the trial balance",
-            "Full supporting schedules — fixed assets, debtors, creditors, accruals, stock, loans",
+            "Full supporting schedules: fixed assets, debtors, creditors, accruals, stock, loans",
             "Directors' loan account reconciliation with s455 exposure flagged",
             "Disclosure checklist completed against the applicable standard",
             "Points-forward note listing every open judgement for partner attention",
@@ -196,16 +196,16 @@ export const SERVICES = [
     audience: ["practice", "business"],
     icon: "chart",
     short:
-      "Monthly or quarterly management packs delivered on a fixed timetable — the raw material for the advisory conversations that actually earn fees.",
+      "Monthly or quarterly management packs on a fixed timetable, ready for the advisory conversations that earn fees.",
     heroLede:
-      "Management reporting is the bridge between compliance work and advisory revenue. The obstacle is rarely insight; it is the twenty hours of preparation standing between the ledger and the conversation. We do those twenty hours, on time, every month.",
+      "Management reporting links compliance work to advisory revenue. What usually holds it back is the twenty hours of preparation between the ledger and the client conversation. We do those twenty hours, on time, every month.",
     problem: {
       title: "Advisory ambitions stall at the preparation stage",
       body: "Almost every UK practice says it wants to move up the value chain. Very few have the spare capacity to prepare a monthly pack for eighty clients while also clearing the compliance backlog. The reporting slips, then it becomes quarterly, then it becomes an annual conversation about numbers that are nine months old.",
       points: [
-        "Clients increasingly expect timely numbers as standard, not as a premium extra.",
+        "More clients now expect timely numbers as part of the standard service.",
         "Lenders, investors and boards want packs that arrive on a predictable date.",
-        "The margin sits in the interpretation, but the interpretation is gated behind the preparation.",
+        "The margin is in the interpretation, which cannot start until the preparation is done.",
       ],
     },
     deliverables: {
@@ -223,7 +223,7 @@ export const SERVICES = [
         {
           label: "Analysis layer",
           items: [
-            "KPI dashboard built to the metrics that matter for that sector",
+            "KPI dashboard built around the metrics used in that sector",
             "Gross margin analysis by product, service line or contract",
             "Debtor days, creditor days and working capital cycle tracking",
             "Budget versus actual with written commentary on material variances",
@@ -243,14 +243,14 @@ export const SERVICES = [
     },
     software: ["Xero", "QuickBooks Online", "Sage", "Fathom", "Syft", "Power BI", "Excel", "Futrli"],
     cadence: [
-      { k: "Monthly", v: "Pack delivered by an agreed working day — commonly working day 8 to 12." },
+      { k: "Monthly", v: "Pack delivered by an agreed working day, commonly working day 8 to 12." },
       { k: "Quarterly", v: "Deeper pack aligned to VAT quarters or board cycles." },
       { k: "Ad hoc", v: "One-off packs for lender applications, funding rounds or due diligence." },
     ],
     faqs: [
       {
         q: "Can you write the commentary as well as the numbers?",
-        a: "Yes. We draft narrative commentary on variances and trends in your house style. Your team edits and owns the final view — we supply the observation, you supply the advice.",
+        a: "Yes. We draft narrative commentary on variances and trends in your house style. Your team edits and owns the final view: we supply the observations and you give the advice.",
       },
       {
         q: "Do you build the reporting template?",
@@ -274,12 +274,12 @@ export const SERVICES = [
       "MTD for Income Tax brought roughly 780,000 taxpayers into quarterly reporting from April 2026, with thresholds falling to £30,000 in 2027 and £20,000 in 2028. For an affected client, contact frequency moves from once a year to four times a year. Very few practices hired four times the staff to match.",
     problem: {
       title: "A four-fold increase in cycles, with the same headcount",
-      body: "The technical work in a quarterly update is not difficult. The volume is. Each cycle brings a records chase, a bookkeeping catch-up, a reconciliation, a submission and a client communication — repeated across every client in scope, four times a year, against a hard deadline.",
+      body: "Quarterly updates are technically simple, but the volume is hard to absorb. Each cycle brings a records chase, a bookkeeping catch-up, a reconciliation, a submission and a client communication. That repeats for every client in scope, four times a year, against a hard deadline.",
       points: [
         "HMRC brought around 780,000 taxpayers into MTD for Income Tax from April 2026.",
         "The threshold falls to £30,000 from April 2027 and £20,000 from April 2028, widening scope each year.",
         "A third of accountants reported they were not ready for the first deadline.",
-        "Quarterly obligations do not replace the annual return — they sit on top of it.",
+        "Quarterly obligations are in addition to the annual return, which still has to be filed.",
       ],
     },
     deliverables: {
@@ -329,7 +329,7 @@ export const SERVICES = [
       },
       {
         q: "Can you handle the records chasing?",
-        a: "Yes, and for most firms this is the single biggest saving. We chase under your brand from your mailbox, on an escalation schedule you define, and hand you an exception list of the clients who genuinely need a partner's phone call.",
+        a: "Yes, and for most firms this is the single biggest saving. We chase under your brand from your mailbox, on an escalation schedule you define, and hand you an exception list of the clients who need a partner's phone call.",
       },
     ],
     related: ["bookkeeping", "personal-tax", "practice-admin"],
@@ -344,12 +344,12 @@ export const SERVICES = [
     audience: ["practice"],
     icon: "receipt",
     short:
-      "Self assessment returns prepared, reconciled and checked — volume capacity for January without a seasonal hiring cycle.",
+      "Self assessment returns prepared, reconciled and checked, with capacity for the January volume and no seasonal hiring cycle.",
     heroLede:
-      "Self assessment is the clearest case in the profession for flexible capacity. Demand is violently seasonal, the work is standardised, and the deadline is immovable. Hiring for a January peak is expensive; carrying that cost for twelve months is worse.",
+      "Self assessment is the clearest case in the profession for flexible capacity. Demand is heavily seasonal, the work is standardised, and the deadline is immovable. Hiring for a January peak is expensive; carrying that cost for twelve months is worse.",
     problem: {
       title: "The January problem",
-      body: "A tax department sized for January is over-staffed for eight months of the year. A department sized for the average is in crisis by mid-December. Most firms resolve this with overtime, goodwill and a quiet dip in review quality — and pay for it in staff turnover the following spring.",
+      body: "A tax department sized for January is over-staffed for eight months of the year. A department sized for the average is in crisis by mid-December. Most firms get through it with overtime, goodwill and a drop in review quality, then pay for it in staff turnover the following spring.",
       points: [
         "Deadline pressure concentrates a year of work into six weeks.",
         "Late-arriving client records compress the window further.",
@@ -395,13 +395,13 @@ export const SERVICES = [
     software: ["IRIS", "TaxCalc", "CCH Personal Tax", "Digita", "Taxfiler", "Capium", "BTCSoftware"],
     cadence: [
       { k: "Off-peak", v: "Three to five working days per return from a complete pack." },
-      { k: "Peak (Nov–Jan)", v: "Reserved capacity agreed in advance, with a committed daily throughput." },
+      { k: "Peak (Nov to Jan)", v: "Reserved capacity agreed in advance, with a committed daily throughput." },
       { k: "Surge", v: "Additional reviewers added for the final fortnight where volume is booked ahead." },
     ],
     faqs: [
       {
         q: "How do you handle the January volume?",
-        a: "By booking it in advance. We agree an expected volume and a daily throughput with you in the autumn and reserve named resource against it. Capacity that is planned in September costs less and performs better than capacity scrambled for in December.",
+        a: "By booking it in advance. We agree an expected volume and a daily throughput with you in the autumn and reserve named resource against it. Capacity planned in September costs less and works better than capacity found in a hurry in December.",
       },
       {
         q: "Who deals with the client?",
@@ -420,16 +420,16 @@ export const SERVICES = [
     audience: ["practice"],
     icon: "stamp",
     short:
-      "CT600 returns and computations prepared alongside the accounts, with reliefs identified rather than assumed away.",
+      "CT600 returns and computations prepared alongside the accounts, with the available reliefs identified and checked.",
     heroLede:
-      "Corporation tax preparation done properly is not a mechanical exercise. Marginal relief, associated companies, capital allowances and loss planning all carry judgement — and all are routinely missed when the computation is squeezed in after a late set of accounts.",
+      "Done properly, corporation tax preparation involves judgement. Marginal relief, associated companies, capital allowances and loss planning all need it, and all are routinely missed when the computation is squeezed in after a late set of accounts.",
     problem: {
       title: "Reliefs left on the table",
-      body: "When the computation is the last thing done before a filing deadline, it gets done narrowly. Full expensing goes unclaimed, structures and buildings allowance is overlooked, group relief is not modelled, and the client pays more than they needed to — which is a fee conversation nobody enjoys having a year later.",
+      body: "When the computation is the last thing done before a filing deadline, it gets done narrowly. Full expensing goes unclaimed, structures and buildings allowance is overlooked, group relief is not modelled, and the client pays more than they needed to. Nobody enjoys that fee conversation a year later.",
       points: [
         "Associated company rules affect the marginal relief limits and are easy to get wrong.",
         "Capital allowance claims need a fixed asset review, not a copy-forward.",
-        "Loss relief options need modelling before the return is filed, not after.",
+        "Loss relief options need modelling before the return is filed.",
       ],
     },
     deliverables: {
@@ -448,7 +448,7 @@ export const SERVICES = [
           label: "Computations",
           items: [
             "Full tax computation with adjustments to profit clearly evidenced",
-            "Capital allowances — full expensing, annual investment allowance, main and special rate pools",
+            "Capital allowances: full expensing, annual investment allowance, main and special rate pools",
             "Structures and buildings allowance schedules",
             "Marginal relief with associated company analysis",
             "Loss utilisation: carry-back, carry-forward, group and terminal loss relief",
@@ -475,7 +475,7 @@ export const SERVICES = [
     faqs: [
       {
         q: "Do you prepare R&D claims?",
-        a: "We prepare the computational and documentary elements of a claim, including the additional information form. The technical narrative and the professional judgement on whether the work qualifies stay with your firm — that judgement carries risk that only your engagement should hold.",
+        a: "We prepare the computational and documentary elements of a claim, including the additional information form. The technical narrative and the professional judgement on whether the work qualifies stay with your firm, because that judgement carries risk that only your engagement should hold.",
       },
       {
         q: "Are computations reviewed before they reach us?",
@@ -494,16 +494,16 @@ export const SERVICES = [
     audience: ["practice", "business"],
     icon: "wallet",
     short:
-      "RTI-compliant payroll processing, auto-enrolment, CIS and year-end forms — run to a calendar that never slips.",
+      "RTI-compliant payroll processing, auto-enrolment, CIS and year-end forms, run to a calendar that never slips.",
     heroLede:
       "Payroll is the least forgiving work in a practice. It runs to a fixed date, it affects people's pay, and an error is visible immediately to everyone. It is also highly systematised, which makes it well suited to a disciplined delivery team with a second checker on every run.",
     problem: {
-      title: "Zero tolerance, every single cycle",
-      body: "A payroll bureau cannot have a quiet month. Every pay date is a hard deadline with an FPS attached, and the consequences of missing one land on the client's staff. Holding enough in-house capacity to absorb illness, holiday and turnover across every pay cycle is expensive — and single-person dependency is a genuine business risk.",
+      title: "No room for error in any pay cycle",
+      body: "A payroll bureau cannot have a quiet month. Every pay date is a hard deadline with an FPS attached, and the consequences of missing one land on the client's staff. Holding enough in-house capacity to absorb illness, holiday and turnover across every pay cycle is expensive, and relying on a single person is a real business risk.",
       points: [
         "RTI penalties apply from the first late submission for most employers.",
         "Auto-enrolment duties, re-enrolment and pension uploads add a second compliance layer.",
-        "April brings a hard cliff-edge of year-end forms and new-year rate changes.",
+        "April brings year-end forms and new-year rate changes together.",
       ],
     },
     deliverables: {
@@ -514,7 +514,7 @@ export const SERVICES = [
           items: [
             "Weekly, fortnightly, four-weekly, monthly and annual payroll runs",
             "Starters, leavers, P45s and new-starter declarations",
-            "Statutory payments — SSP, SMP, SPP, ShPP, SAP and neonatal care pay",
+            "Statutory payments: SSP, SMP, SPP, ShPP, SAP and neonatal care pay",
             "Attachment of earnings orders, student and postgraduate loan deductions",
             "Salary sacrifice, benefits in kind and payrolled benefits",
             "Holiday pay, overtime, bonuses, commission and back pay",
@@ -525,7 +525,7 @@ export const SERVICES = [
           items: [
             "Full Payment Submission and Employer Payment Summary filing under RTI",
             "Auto-enrolment assessment, postponement, opt-outs and triennial re-enrolment",
-            "Pension provider uploads — NEST, The People's Pension, Smart Pension, Aviva and others",
+            "Pension provider uploads: NEST, The People's Pension, Smart Pension, Aviva and others",
             "CIS verification, monthly returns and subcontractor statements",
             "P60, P11D, P11D(b) and Class 1A National Insurance",
             "Employment Allowance and Apprenticeship Levy handling",
@@ -536,7 +536,7 @@ export const SERVICES = [
           items: [
             "Branded payslips distributed by portal or secure email",
             "Payroll journal posted directly to the accounting ledger",
-            "BACS payment file prepared for approval — we never hold payment authority",
+            "BACS payment file prepared for approval (we never hold payment authority)",
             "Departmental cost analysis and payroll reconciliation report",
           ],
         },
@@ -555,11 +555,11 @@ export const SERVICES = [
       },
       {
         q: "What if an error reaches an employee?",
-        a: "We correct it immediately at our cost, including any additional submission required, and issue a written incident note explaining the cause and the control change made. Payroll errors get a root-cause response, not an apology.",
+        a: "We correct it immediately at our cost, including any additional submission required, and issue a written incident note explaining the cause and the control change made.",
       },
       {
         q: "Can you run payroll under our bureau brand?",
-        a: "Yes. Payslips, reports and employee communications all carry your branding. Employees and clients see your bureau, not us.",
+        a: "Yes. Payslips, reports and employee communications all carry your branding. Employees and clients see only your bureau.",
       },
     ],
     related: ["hr-people", "bookkeeping", "practice-admin"],
@@ -574,12 +574,12 @@ export const SERVICES = [
     audience: ["practice"],
     icon: "magnifier",
     short:
-      "Fieldwork, testing and file preparation performed under your methodology — with the opinion, judgement and sign-off staying entirely yours.",
+      "Fieldwork, testing and file preparation performed under your methodology. The opinion, judgement and sign-off stay entirely with you.",
     heroLede:
       "Audit support is the most carefully bounded service we offer. We perform documented, repeatable procedures under your instruction and your methodology. Every element of professional judgement, every conclusion, and the audit opinion itself remain with your firm and your Responsible Individual.",
     problem: {
       title: "Fieldwork volume against a shrinking audit talent pool",
-      body: "Audit-qualified staff are among the hardest roles in the profession to fill, and audit remains the most heavily regulated area of practice. Firms need to expand fieldwork capacity without diluting quality — under ISQM 1 the quality management burden has increased, not relaxed.",
+      body: "Audit-qualified staff are among the hardest roles in the profession to fill, and audit remains the most heavily regulated area of practice. Firms need to expand fieldwork capacity without diluting quality, and ISQM 1 has increased the quality management burden.",
       points: [
         "Audit teams face concentrated seasonal peaks around common year ends.",
         "ISQM 1 has raised documentation and monitoring expectations across every engagement.",
@@ -629,11 +629,11 @@ export const SERVICES = [
     faqs: [
       {
         q: "Where exactly is the line on judgement?",
-        a: "We execute procedures; you form conclusions. We do not assess materiality thresholds, evaluate misstatements, conclude on going concern, decide the audit approach, or contribute to the opinion. Anything requiring the exercise of professional judgement is escalated to your team rather than resolved by ours.",
+        a: "We execute procedures; you form conclusions. We do not assess materiality thresholds, evaluate misstatements, conclude on going concern, decide the audit approach, or contribute to the opinion. Anything requiring professional judgement is escalated to your team to resolve.",
       },
       {
         q: "How does this sit with our regulator and our ISQM 1 responsibilities?",
-        a: "As a resource operating under your methodology, your supervision and your review. Your firm remains fully responsible for the engagement and its quality management. We provide the documentation trail — who performed each procedure, when, and against which instruction — that your monitoring and any regulatory review will expect to see.",
+        a: "As a resource operating under your methodology, your supervision and your review. Your firm remains fully responsible for the engagement and its quality management. We provide the documentation trail that your monitoring and any regulatory review will expect to see: who performed each procedure, when, and against which instruction.",
       },
       {
         q: "Do you work on listed or PIE audits?",
@@ -652,11 +652,11 @@ export const SERVICES = [
     audience: ["practice", "business"],
     icon: "building",
     short:
-      "Confirmation statements, share transactions and statutory registers kept current — through a period of the deepest Companies House reform in decades.",
+      "Confirmation statements, share transactions and statutory registers kept current through the deepest Companies House reform in decades.",
     heroLede:
       "The Economic Crime and Corporate Transparency Act has turned company secretarial work from a filing formality into a live compliance obligation. Identity verification, tighter data requirements and the move to software-only accounts filing all landed on practices that had treated this as an afterthought.",
     problem: {
-      title: "Reform has made a quiet service noisy",
+      title: "Reform has made a routine service busy",
       body: "Identity verification for directors and persons with significant control began phasing in from November 2025. Companies House has confirmed that accounts filing will move to commercial software with iXBRL tagging, with the removal of abridged accounts and the profit and loss filing exemption for small companies now confirmed for April 2028 after an earlier 2027 target was pushed back.",
       points: [
         "Directors and PSCs must verify their identity, and firms are fielding the questions.",
@@ -671,7 +671,7 @@ export const SERVICES = [
           label: "Ongoing compliance",
           items: [
             "Confirmation statement (CS01) preparation and filing",
-            "Statutory register maintenance — members, directors, PSCs, charges",
+            "Statutory register maintenance: members, directors, PSCs, charges",
             "Registered office and business address changes",
             "Director and secretary appointments, resignations and detail changes",
             "SIC code updates and standard industrial classification review",
@@ -682,7 +682,7 @@ export const SERVICES = [
           items: [
             "Share allotments, transfers, subdivisions and consolidations",
             "Share buybacks and reductions of capital",
-            "Dividend documentation — board minutes, vouchers and resolutions",
+            "Dividend documentation: board minutes, vouchers and resolutions",
             "Articles amendments and special resolutions",
             "Company formation, restoration and voluntary strike-off",
           ],
@@ -721,15 +721,15 @@ export const SERVICES = [
     audience: ["practice"],
     icon: "inbox",
     short:
-      "The unbilled work that consumes your fee earners — records chasing, onboarding, workflow hygiene and deadline tracking.",
+      "The unbilled work that takes up your fee earners' time: records chasing, onboarding, workflow hygiene and deadline tracking.",
     heroLede:
-      "Every practice carries a heavy load of work that no client will ever pay for: chasing records, onboarding new clients, keeping the workflow system honest, checking deadlines. It is invisible on the fee ledger and highly visible in your team's week.",
+      "Every practice carries a heavy load of work that no client will ever pay for: chasing records, onboarding new clients, keeping the workflow system honest, checking deadlines. None of it shows on the fee ledger, and all of it fills your team's week.",
     problem: {
       title: "The work that never appears on a timesheet",
-      body: "Administrative drag is the least-examined cost in most practices. A senior on £45,000 spending six hours a week chasing paperwork is roughly £7,000 a year of salary applied to a task that does not require their qualification — and it is precisely the part of the job that makes good people leave.",
+      body: "Administrative drag is the least-examined cost in most practices. A senior on £45,000 spending six hours a week chasing paperwork is roughly £7,000 a year of salary applied to a task that does not require their qualification. It is also the part of the job that makes good people leave.",
       points: [
         "Records chasing is repetitive, unbillable and never finished.",
-        "Onboarding and AML checks have grown more demanding, not less.",
+        "Onboarding and AML checks have become more demanding.",
         "Workflow systems only deliver value if someone maintains them daily.",
       ],
     },
@@ -749,7 +749,7 @@ export const SERVICES = [
         {
           label: "Workflow and data",
           items: [
-            "Practice management system hygiene — job status, deadlines, allocations",
+            "Practice management system hygiene: job status, deadlines, allocations",
             "Deadline monitoring across accounts, tax, VAT, payroll and confirmation statements",
             "Weekly exception report on jobs at risk of slipping",
             "Client database cleansing and contact record maintenance",
@@ -778,7 +778,7 @@ export const SERVICES = [
       },
       {
         q: "Can you handle AML checks?",
-        a: "We collect and assemble documentation and prepare the file. The risk assessment and the decision to accept a client remain with your Money Laundering Reporting Officer — that responsibility is not delegable.",
+        a: "We collect and assemble documentation and prepare the file. The risk assessment and the decision to accept a client remain with your Money Laundering Reporting Officer, and that responsibility cannot be delegated.",
       },
     ],
     related: ["vat-mtd", "bookkeeping", "personal-tax"],
@@ -793,16 +793,16 @@ export const SERVICES = [
     audience: ["business"],
     icon: "layers",
     short:
-      "A complete finance department for a growing UK business — transaction processing through to board reporting, without building the team.",
+      "A complete finance department for a growing UK business, from transaction processing to board reporting, without you having to build the team.",
     heroLede:
-      "Between a part-time bookkeeper and a full in-house finance team lies an awkward gap that many growing businesses fall into. You need more than data entry and less than three salaries. We provide the whole function as a service, sized to where you actually are.",
+      "Between a part-time bookkeeper and a full in-house finance team lies an awkward gap that many growing businesses fall into. You need more than data entry and less than three salaries. We provide the whole function as a service, sized to your business as it is now.",
     problem: {
       title: "The finance team you cannot yet justify",
-      body: "A capable financial controller, a management accountant and a purchase ledger clerk represent a substantial fixed commitment before employer National Insurance, pension, software, cover and recruitment costs. For a business between £1m and £20m of turnover, that structure is often unaffordable and yet the need is real.",
+      body: "A capable financial controller, a management accountant and a purchase ledger clerk represent a substantial fixed commitment before employer National Insurance, pension, software, cover and recruitment costs. For a business between £1m and £20m of turnover, that structure is often unaffordable, even though the work still needs doing.",
       points: [
         "Employer National Insurance rose to 15% with the secondary threshold cut to £5,000, making every UK hire materially more expensive.",
         "Key-person risk is acute when one person holds the whole finance function.",
-        "Growth exposes the gap fastest — exactly when attention is needed elsewhere.",
+        "Growth exposes the gap fastest, just when attention is needed elsewhere.",
       ],
     },
     deliverables: {
@@ -851,7 +851,7 @@ export const SERVICES = [
       },
       {
         q: "What if we grow into wanting our own team?",
-        a: "Then we help you build it and hand over cleanly. The process manual, the controls and the documentation are yours throughout. A service you cannot exit is not a service, it is a trap — we do not design engagements that way.",
+        a: "Then we help you build it and hand over cleanly. The process manual, the controls and the documentation are yours throughout. We do not design engagements that are hard to leave.",
       },
     ],
     related: ["cfo-services", "management-accounts", "payroll"],
@@ -866,15 +866,15 @@ export const SERVICES = [
     audience: ["business", "practice"],
     icon: "compass",
     short:
-      "Senior financial thinking on a fractional basis — planning, modelling, funding preparation and board-level challenge.",
+      "Senior financial input on a fractional basis: planning, modelling, funding preparation and board-level challenge.",
     heroLede:
-      "Most businesses need CFO-level judgement long before they can justify a CFO-level salary. Fractional engagement gives you the thinking when decisions demand it, without the fixed cost of carrying it year-round.",
+      "Most businesses need CFO-level judgement long before they can justify a CFO-level salary. Fractional engagement gives you that judgement when a decision needs it, without paying for it all year round.",
     problem: {
       title: "Good numbers, no interpretation",
       body: "Plenty of businesses have accurate accounts and still make poor decisions, because nobody is turning the reporting into direction. Pricing goes unexamined, working capital tightens unnoticed, and funding conversations start three months too late.",
       points: [
         "Lenders and investors expect modelling and scenario analysis as a baseline.",
-        "Pricing and margin decisions are frequently made on intuition rather than analysis.",
+        "Pricing and margin decisions are often made on instinct, without analysis.",
         "Cash pressure is almost always visible in the numbers before it is felt in the bank.",
       ],
     },
@@ -885,7 +885,7 @@ export const SERVICES = [
           label: "Planning and modelling",
           items: [
             "Three-statement financial model with integrated cash flow",
-            "Scenario and sensitivity analysis on the decisions that matter",
+            "Scenario and sensitivity analysis on major decisions",
             "Annual budget build and quarterly reforecasting",
             "Thirteen-week cash flow for tight liquidity periods",
             "Unit economics, contribution and break-even analysis",
@@ -894,7 +894,7 @@ export const SERVICES = [
         {
           label: "Growth and transactions",
           items: [
-            "Funding readiness — lender packs, investor decks and data room preparation",
+            "Funding readiness: lender packs, investor decks and data room preparation",
             "Business valuation support and equity modelling",
             "Acquisition appraisal and financial due diligence support",
             "Pricing strategy and margin improvement analysis",
@@ -915,7 +915,7 @@ export const SERVICES = [
     software: ["Excel", "Power BI", "Fathom", "Futrli", "Syft", "Causal"],
     cadence: [
       { k: "Retained", v: "An agreed number of days each month, with a consistent named lead." },
-      { k: "Project", v: "Defined-scope engagements — a funding round, a model build, an acquisition appraisal." },
+      { k: "Project", v: "Defined-scope engagements such as a funding round, a model build or an acquisition appraisal." },
     ],
     faqs: [
       {
@@ -935,7 +935,7 @@ export const SERVICES = [
     audience: ["business", "practice"],
     icon: "scale",
     short:
-      "Governance and risk, transaction and valuation, IT and cyber risk, ESG reporting and actuarial support — specialist benches most firms cannot staff.",
+      "Specialist teams most firms cannot staff: governance and risk, transaction and valuation, IT and cyber risk, ESG reporting and actuarial support.",
     heroLede:
       "Some capabilities are needed too intermittently to employ and too technical to improvise. Our delivery partner has maintained specialist advisory teams since 2014, including a dedicated actuarial practice, and we bring that bench to UK engagements under our own client relationship.",
     problem: {
@@ -1015,9 +1015,9 @@ export const SERVICES = [
     audience: ["business", "practice"],
     icon: "people",
     short:
-      "Employment policy, people risk and structured technical training — the governance layer around your workforce.",
+      "Governance for your workforce: employment policy, people risk and structured technical training.",
     heroLede:
-      "People risk sits alongside financial risk in any well-run business, and it is usually less well documented. We help build the policy framework, the structure and the training programme that keep it managed rather than discovered.",
+      "People risk sits alongside financial risk in any well-run business, and it is usually less well documented. We help build the policy framework, the structure and the training programme that keep it managed.",
     problem: {
       title: "People risk found late is expensive",
       body: "Employment issues rarely announce themselves early. Weak documentation, informal processes and untrained managers turn manageable situations into tribunal exposure, and the cost lands in one lump at the worst possible moment.",
@@ -1037,7 +1037,7 @@ export const SERVICES = [
             "Contract and offer documentation review",
             "Organisational structure and role definition",
             "Performance management framework design",
-            "Employee lifecycle process — onboarding through exit",
+            "Employee lifecycle process, from onboarding to exit",
             "People risk assessment and governance review",
           ],
         },
