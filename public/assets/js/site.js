@@ -478,7 +478,9 @@
     if (statusBox) statusBox.innerHTML = "";
   }
 
-  function pending(on) {
+  // Not called "pending": the motion code above has a var of that name, and
+  // a var assignment would replace this function (both are function-scoped).
+  function setBusy(on) {
     if (!submit) return;
     var label = submit.querySelector("[data-label]");
     submit.disabled = on;
@@ -509,7 +511,7 @@
     if (hp) payload.website = hp.value;
     if (started) payload.started_at = Number(started.value) || 0;
 
-    pending(true);
+    setBusy(true);
 
     fetch(form.getAttribute("action"), {
       method: "POST",
@@ -527,7 +529,7 @@
           if (started) started.value = String(Date.now());
           setStatus(
             "ok",
-            "<strong>Thank you — that has reached us.</strong><br>" +
+            "<strong>Thank you. That has reached us.</strong><br>" +
               "We reply to every enquiry within one working day." +
               (r.data.id ? " Your reference is #" + escapeHtml(r.data.id) + "." : "")
           );
@@ -565,7 +567,7 @@
         );
       })
       .then(function () {
-        pending(false);
+        setBusy(false);
       });
   });
 })();
