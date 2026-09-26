@@ -24,6 +24,15 @@ Never merge on a red check, and report back if a deploy fails. Start each
 session by syncing your branch with `origin/main`: another partner may have
 shipped since you last looked.
 
+## Gotcha: no inline styles
+
+The live CSP (`public/_headers`, `style-src 'self'`) makes browsers ignore
+every `style="…"` attribute. Anything visual must come from a class in
+`src/styles.css`. The capacity bars and time-zone strip broke this way (empty
+bars on phones, fixed 26 Sep 2026; they now use `cap-w-*`, `cap-from-*`,
+`cap-d-*`, `tz-*` classes). The local `npm run serve` sends no CSP, so it
+will not show this class of bug; test with the CSP header or on the live site.
+
 ## Brand
 
 Colours come from the brand-kit logo (Google Drive → B4ES-Brand-Kit) and live
@@ -117,5 +126,13 @@ edit cells.
 - **Illustrations**: every page now has one except About and Why Us (keep
   their SVGs), insight articles, legal pages and the 404 (plain by choice).
   No stats/counters for now (Yawar).
+- **Stagger delays are ignored live**: the many `style="--d:…"` / `--i`
+  attributes (reveal and SVG animation staggers) are blocked by the CSP, so
+  items animate together rather than one after another. Cosmetic only;
+  convert to classes if anyone wants the stagger back.
+- **Capacity graphic** (home): the "Illustrative model" footnote was removed
+  at Yawar's request (26 Sep 2026); the only caveat left is the
+  "Illustrative example" label above the first bar. Keep that label: the
+  figures are a model, not client data.
 - Placeholders still empty in `src/data/site.mjs`: phone, Companies House
   number, ICO reference, LinkedIn URL.

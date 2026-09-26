@@ -623,6 +623,41 @@
   .cap-track.is-in .cap-seg-label,
   .js-ready .cap-track:not([data-cap]) .cap-seg-label { @apply opacity-100; }
 
+  /* Segment sizes as classes; see capSeg() for why these are not inline. */
+  .cap-w-0 { --w: 0%; }
+  .cap-w-16 { --w: 16%; }
+  .cap-w-22 { --w: 22%; }
+  .cap-w-26 { --w: 26%; }
+  .cap-w-46 { --w: 46%; }
+  .cap-w-58 { --w: 58%; }
+  .cap-w-62 { --w: 62%; }
+  .cap-from-0 { --from: 0%; }
+  .cap-from-16 { --from: 16%; }
+  .cap-from-22 { --from: 22%; }
+  .cap-from-26 { --from: 26%; }
+  .cap-from-46 { --from: 46%; }
+  .cap-from-58 { --from: 58%; }
+  .cap-from-62 { --from: 62%; }
+  .cap-d-0 { --d: 0; }
+  .cap-d-1 { --d: 1; }
+  .cap-d-2 { --d: 2; }
+  .cap-d-3 { --d: 3; }
+
+  /* Time-zone strip (timezoneStrip): widths and tick positions by hour of 24. */
+  .tz-w-3_5 { --w: 14.5833%; }
+  .tz-w-4 { --w: 16.6667%; }
+  .tz-w-8_5 { --w: 35.4167%; }
+  .tz-w-9 { --w: 37.5000%; }
+  .tz-at-9 { left: 37.5000%; }
+  .tz-span-3_5 { width: 14.5833%; }
+  .tz-at-0 { left: 0.0000%; }
+  .tz-at-4 { left: 16.6667%; }
+  .tz-at-8 { left: 33.3333%; }
+  .tz-at-12 { left: 50.0000%; }
+  .tz-at-16 { left: 66.6667%; }
+  .tz-at-20 { left: 83.3333%; }
+  .tz-at-24 { left: 100.0000%; }
+
   .cap-compliance { background: var(--color-ink-600); color: #fff; }
   .cap-review     { background: var(--color-slate-mid); color: #fff; }
   .cap-advisory   { background: var(--color-teal); color: #fff; }
