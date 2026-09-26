@@ -30,8 +30,8 @@
     // "set-up pending" and serves nothing. Neither value is secret.
     //   TEAM_DOMAIN: https://<team>.cloudflareaccess.com
     //   POLICY_AUD:  the Access application's "Application Audience (AUD) Tag"
-    "TEAM_DOMAIN": "",
-    "POLICY_AUD": "",
+    "TEAM_DOMAIN": "https://damp-mode-0f67.cloudflareaccess.com",
+    "POLICY_AUD": "b9e5822c0bc06e3fe0447bfa568f1e4cb50237bc55166231ee3ebd26329d6083",
     // Signed-in emails that get the admin role on first sign-in.
     "ADMIN_EMAILS": "b4es.admin@gmail.com"
   },
