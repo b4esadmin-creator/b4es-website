@@ -440,11 +440,15 @@ export const secNarrow = (cls, inner) => `<section class="${cls}"><div class="wr
  * Segment widths animate from the "today" values to the "with B4ES" values
  * when the block enters view, so the reader literally watches capacity move.
  *
- * The figures are an illustrative model and are labelled as such on the page.
+ * The figures are an illustrative model, flagged by the "Illustrative
+ * example" label above the first bar.
  */
 
+// Widths and delays are classes (cap-w-*, cap-from-*, cap-d-* in styles.css),
+// not style attributes: the CSP's style-src blocks inline styles, which left
+// every segment at zero width on phones. Add a class there for any new value.
 function capSeg({ cls, label, from, to, delay = 0 }) {
-  return `<span class="cap-seg ${cls}" style="--from:${from}%;--w:${to}%;--d:${delay}">
+  return `<span class="cap-seg ${cls} cap-from-${from} cap-w-${to} cap-d-${delay}">
     <span class="cap-seg-label">${label}</span>
   </span>`;
 }
@@ -494,11 +498,11 @@ export function capacityTransfer() {
       <div data-reveal="up">
         <div class="mb-3 flex items-baseline justify-between gap-4">
           <p class="text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-slate-mid">Today</p>
-          <p class="text-[0.8125rem] text-slate-mid">Your team's available hours</p>
+          <p class="text-[0.8125rem] text-slate-mid">Illustrative example: your team's hours</p>
         </div>
         <div class="cap-track">
           ${TODAY.map(
-            (t) => `<span class="cap-seg ${t.cls}" style="--w:${t.v}%">
+            (t) => `<span class="cap-seg ${t.cls} cap-w-${t.v}">
             <span class="cap-seg-label">${t.label}</span>
           </span>`
           ).join("")}
@@ -520,10 +524,10 @@ export function capacityTransfer() {
           <div class="cap-track h-9" data-cap>
             ${capSeg({ cls: "cap-moved", label: "Delivered by B4ES", from: 0, to: 46, delay: 3 })}
           </div>
-          <p class="mt-2 flex items-center gap-2 text-[0.8125rem] text-slate-deep">
-            <span class="cap-moved h-2.5 w-2.5 shrink-0 rounded-[3px]"></span>
-            Delivered by B4ES &mdash; <span class="font-semibold text-ink tabular">46%</span> of the
-            original workload, moved off your team's plate
+          <p class="mt-2 flex items-start gap-2 text-[0.8125rem] text-slate-deep">
+            <span class="cap-moved mt-1 h-2.5 w-2.5 shrink-0 rounded-[3px]"></span>
+            <span>Delivered by B4ES &mdash; <span class="font-semibold text-ink tabular">46%</span> of the
+            original workload, moved off your team's plate</span>
           </p>
         </div>
       </div>
@@ -544,12 +548,6 @@ export function capacityTransfer() {
           .join("")}
       </div>
 
-      <p class="max-w-3xl text-[0.8125rem] leading-relaxed text-slate-mid" data-reveal="fade">
-        Illustrative model, not a measured average — we have no UK client base to average yet and
-        will not invent one. The proportions come from how compliance-heavy practice time is
-        typically distributed; yours is what we actually measure at the scoping call, and the
-        answer is sometimes that the shift available to you is smaller than this.
-      </p>
     </div>
   </div>
 </section>`;
@@ -558,11 +556,10 @@ export function capacityTransfer() {
 /* ------------------------------------------------------ time-zone strip */
 
 export function timezoneStrip({ bare = false } = {}) {
-  // 24-hour strip, expressed in UK time.
-  const band = (startH, endH) => ({
-    left: (startH / 24) * 100,
-    width: ((endH - startH) / 24) * 100,
-  });
+  // 24-hour strip, expressed in UK time. Positions are classes keyed by
+  // hour (tz-at-*, tz-w-* in styles.css) because the CSP blocks inline styles.
+  const hr = (h) => String(h).replace(".", "_");
+  const band = (startH, endH) => ({ left: hr(startH), width: hr(endH - startH) });
 
   const uk = band(9, 17.5);      // 09:00–17:30 UK
   const del = band(4, 12.5);     // 09:00–17:30 local, five hours ahead
@@ -570,7 +567,7 @@ export function timezoneStrip({ bare = false } = {}) {
 
   const ticks = [0, 4, 8, 12, 16, 20, 24]
     .map(
-      (h) => `<span class="absolute -translate-x-1/2 text-[0.6875rem] text-slate-mid" style="left:${(h / 24) * 100}%">${String(h % 24).padStart(2, "0")}:00</span>`
+      (h) => `<span class="absolute -translate-x-1/2 text-[0.6875rem] text-slate-mid tz-at-${h}">${String(h % 24).padStart(2, "0")}:00</span>`
     )
     .join("");
 
@@ -581,8 +578,8 @@ export function timezoneStrip({ bare = false } = {}) {
     </p>
     <div class="relative h-8 w-full overflow-hidden rounded-md bg-mist">
       <div class="cap-track absolute inset-0 !h-8 !bg-transparent" data-cap>
-        <span class="cap-seg" style="--from:0%;--w:${b.left}%;--d:0"></span>
-        <span class="cap-seg ${cls}" style="--from:0%;--w:${b.width}%;--d:${delay}"></span>
+        <span class="cap-seg cap-from-0 tz-w-${b.left} cap-d-0"></span>
+        <span class="cap-seg ${cls} cap-from-0 tz-w-${b.width} cap-d-${delay}"></span>
       </div>
     </div>
   </div>`;
@@ -608,8 +605,8 @@ export function timezoneStrip({ bare = false } = {}) {
           <!-- Overlap column, drawn through both rows so the shared hours read
                as one continuous band rather than a detached tag. -->
           <div class="pointer-events-none absolute top-6 bottom-0 z-0 rounded
-                      border-x border-dashed border-teal/45 bg-teal-wash/70"
-               style="left:${overlap.left}%;width:${overlap.width}%" aria-hidden="true"></div>
+                      border-x border-dashed border-teal/45 bg-teal-wash/70
+                      tz-at-${overlap.left} tz-span-${overlap.width}" aria-hidden="true"></div>
 
           <div class="relative z-10">
             ${row("Your office", uk, "cap-advisory", 0)}
