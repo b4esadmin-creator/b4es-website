@@ -342,3 +342,35 @@ inline SVG with CSS motion that switches off under reduced motion.
 
 Component classes (`.card`, `.btn-primary`, `.check-list`, `.acc`, …) keep the
 generated markup semantic rather than a wall of utilities.
+
+---
+
+## Change-tracker sheet
+
+Website change requests live in the Google Sheet **B4ES Website changes**
+(tab `B4ES Web`). `scripts/sheet-bridge.gs` is a small Apps Script that lets an
+automated agent read the rows and update a row's **Status** and **Claude
+notes**, and nothing else. Install it once:
+
+1. Open the sheet → **Extensions → Apps Script**. Delete the sample code and
+   paste in `scripts/sheet-bridge.gs`. Save.
+2. **Project Settings (⚙) → Script properties → Add script property**: name
+   `SECRET`, value a long random password.
+3. **Deploy → New deployment → Select type: Web app**. *Execute as:* Me.
+   *Who has access:* Anyone. **Deploy**, approve the permission prompt, and
+   copy the **Web app URL**.
+4. Store both values as environment variables in the Claude environment
+   settings: `B4ES_SHEET_URL` (the web app URL) and `B4ES_SHEET_SECRET`.
+
+Usage:
+
+```bash
+# read rows
+curl -sL "$B4ES_SHEET_URL?secret=$B4ES_SHEET_SECRET"
+# set status and add a note
+curl -sL -H 'Content-Type: application/json' "$B4ES_SHEET_URL" \
+  -d "{\"secret\":\"$B4ES_SHEET_SECRET\",\"section\":\"Pages and Alignment\",\"status\":\"Launched\",\"note\":\"Live (PR #9)\"}"
+```
+
+To revoke access, archive the deployment (**Deploy → Manage deployments**) or
+change the `SECRET` property.

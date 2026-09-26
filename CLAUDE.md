@@ -22,3 +22,11 @@ Never merge on a red check, and report back if a deploy fails.
 Colours come from the brand-kit logo (Google Drive → B4ES-Brand-Kit) and live
 as tokens in `src/styles.css` `@theme`; see the Design system section of
 `README.md`. Keep text at WCAG AA contrast.
+
+## Change requests
+
+Requests come from the Google Sheet "B4ES Website changes" (tab `B4ES Web`).
+Read it with the Google Drive connector. When `B4ES_SHEET_URL` and
+`B4ES_SHEET_SECRET` are set, update each row's Status and add a note through
+`scripts/sheet-bridge.gs` (usage in README, "Change-tracker sheet") once the
+change is live; otherwise give the owner the exact text to paste.
