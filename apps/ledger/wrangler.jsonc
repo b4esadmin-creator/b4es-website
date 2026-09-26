@@ -20,7 +20,7 @@
     {
       "binding": "DB",
       "database_name": "b4es-ledger",
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "0337cef9-4f9e-4f97-a736-55e7b1d991e4",
       "migrations_dir": "./migrations"
     }
   ],

@@ -118,13 +118,13 @@ partners (26 Sep 2026):
   returns and more reports.
 - **Owner steps still needed:** Zero Trust + Access app for
   ledger.b4es.co.uk (send AUD tag and team domain), enable R2 (backups,
-  statements), GitHub deploy token needs D1:Edit, 2-step verification on the
+  statements), 2-step verification on the
   shared Gmail and Cloudflare.
-- **Status:** stage 1 code is merged (app, API, reports, approvals, PWA).
-  It is **not live yet**: `database_id` in `apps/ledger/wrangler.jsonc` is a
-  placeholder, so `ledger-deploy.yml` skips with a notice. Once the owner
-  adds D1:Edit to the token, run `ledger-db-create.yml`, put the new id in
-  `wrangler.jsonc` and merge; the deploy then applies migrations and ships.
+- **Status:** stage 1 code is merged. The EU database `b4es-ledger`
+  exists (created 26 Sep 2026 via `ledger-db-create.yml`; id in
+  `apps/ledger/wrangler.jsonc`) and `ledger-deploy.yml` applies migrations
+  and deploys on merge. The ledger shows "set-up pending" until
+  `TEAM_DOMAIN` and `POLICY_AUD` from the Access application are filled in.
 - **Working on the ledger locally:** `apps/ledger/README.md` has the
   commands (local D1, `wrangler dev` with `DEV_EMAIL` and
   `--local-upstream`, tests). CI runs the report tests, the 34 database-rule
