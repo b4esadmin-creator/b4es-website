@@ -11,7 +11,7 @@ import {
   tabs,
   linkCard,
   capacityTransfer,
-  illoScene,
+  heroVideo,
 } from "../components.mjs";
 import { DIFFERENTIATORS } from "../data/why.mjs";
 
@@ -53,7 +53,7 @@ ${hero({
     "Outsourced accounting, tax, payroll and back-office delivery for UK firms and growing UK businesses. The technical standard of the established outsourcing names, at a materially better rate, with the client relationship staying with you.",
   primary: { href: "/contact/", label: "Contact us" },
   secondary: { href: "/why-us/", label: "Why B4ES" },
-  aside: illoScene("home"),
+  aside: heroVideo(),
 })}
 
 <section class="border-b border-line bg-bone py-6">

@@ -7,6 +7,43 @@
 (function () {
   "use strict";
 
+  /* ---------------------------------------------------------- hero video */
+
+  // Starts muted (the only way browsers allow autoplay); the button turns
+  // the music on and off. Under reduced motion it stays paused on the
+  // poster and shows the native controls instead.
+  var heroVideo = document.querySelector("[data-hero-video]");
+  var heroSound = document.querySelector("[data-hero-sound]");
+
+  if (heroVideo) {
+    var still = false;
+    try {
+      still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    } catch (e) {}
+    if (still) {
+      heroVideo.removeAttribute("autoplay");
+      heroVideo.pause();
+      heroVideo.controls = true;
+      if (heroSound) heroSound.hidden = true;
+    }
+  }
+
+  if (heroVideo && heroSound) {
+    var soundLabel = heroSound.querySelector("[data-hero-sound-label]");
+    heroSound.addEventListener("click", function () {
+      var on = heroVideo.muted;
+      heroVideo.muted = !on;
+      if (on) {
+        // Restart so the music is heard from the top, not mid-track.
+        heroVideo.currentTime = 0;
+        var played = heroVideo.play();
+        if (played && played.catch) played.catch(function () {});
+      }
+      heroSound.setAttribute("aria-pressed", String(on));
+      if (soundLabel) soundLabel.textContent = on ? "Sound off" : "Sound on";
+    });
+  }
+
   /* ---------------------------------------------------------- mobile nav */
 
   var btn = document.getElementById("navToggle");
