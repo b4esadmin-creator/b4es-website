@@ -504,6 +504,23 @@
     background-position: right 1rem center;
   }
 
+  /* ---------- Newsletter dialog ---------- */
+
+  .nl-dialog {
+    @apply m-auto w-[calc(100%-2rem)] max-w-[30rem] overflow-hidden rounded-2xl border-0 bg-white p-0 shadow-2xl;
+  }
+  .nl-dialog::backdrop { background: rgba(2, 36, 84, 0.55); }
+  .nl-dialog[open] { animation: nl-in 0.3s ease-out; }
+  @keyframes nl-in { from { opacity: 0; transform: translateY(12px); } }
+  @media (prefers-reduced-motion: reduce) { .nl-dialog[open] { animation: none; } }
+  .nl-head { @apply relative bg-ink px-6 pb-6 pt-7 pr-14; }
+  .nl-close {
+    @apply absolute right-3 top-3 inline-flex h-10 w-10 items-center justify-center rounded-full
+           text-white/80 hover:bg-white/10 hover:text-white;
+  }
+  .nl-body { @apply px-6 pb-5 pt-6; }
+  .nl-busy { opacity: 0.65; }
+
   /* ---------- Misc ---------- */
 
   .kicker-line {

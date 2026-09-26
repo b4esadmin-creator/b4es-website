@@ -12,6 +12,7 @@ import {
   linkCard,
   capacityTransfer,
   videoBand,
+  newsletterDialog,
 } from "../components.mjs";
 import { DIFFERENTIATORS } from "../data/why.mjs";
 
@@ -168,6 +169,8 @@ ${sec(
 </section>
 
 ${ctaBand()}
+
+${newsletterDialog()}
 `;
 
   return {

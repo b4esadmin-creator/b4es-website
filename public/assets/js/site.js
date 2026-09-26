@@ -330,6 +330,118 @@
     request();
   }
 
+  /* -------------------------------------------------------------- newsletter
+   *
+   * The home page carries a sign-up <dialog>. It opens a moment after the page
+   * loads, once per visitor (a dismissal is remembered for 30 days, a sign-up
+   * for good), and only if GET /api/subscribe says email is set up.
+   */
+
+  (function () {
+    // Confirm page: move the token from the link into the form.
+    var tokenInput = document.getElementById("nlToken");
+    if (tokenInput) {
+      var t = (new URLSearchParams(location.search).get("token") || "").replace(/[^0-9a-f]/g, "");
+      tokenInput.value = t;
+    }
+
+    var dlg = document.getElementById("newsletterDialog");
+    if (!dlg || typeof dlg.showModal !== "function" || typeof window.fetch !== "function") return;
+
+    var KEY = "b4es-newsletter";
+    var DAY = 86400000;
+    function remember(v) {
+      try { localStorage.setItem(KEY, v); } catch (e) {}
+    }
+    function seen() {
+      try {
+        var v = localStorage.getItem(KEY);
+        if (!v) return false;
+        if (v === "subscribed") return true;
+        return Date.now() - Number(v) < 30 * DAY;
+      } catch (e) {
+        return true; // no storage: do not nag on every visit
+      }
+    }
+    if (seen()) return;
+
+    var nlForm = document.getElementById("newsletterForm");
+    var nlStatus = document.getElementById("nlStatus");
+    var nlSubmit = document.getElementById("nlSubmit");
+    var nlStarted = document.getElementById("nlStarted");
+    var nlEmail = document.getElementById("nlEmail");
+    var done = false;
+
+    function say(kind, text) {
+      var tone = kind === "error" ? "text-gold-deep" : "text-teal-dark";
+      nlStatus.innerHTML = '<p class="text-[0.9375rem] font-semibold ' + tone + '"></p>';
+      nlStatus.firstChild.textContent = text;
+    }
+
+    dlg.addEventListener("close", function () {
+      if (!done) remember(String(Date.now()));
+    });
+    dlg.addEventListener("click", function (e) {
+      // Click on the backdrop closes it.
+      if (e.target === dlg) dlg.close();
+    });
+    Array.prototype.forEach.call(dlg.querySelectorAll("[data-nl-close]"), function (b) {
+      b.addEventListener("click", function () { dlg.close(); });
+    });
+
+    nlForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var email = (nlEmail.value || "").trim();
+      if (!/^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/.test(email)) {
+        say("error", "Please enter a valid email address.");
+        nlEmail.focus();
+        return;
+      }
+      nlSubmit.disabled = true;
+      nlSubmit.classList.add("nl-busy");
+      fetch(nlForm.getAttribute("action"), {
+        method: "POST",
+        headers: { "content-type": "application/json", accept: "application/json" },
+        body: JSON.stringify({
+          email: email,
+          website: document.getElementById("nlWebsite").value,
+          started_at: Number(nlStarted.value) || 0,
+          source: location.pathname,
+        }),
+      })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (data.ok) {
+            done = true;
+            remember("subscribed");
+            nlForm.reset();
+            say("ok", "Nearly there. Check your inbox for a link to confirm your subscription.");
+          } else {
+            say("error", data.error || "That did not work. Please try again.");
+          }
+        })
+        .catch(function () {
+          say("error", "We could not reach the server. Please try again.");
+        })
+        .then(function () {
+          nlSubmit.disabled = false;
+          nlSubmit.classList.remove("nl-busy");
+        });
+    });
+
+    fetch("/api/subscribe", { headers: { accept: "application/json" } })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (!data.enabled) return;
+        setTimeout(function () {
+          if (seen() || dlg.open || document.querySelector("dialog[open]")) return;
+          if (nlStarted) nlStarted.value = String(Date.now());
+          dlg.showModal();
+        }, 2500);
+      })
+      .catch(function () {});
+  })();
+
   /* ------------------------------------------------------------ contact form
    *
    * Progressive enhancement. Without JavaScript the form posts normally to

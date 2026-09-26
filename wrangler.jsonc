@@ -63,7 +63,20 @@
     // Sender must be on a domain onboarded to Email Routing.
     "ENQUIRY_FROM": "website@b4es.co.uk",
     // Must match the binding's destination_address above.
-    "ENQUIRY_TO": "b4es.admin@gmail.com"
+    "ENQUIRY_TO": "b4es.admin@gmail.com",
+
+    // RESEND (https://resend.com). Used when the RESEND_API_KEY secret is set
+    // (Cloudflare dashboard -> Workers -> b4es-website -> Settings ->
+    // Variables and Secrets, type "Secret"; never put the key in this file).
+    // Needs b4es.co.uk verified as a sending domain in Resend so ENQUIRY_FROM
+    // can send. Without the key, enquiries use the send_email binding above
+    // and the newsletter sign-up stays hidden.
+    //
+    // Enquiries go here. info@ is routed to Gmail by Email Routing.
+    "ENQUIRY_TO_RESEND": "info@b4es.co.uk",
+    // Optional Resend segment id for confirmed newsletter subscribers. Empty
+    // means contacts are added without a segment.
+    "RESEND_SEGMENT_ID": ""
   },
 
   "observability": {

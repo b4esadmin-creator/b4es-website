@@ -86,14 +86,14 @@ export function privacyPage() {
       {
         h: "Why we use it, and our lawful basis",
         p: [
-          "<ul><li><strong>Responding to enquiries</strong>: legitimate interests, in responding to a request you have made of us.</li><li><strong>Providing services and managing engagements</strong>: performance of a contract, or steps taken at your request before entering one.</li><li><strong>Recruitment</strong>: legitimate interests, in assessing candidates for roles.</li><li><strong>Legal and regulatory obligations</strong>: including accounting and anti-money-laundering record-keeping where applicable.</li><li><strong>Site security and integrity</strong>: legitimate interests, in keeping the site available and secure.</li></ul>",
+          "<ul><li><strong>Responding to enquiries</strong>: legitimate interests, in responding to a request you have made of us.</li><li><strong>Providing services and managing engagements</strong>: performance of a contract, or steps taken at your request before entering one.</li><li><strong>Recruitment</strong>: legitimate interests, in assessing candidates for roles.</li><li><strong>Legal and regulatory obligations</strong>: including accounting and anti-money-laundering record-keeping where applicable.</li><li><strong>Site security and integrity</strong>: legitimate interests, in keeping the site available and secure.</li><li><strong>Our newsletter</strong>: your consent, which you give by confirming your subscription from the email we send. You can unsubscribe at any time using the link in every newsletter, or by emailing us.</li></ul>",
           "We do not use your personal data for automated decision-making or profiling, and we do not sell it.",
         ],
       },
       {
         h: "Who we share it with",
         p: [
-          "Contact form submissions are stored in our own database on Cloudflare infrastructure, which also hosts this website and delivers the notification email. No separate third-party form or email provider is involved.",
+          "Contact form submissions and newsletter sign-ups are stored in our own database on Cloudflare infrastructure, which also hosts this website. We send email, including enquiry notifications and newsletter emails, through Resend, an email delivery provider acting as our processor. Resend is based in the United States; we rely on its data processing agreement and an appropriate UK transfer mechanism, as described below.",
           "We share personal data only where necessary: with our delivery partner where they are involved in providing services to you, under a written agreement imposing confidentiality and security obligations; with professional advisers such as accountants, insurers and lawyers; with service providers who support our operations, such as email and IT hosting; and with regulators or law enforcement where we are legally required to do so.",
           "We do not share your information with third parties for their own marketing purposes.",
         ],
@@ -108,7 +108,7 @@ export function privacyPage() {
       {
         h: "How long we keep it",
         p: [
-          "<ul><li><strong>Enquiries that do not lead to an engagement</strong>: up to 24 months from last contact.</li><li><strong>Client engagement records</strong>: for the duration of the engagement and then for the period required by law and by our professional and insurance obligations, ordinarily at least six years.</li><li><strong>Recruitment applications</strong>: up to 12 months, unless you ask us to keep them longer for future roles.</li><li><strong>Server logs</strong>: a short rolling period for security and diagnostic purposes.</li></ul>",
+          "<ul><li><strong>Enquiries that do not lead to an engagement</strong>: up to 24 months from last contact.</li><li><strong>Client engagement records</strong>: for the duration of the engagement and then for the period required by law and by our professional and insurance obligations, ordinarily at least six years.</li><li><strong>Recruitment applications</strong>: up to 12 months, unless you ask us to keep them longer for future roles.</li><li><strong>Newsletter subscribers</strong>: until you unsubscribe. Sign-ups that are never confirmed are deleted after 30 days.</li><li><strong>Server logs</strong>: a short rolling period for security and diagnostic purposes.</li></ul>",
         ],
       },
       {

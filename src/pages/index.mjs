@@ -11,6 +11,7 @@ import { privacyPage, termsPage, cookiesPage } from "./legal.mjs";
 import { notFoundPage } from "./notFound.mjs";
 import { whyUsPage } from "./whyUs.mjs";
 import { partnersPage } from "./partners.mjs";
+import { newsletterPages } from "./newsletter.mjs";
 
 /**
  * Assembles every page definition and renders it through the shared layout.
@@ -45,6 +46,9 @@ export async function page() {
   // Reachable and useful, but kept out of the sitemap and search results.
   const ty = thankYouPage();
   pages.push({ path: ty.path, html: shell(ty), noindex: true });
+
+  // Newsletter sign-up steps: reachable from emails and redirects only.
+  for (const d of newsletterPages()) pages.push({ path: d.path, html: shell(d), noindex: true });
 
   // 404 is emitted as a file but kept out of the sitemap.
   const nf = notFoundPage();

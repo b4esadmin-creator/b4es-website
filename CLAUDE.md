@@ -189,8 +189,21 @@ partners (26 Sep 2026):
   `b4es.admin@gmail.com` (`wrangler.jsonc`), but only start sending once
   Cloudflare Email Routing is enabled and that address verified; until then
   rows are stored with `notified = 0`.
+- **Resend (26 Sep 2026, requested by Faisal):** code is live but dormant
+  until the `RESEND_API_KEY` Worker secret is set (README, "Email via
+  Resend"). Then enquiries email `info@b4es.co.uk` through Resend (falling back
+  to the Cloudflare binding), and the home page shows a newsletter sign-up
+  dialog (double opt-in, `subscribers` table in D1, confirmed addresses go to
+  Resend Contacts). The `subscribers` table was created in production by hand
+  (no migration tracking on this database). The privacy notice now names
+  Resend as the email processor and covers newsletter consent and retention.
 
 ## Open items
+- **Resend setup (owner):** create the Resend account, verify b4es.co.uk
+  (EU region) with the DNS records it lists, add a Full-access API key as the
+  Worker secret `RESEND_API_KEY`, optionally set `RESEND_SEGMENT_ID`. Until
+  then the newsletter dialog stays hidden. Resend is US-based: accept its DPA
+  so the privacy notice's transfer statement holds.
 
 - **Second office address**: not yet provided. Add it to `SITE.offices`.
 - **Registered office is a member's home address**: flagged to the partners
