@@ -125,7 +125,7 @@ function validate(s) {
   if (!s.email) errors.email = "Please give us an email address.";
   else if (!looksLikeEmail(s.email)) errors.email = "That email address does not look right.";
   if (!s.message) errors.message = "Please tell us what you are dealing with.";
-  else if (s.message.length < 15) errors.message = "A little more detail would help us reply usefully.";
+  else if (s.message.length < 15) errors.message = "Please write at least 15 characters so we can reply usefully.";
   if (!s.consent) errors.consent = "We need your consent before we can reply.";
   return errors;
 }

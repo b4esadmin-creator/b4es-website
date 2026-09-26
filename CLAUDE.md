@@ -185,7 +185,10 @@ partners (26 Sep 2026):
   41 Woodside Close, Grays, RM16 2DN (from the LLP Members' Agreement,
   25 Sep 2026), shown on Contact and in the privacy notice. Offices live in
   `SITE.offices`; one with no address lines is hidden.
-- **Contact form:** every enquiry is saved in D1. Email notifications go to
+- **Contact form:** fixed 26 Sep 2026: the Send button did nothing for
+  anyone with motion enabled, because the motion code's `var pending`
+  replaced the form's `pending()` function (now `setBusy()`); only no-JS or
+  reduced-motion visitors could submit before that. Every enquiry is saved in D1. Email notifications go to
   `b4es.admin@gmail.com` (`wrangler.jsonc`), but only start sending once
   Cloudflare Email Routing is enabled and that address verified; until then
   rows are stored with `notified = 0`.
