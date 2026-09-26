@@ -34,3 +34,18 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: dry-run-no-deploy
           WRANGLER_SEND_METRICS: "false"
+
+      - name: Ledger report tests
+        run: node --test apps/ledger/test/reports.test.mjs
+
+      - name: Ledger database rules
+        run: bash apps/ledger/test/triggers.sh
+
+      - name: Ledger syntax
+        run: for f in apps/ledger/src/*.js apps/ledger/public/*.js; do node --check "$f"; done
+
+      - name: Validate ledger Cloudflare config
+        run: npx wrangler deploy --dry-run -c apps/ledger/wrangler.jsonc
+        env:
+          CLOUDFLARE_API_TOKEN: dry-run-no-deploy
+          WRANGLER_SEND_METRICS: "false"
