@@ -482,6 +482,7 @@ ${hero({
     "Choosing the wrong model is the most common reason outsourcing looks expensive. A firm with lumpy overflow does not need a dedicated resource; a firm with steady volume is overpaying for per-job. This page explains the trade-offs, including where each model works against you.",
   primary: { href: "/contact/", label: "Get a written proposal" },
   secondary: { href: "/how-we-work/", label: "How we work" },
+  aside: illoScene("engagement-models"),
   trail: [{ label: "Home", href: "/" }, { label: "Engagement models" }],
 })}
 
@@ -679,6 +680,7 @@ ${hero({
   primary: { href: "/contact/", label: "Request the diligence pack" },
   secondary: { href: "/how-we-work/", label: "How we work" },
   pills: ["UK GDPR Article 28 DPA", "ISO 27001-aligned controls", "Named-login working", "Documented breach procedure"],
+  aside: illoScene("security"),
   trail: [{ label: "Home", href: "/" }, { label: "Security" }],
 })}
 
@@ -851,6 +853,7 @@ ${hero({
     "B4ES is early. That means the people joining now shape how this operates rather than inheriting someone else's process — and it means we are honest that this is a build, not a finished machine.",
   primary: { href: `mailto:${SITE.emailCareers}`, label: "Send us your CV" },
   secondary: { href: "/about/", label: "About B4ES" },
+  aside: illoScene("careers"),
   trail: [{ label: "Home", href: "/" }, { label: "Careers" }],
 })}
 

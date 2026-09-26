@@ -420,6 +420,7 @@ ${hero({
     "Including the awkward ones. If our answer to any of these differs from a competitor's, that difference is worth interrogating rather than accepting — in either direction.",
   primary: { href: "/contact/", label: "Ask us something else" },
   secondary: { href: "/security/", label: "Security position" },
+  aside: illoScene("faqs"),
   trail: [{ label: "Home", href: "/" }, { label: "FAQs" }],
 })}
 

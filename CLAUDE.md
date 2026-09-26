@@ -76,8 +76,9 @@ edit cells.
   scenes, `cat-<category>-480/800.webp` for white spots). Use
   `illoScene(name)` / `illoSpot(category)` from `src/components.mjs`.
   Scenes: Home, Services, For accountants, For business, How we work,
+  Engagement models, Security, Careers, FAQs, Insights, Sectors and
   Contact heroes, and the Strategic Partners "How our partnerships work"
-  section. Spots: every service page hero (by category) and the Services
+  section. The For business scene was regenerated with a £ coin. Spots: every service page hero (by category) and the Services
   category tabs. Motion is a slow CSS float, off under reduced motion.
   The home proposition card moved from the hero to a section just below it.
   thebpo.net was the loose reference, but B4ES keeps its own look.
@@ -113,9 +114,8 @@ edit cells.
   b4es.co.uk DNS at Abacus (it asked for A records → 66.71.220.1); that
   would take the live site and contact form off Cloudflare. Test on a
   subdomain first if hosting there is ever wanted.
-- **Illustrations not yet on**: Engagement models, Security, Careers,
-  FAQs, Insights, Sectors (About and Why Us keep their SVGs; legal pages
-  stay plain). The For business scene has a small "$" coin; regenerate it
-  in Canva if the partners want it gone. No stats/counters for now (Yawar).
+- **Illustrations**: every page now has one except About and Why Us (keep
+  their SVGs), insight articles, legal pages and the 404 (plain by choice).
+  No stats/counters for now (Yawar).
 - Placeholders still empty in `src/data/site.mjs`: phone, Companies House
   number, ICO reference, LinkedIn URL.
