@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>B4ES Ledger</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#022454">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="B4ES Ledger">
+<link rel="manifest" href="/manifest.webmanifest" crossorigin="use-credentials">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="stylesheet" href="/app.css">
+<script src="/app.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <a href="#/dashboard" class="brand" aria-label="B4ES Ledger home">
+    <img src="/favicon.svg" alt="" width="28" height="28">
+    <span>Ledger</span>
+  </a>
+  <label class="entity-pick">
+    <span class="sr-only">Company</span>
+    <select id="entitySelect" aria-label="Company"></select>
+  </label>
+  <button type="button" id="userBtn" class="user-btn" aria-haspopup="true" aria-expanded="false"></button>
+  <div id="userMenu" class="user-menu" hidden>
+    <p id="userEmail" class="muted small"></p>
+    <a href="#/settings">Settings</a>
+    <a href="/cdn-cgi/access/logout" id="signOut">Sign out</a>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Sections">
+  <a href="#/dashboard" data-nav="dashboard">Dashboard</a>
+  <a href="#/entries" data-nav="entries">Entries</a>
+  <a href="#/approvals" data-nav="approvals">Approvals <span id="pendingBadge" class="badge" hidden></span></a>
+  <a href="#/accounts" data-nav="accounts">Accounts</a>
+  <a href="#/reports/pnl" data-nav="reports">Reports</a>
+  <a href="#/settings" data-nav="settings">Settings</a>
+</nav>
+
+<main id="view" class="view" tabindex="-1">
+  <p class="loading">Loading…</p>
+</main>
+
+<a href="#/entries/new" class="fab" aria-label="New entry" id="fab">+</a>
+
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+<noscript><p class="view">The ledger needs JavaScript.</p></noscript>
+</body>
+</html>

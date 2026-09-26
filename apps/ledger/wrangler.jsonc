@@ -1,0 +1,46 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+
+  // B4ES Ledger: private bookkeeping app on ledger.b4es.co.uk.
+  // Separate from the public site on purpose (own Worker, own database).
+  "name": "b4es-ledger",
+  "main": "./src/index.js",
+  "compatibility_date": "2026-08-21",
+
+  // Every request goes through the Worker first, so the Access login check
+  // runs before any page or file is served.
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "not_found_handling": "none"
+  },
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "b4es-ledger",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "./migrations"
+    }
+  ],
+
+  "vars": {
+    // Cloudflare Access. Until both are filled in the app shows
+    // "set-up pending" and serves nothing. Neither value is secret.
+    //   TEAM_DOMAIN: https://<team>.cloudflareaccess.com
+    //   POLICY_AUD:  the Access application's "Application Audience (AUD) Tag"
+    "TEAM_DOMAIN": "",
+    "POLICY_AUD": "",
+    // Signed-in emails that get the admin role on first sign-in.
+    "ADMIN_EMAILS": "b4es.admin@gmail.com"
+  },
+
+  // Only the custom domain, which sits behind Cloudflare Access. The
+  // workers.dev and preview URLs would bypass Access, so they are off.
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "ledger.b4es.co.uk", "custom_domain": true }],
+
+  "observability": { "enabled": true }
+}

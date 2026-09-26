@@ -120,6 +120,15 @@ partners (26 Sep 2026):
   ledger.b4es.co.uk (send AUD tag and team domain), enable R2 (backups,
   statements), GitHub deploy token needs D1:Edit, 2-step verification on the
   shared Gmail and Cloudflare.
+- **Status:** stage 1 code is merged (app, API, reports, approvals, PWA).
+  It is **not live yet**: `database_id` in `apps/ledger/wrangler.jsonc` is a
+  placeholder, so `ledger-deploy.yml` skips with a notice. Once the owner
+  adds D1:Edit to the token, run `ledger-db-create.yml`, put the new id in
+  `wrangler.jsonc` and merge; the deploy then applies migrations and ships.
+- **Working on the ledger locally:** `apps/ledger/README.md` has the
+  commands (local D1, `wrangler dev` with `DEV_EMAIL` and
+  `--local-upstream`, tests). CI runs the report tests, the 34 database-rule
+  tests and a dry-run deploy.
 
 ## Project state (as of 26 Sep 2026)
 
