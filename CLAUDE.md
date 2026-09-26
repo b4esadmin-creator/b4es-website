@@ -20,6 +20,14 @@ For every change:
 3. Confirm the **Deploy to Cloudflare** run succeeds and the live site
    serves the change.
 
+**Only GitHub deploys to the live site; never run `wrangler deploy` by
+hand** (or from any other tool, local copy or Abacus.AI). A manual deploy on
+26 Sep 2026 at 14:46 UTC overwrote the live site with an old copy that showed
+test@b4es.co.uk and undid that day's work; it was fixed by re-running the
+Deploy to Cloudflare workflow on `main`. If the live site ever differs from
+`main`, re-run that workflow (Actions → Deploy to Cloudflare → Run workflow)
+rather than deploying by hand.
+
 Never merge on a red check, and report back if a deploy fails. Start each
 session by syncing your branch with `origin/main`: another partner may have
 shipped since you last looked.
