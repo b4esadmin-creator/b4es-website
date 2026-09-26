@@ -672,3 +672,41 @@ export function timezoneStrip({ bare = false } = {}) {
 
   return bare ? inner : `<section class="section"><div class="wrap">${inner}</div></section>`;
 }
+
+/* Newsletter sign-up, shown as a dialog on the home page. It stays closed
+   until site.js has checked GET /api/subscribe reports the newsletter as
+   enabled, so nothing appears before Resend is set up. Double opt-in: the
+   Worker emails a confirmation link. */
+export function newsletterDialog() {
+  return `<dialog id="newsletterDialog" class="nl-dialog" aria-labelledby="nlTitle" aria-describedby="nlLede">
+  <div class="nl-head">
+    <p class="eyebrow text-gold">B4ES insights</p>
+    <h2 id="nlTitle" class="mt-2 font-display text-[1.5rem] leading-snug text-white">Get our insights by email</h2>
+    <p id="nlLede" class="mt-2 text-[0.9375rem] leading-relaxed text-white/80">
+      Short notes on UK tax deadlines, practice capacity and running a finance function. Unsubscribe at any time.
+    </p>
+    <button type="button" class="nl-close" data-nl-close aria-label="Close">${icon("close", "h-5 w-5")}</button>
+  </div>
+  <form id="newsletterForm" class="nl-body" method="post" action="/api/subscribe" novalidate>
+    <div class="absolute left-[-9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+      <label for="nlWebsite">Leave this field empty</label>
+      <input type="text" id="nlWebsite" name="website" tabindex="-1" autocomplete="off">
+    </div>
+    <input type="hidden" id="nlStarted" name="started_at" value="">
+    <input type="hidden" name="source" value="/">
+    <label class="field-label" for="nlEmail">Work email</label>
+    <div class="flex flex-col gap-3 sm:flex-row">
+      <input class="field" type="email" id="nlEmail" name="email" required autocomplete="email" placeholder="you@yourfirm.co.uk">
+      <button type="submit" id="nlSubmit" class="btn-primary">Subscribe</button>
+    </div>
+    <div id="nlStatus" class="mt-3" role="status" aria-live="polite"></div>
+    <p class="mt-4 text-[0.8125rem] leading-relaxed text-slate-deep">
+      We will email you a link to confirm. We use your address only to send these emails, through our email provider Resend. See our
+      <a href="/privacy/" class="font-semibold text-teal hover:underline">privacy notice</a>.
+    </p>
+    <p class="mt-3 text-right">
+      <button type="button" class="text-[0.875rem] font-semibold text-slate-mid hover:text-ink" data-nl-close>No thanks</button>
+    </p>
+  </form>
+</dialog>`;
+}

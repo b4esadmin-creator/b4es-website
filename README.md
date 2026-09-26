@@ -248,6 +248,54 @@ npx wrangler secret put IP_SALT
 
 ---
 
+## Email via Resend (enquiries and newsletter)
+
+When the Worker secret `RESEND_API_KEY` is set, email goes through
+[Resend](https://resend.com):
+
+- **Contact form**: each enquiry is emailed to `info@b4es.co.uk`
+  (`ENQUIRY_TO_RESEND` in `wrangler.jsonc`), from `website@b4es.co.uk`, with
+  Reply-To set to the sender. If Resend fails, the Worker falls back to the
+  Cloudflare `send_email` binding (to `b4es.admin@gmail.com`) and records the
+  Resend error in `notify_error`.
+- **Newsletter**: the home page shows a sign-up dialog 2.5 seconds after
+  load, once per visitor (a dismissal is remembered for 30 days). It only
+  appears when `GET /api/subscribe` reports `enabled: true`, which is when the
+  key is set. Sign-up is double opt-in: `POST /api/subscribe` stores a pending
+  row in the `subscribers` table and emails a link to `/newsletter/confirm/`;
+  pressing the button there posts to `/api/subscribe/confirm`, marks the row
+  confirmed and adds the address to Resend Contacts (and to the segment in
+  `RESEND_SEGMENT_ID`, if set). The button step stops mail scanners that open
+  links from subscribing people. Send newsletters as Resend Broadcasts; Resend
+  adds the unsubscribe link and handles unsubscribes.
+
+One-time setup (owner):
+
+1. Create a Resend account (the shared b4es.admin@gmail.com) and add the
+   domain `b4es.co.uk` (region: EU, Ireland). Add the DNS records Resend lists
+   (DKIM TXT, and the MX and SPF TXT on the `send` subdomain) in Cloudflare
+   DNS. These do not touch the apex MX records used by Email Routing.
+2. Create an API key with **Full access** (a sending-only key cannot add
+   contacts), then in Cloudflare go to Workers & Pages → b4es-website →
+   Settings → Variables and Secrets → Add, type **Secret**, name
+   `RESEND_API_KEY`. Secrets survive deploys. Never commit the key.
+3. Optional: create a segment in Resend (for example "Newsletter") and put
+   its id in `RESEND_SEGMENT_ID`.
+4. Make sure Email Routing has a rule for `info@b4es.co.uk`, since Resend
+   delivers enquiries to that address.
+
+Reading subscribers:
+
+```bash
+npx wrangler d1 execute b4es-enquiries --remote \
+  --command "SELECT id, created_at, email, status, synced, sync_error FROM subscribers ORDER BY id DESC LIMIT 20"
+```
+
+`status = 'confirmed' AND synced = 0` means the address is confirmed but did
+not reach Resend Contacts; `sync_error` says why.
+
+---
+
 ## Motion
 
 Scroll animations are in `src/styles.css` (the Motion layer) and the motion
