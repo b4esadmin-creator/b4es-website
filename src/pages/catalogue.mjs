@@ -13,6 +13,8 @@ import {
   callout,
   sec,
   tabs,
+  illoScene,
+  illoSpot,
 } from "../components.mjs";
 
 /* ============================================================ services index */
@@ -27,8 +29,11 @@ export function servicesIndexPage() {
       id: c.id,
       label: c.label,
       content: `
-      <div class="mb-8 flex flex-wrap items-baseline justify-between gap-3">
-        <h2 class="font-display text-[1.625rem] leading-snug text-ink">${c.label}</h2>
+      <div class="mb-8 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-4">
+          ${illoSpot(c.id, { cls: "w-16 shrink-0 sm:w-20" })}
+          <h2 class="font-display text-[1.625rem] leading-snug text-ink">${c.label}</h2>
+        </div>
         <p class="text-[0.875rem] text-slate-mid">${items.length} service${items.length > 1 ? "s" : ""} &middot; select one for the full detail</p>
       </div>
       ${grid(
@@ -79,6 +84,7 @@ ${hero({
     "Accounts, tax, payroll, audit support, advisory and business support, each delivered under your brand and your review, in your software, to a scope agreed in writing before any work begins. Choose a category, then a service for the full detail.",
   primary: { href: "/contact/", label: "Contact us" },
   secondary: { href: "/why-us/#engagement-models", label: "How engagements work" },
+  aside: illoScene("services"),
   trail: [{ label: "Home", href: "/" }, { label: "Services" }],
 })}
 
@@ -165,6 +171,7 @@ ${hero({
   primary: { href: "/contact/", label: "Contact us" },
   secondary: { href: "/engagement-models/", label: "Engagement models" },
   pills: ["Fully white-labelled", "Second-person review", "Non-solicitation contracted", "No minimum commitment"],
+  aside: illoScene("accountants"),
   trail: [{ label: "Home", href: "/" }, { label: "For accountancy practices" }],
 })}
 
@@ -349,6 +356,7 @@ ${hero({
   primary: { href: "/contact/", label: "Book a discovery call" },
   secondary: { href: "/services/finance-function/", label: "Outsourced finance function" },
   pills: ["No fixed headcount", "Month-end to a published timetable", "Segregation of duties built in", "Clean exit if you in-source"],
+  aside: illoScene("business"),
   trail: [{ label: "Home", href: "/" }, { label: "For businesses" }],
 })}
 

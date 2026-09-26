@@ -10,6 +10,7 @@ import {
   ctaBand,
   callout,
   sec,
+  illoSpot,
 } from "../components.mjs";
 
 const AUDIENCE_LABEL = {
@@ -83,6 +84,7 @@ ${hero({
   primary: { href: "/contact/", label: "Discuss this service" },
   secondary: { href: "/engagement-models/", label: "Engagement models" },
   pills: s.audience.map((a) => AUDIENCE_LABEL[a]),
+  aside: illoSpot(s.category, { eager: true, cls: "max-w-sm illo-float" }),
   trail: [
     { label: "Home", href: "/" },
     { label: "Services", href: "/services/" },

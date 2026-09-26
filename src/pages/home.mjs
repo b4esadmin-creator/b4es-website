@@ -11,28 +11,35 @@ import {
   tabs,
   linkCard,
   capacityTransfer,
+  illoScene,
 } from "../components.mjs";
 import { DIFFERENTIATORS } from "../data/why.mjs";
 
-const heroAside = `
-<div class="rounded-2xl border border-white/10 bg-white/[0.05] p-7 backdrop-blur-sm">
-  <p class="text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-teal-light">The proposition</p>
-  <p class="mt-4 font-display text-[1.375rem] leading-snug text-white">
-    Market-leading quality. Materially better pricing. Your client stays yours.
-  </p>
-  <ul class="check-list check-list-light mt-6">
-    <li>Delivery capacity for UK accountancy practices, fully white-labelled</li>
-    <li>A complete outsourced finance function for growing UK businesses</li>
-    <li>Backed by a specialist finance and advisory firm operating since 2014</li>
-    <li>Structured, staffed and managed around UK deadlines and UK working hours</li>
-  </ul>
-  <div class="mt-7 flex items-center gap-3 border-t border-white/10 pt-5">
-    <span class="text-teal-light">${icon("shield", "h-5 w-5")}</span>
-    <p class="text-[0.8125rem] leading-snug text-slate-soft">
-      UK GDPR Article 28 data processing agreement on every engagement. No client data leaves your systems.
-    </p>
+// The proposition, set just under the hero so the hero can carry the
+// illustration. Wording unchanged from when it sat in the hero aside.
+const proposition = `
+<section class="section-tight">
+  <div class="wrap grid items-start gap-10 lg:grid-cols-[1fr_1.1fr]">
+    <div data-reveal="up">
+      <p class="eyebrow mb-4">The proposition</p>
+      <p class="font-display text-[1.625rem] leading-snug text-ink sm:text-[1.875rem]">
+        Market-leading quality. Materially better pricing. Your client stays yours.
+      </p>
+      <div class="mt-7 flex items-start gap-3 border-t border-line pt-5">
+        <span class="mt-0.5 text-teal">${icon("shield", "h-5 w-5")}</span>
+        <p class="text-[0.9375rem] leading-snug text-slate-deep">
+          UK GDPR Article 28 data processing agreement on every engagement. No client data leaves your systems.
+        </p>
+      </div>
+    </div>
+    <ul class="check-list" data-reveal="up" style="--d:1">
+      <li>Delivery capacity for UK accountancy practices, fully white-labelled</li>
+      <li>A complete outsourced finance function for growing UK businesses</li>
+      <li>Backed by a specialist finance and advisory firm operating since 2014</li>
+      <li>Structured, staffed and managed around UK deadlines and UK working hours</li>
+    </ul>
   </div>
-</div>`;
+</section>`;
 
 export function homePage() {
   const practiceServices = SERVICES.filter((s) => s.audience.includes("practice")).slice(0, 6);
@@ -46,7 +53,7 @@ ${hero({
     "Outsourced accounting, tax, payroll and back-office delivery for UK firms and growing UK businesses. The technical standard of the established outsourcing names, at a materially better rate, with the client relationship staying with you.",
   primary: { href: "/contact/", label: "Contact us" },
   secondary: { href: "/why-us/", label: "Why B4ES" },
-  aside: heroAside,
+  aside: illoScene("home"),
 })}
 
 <section class="border-b border-line bg-bone py-6">
@@ -67,6 +74,8 @@ ${hero({
       .join("")}
   </div>
 </section>
+
+${proposition}
 
 ${sec(
   "section",

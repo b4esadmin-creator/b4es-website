@@ -1,6 +1,6 @@
 import { PARTNERS } from "../data/site.mjs";
 import { icon, arrow } from "../icons.mjs";
-import { hero, sectionHead, featureCard, grid, ctaBand, callout, sec, artNetwork } from "../components.mjs";
+import { hero, sectionHead, featureCard, grid, ctaBand, callout, sec, artNetwork, illoScene } from "../components.mjs";
 
 /* ===================================================== strategic partners */
 
@@ -71,11 +71,14 @@ ${PARTNERS.map((p, i) => sec(`section${i % 2 ? " band-bone" : ""}`, partnerProfi
 ${sec(
   "section band-bone",
   `
-  ${sectionHead({
-    eyebrow: "How our partnerships work",
-    title: "You deal with one party. The structure behind it is in writing.",
-    max: "max-w-3xl",
-  })}
+  <div class="grid items-center gap-10 lg:grid-cols-[1.1fr_1fr]">
+    ${sectionHead({
+      eyebrow: "How our partnerships work",
+      title: "You deal with one party. The structure behind it is in writing.",
+      max: "max-w-3xl",
+    })}
+    <div data-reveal="right">${illoScene("partners", { eager: false })}</div>
+  </div>
   <div class="mt-10">${grid(HOW_IT_WORKS.map((h) => featureCard(h)), 3)}</div>
   <div class="mt-8">
     ${callout({
