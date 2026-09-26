@@ -424,8 +424,37 @@ function confirmationEmail(link) {
   return { text, html };
 }
 
+/**
+ * Push confirmed subscribers that are not yet in Resend Contacts (optionally
+ * into the RESEND_SEGMENT_ID segment). Runs after each confirmation and on the
+ * home page's status check, so a failure (Resend outage, a key without
+ * contact access) heals itself once the cause is fixed.
+ */
+async function syncContacts(env, limit = 20) {
+  if (!env.RESEND_API_KEY) return;
+  try {
+    const { results } = await env.DB.prepare(
+      `SELECT id, email FROM subscribers WHERE status = 'confirmed' AND synced = 0 ORDER BY id LIMIT ?1`
+    ).bind(limit).all();
+    for (const row of results || []) {
+      const contact = { email: row.email, unsubscribed: false };
+      if (env.RESEND_SEGMENT_ID) contact.segments = [{ id: env.RESEND_SEGMENT_ID }];
+      const r = await resend(env, "/contacts", contact);
+      const ok = r.ok || r.status === 409 || /already exists/i.test(r.error || "");
+      await env.DB.prepare(`UPDATE subscribers SET synced = ?1, sync_error = ?2 WHERE id = ?3`)
+        .bind(ok ? 1 : 0, ok ? null : String(r.error).slice(0, 400), row.id)
+        .run();
+      // Same cause will fail the rest too; try again next time.
+      if (!ok) break;
+    }
+  } catch (err) {
+    console.error("contact sync failed", err);
+  }
+}
+
 /** GET /api/subscribe: lets the page hide the sign-up until email is set up. */
-function subscribeStatus(env) {
+function subscribeStatus(env, ctx) {
+  ctx.waitUntil(syncContacts(env));
   return json({ ok: true, enabled: Boolean(env.RESEND_API_KEY) });
 }
 
@@ -542,22 +571,9 @@ async function handleConfirm(request, env, ctx) {
   ).bind(token, `-${TOKEN_TTL_DAYS} days`).first();
   if (!row) return go("/newsletter/link-expired/");
 
-  // Add to Resend Contacts (optionally into a segment). Best-effort: the
-  // confirmed row in D1 is the record of consent, and unsynced rows can be
-  // found with `WHERE status = 'confirmed' AND synced = 0`.
-  if (env.RESEND_API_KEY) {
-    const contact = { email: row.email, unsubscribed: false };
-    if (env.RESEND_SEGMENT_ID) contact.segments = [{ id: env.RESEND_SEGMENT_ID }];
-    ctx.waitUntil(
-      resend(env, "/contacts", contact).then((r) => {
-        const ok = r.ok || r.status === 409 || /already exists/i.test(r.error || "");
-        return env.DB.prepare(`UPDATE subscribers SET synced = ?1, sync_error = ?2 WHERE id = ?3`)
-          .bind(ok ? 1 : 0, ok ? null : String(r.error).slice(0, 400), row.id)
-          .run()
-          .catch((e) => console.error("sync status update failed", e));
-      })
-    );
-  }
+  // Add to Resend Contacts. Best-effort: the confirmed row in D1 is the
+  // record of consent, and anything that fails is retried by syncContacts.
+  ctx.waitUntil(syncContacts(env));
 
   return go("/newsletter/confirmed/");
 }
@@ -571,7 +587,7 @@ export default {
     if (pathname === "/api/enquiry") return handleEnquiry(request, env, ctx);
 
     if (pathname === "/api/subscribe") {
-      if (request.method === "GET") return subscribeStatus(env);
+      if (request.method === "GET") return subscribeStatus(env, ctx);
       if (request.method === "POST") return handleSubscribe(request, env);
       return json({ ok: false, error: "Method not allowed" }, 405);
     }
