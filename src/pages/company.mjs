@@ -111,7 +111,7 @@ export function aboutPage() {
       ${sectionHead({
         eyebrow: "The delivery partnership",
         title: "Who actually does the work",
-        lede: `Our delivery partner, ${PARTNER.name}, is a specialist accounting, tax, advisory and HR consulting firm headquartered in ${PARTNER.hq}, operating since ${PARTNER.founded} across ${PARTNER.offices.length} countries.`,
+        lede: `Our delivery partner is a specialist accounting, tax, advisory and HR consulting firm headquartered in ${PARTNER.hq}, operating since ${PARTNER.founded} across ${PARTNER.offices.length} countries. We take part directly in its recruitment, training and quality.`,
       })}
       <div class="prose-body mt-6">
         <p>B4ES owns the client relationship entirely. Our partner provides delivery under a written agreement with defined confidentiality, security and data protection obligations. You contract with one party and deal with one party.</p>
@@ -121,7 +121,7 @@ export function aboutPage() {
       href: "/strategic-partners/",
       ic: "handshake",
       title: "Our strategic partners",
-      body: `${PARTNER.name}'s capability, offices and how the partnership is governed.`,
+      body: "Our partner's capability, how we take part in its recruitment, training and quality, and how the partnership is governed.",
       cta: "Meet our partners",
     })}
   </div>`;

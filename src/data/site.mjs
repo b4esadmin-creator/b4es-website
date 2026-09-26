@@ -59,11 +59,12 @@ export const SITE = {
   hours: "Monday to Friday, 09:00–17:30 UK time",
 };
 
-// The delivery partnership. Facts here are drawn from thebpo.net and must be
-// kept accurate — they are the backbone of the site's credibility.
+// The delivery partnership. The partners asked (26 Sep 2026) that the site
+// does not name or link to the partner firm; describe it with `label`
+// instead. The facts below must stay accurate: they carry the page.
 export const PARTNER = {
-  name: "theBPO",
-  url: "https://thebpo.net",
+  label: "our delivery partner",
+  descriptor: "A specialist accounting, tax and advisory firm",
   founded: 2014,
   hq: "Karachi, Pakistan",
   offices: ["Pakistan", "United Kingdom", "Canada", "Saudi Arabia", "United States"],
@@ -87,7 +88,7 @@ export const PARTNERS = [
     role: "Delivery partner",
     region: "Pakistan",
     summary:
-      "A specialist accounting, taxation, advisory and HR consulting firm running this discipline since 2014. Their team delivers B4ES engagements from Pakistan, working UK hours to UK standards.",
+      "Accounting, taxation, advisory and HR consulting, run as a discipline since 2014. Their team delivers B4ES engagements from Pakistan, working UK hours to UK standards.",
   },
 ];
 
