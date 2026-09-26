@@ -109,28 +109,19 @@ edit cells.
   section. The For business scene was regenerated with a £ coin. Spots: every service page hero (by category) and the Services
   category tabs. Motion is a slow CSS float, off under reduced motion.
   The home proposition card moved from the hero to a section just below it.
-- **Home hero video (26 Sep 2026, Yawar):** the home illustration is replaced
-  by Yawar's 46 s video (WhatsApp MP4, its own soundtrack), cropped of 8 px
-  side bars to 832×468 and re-encoded: `public/assets/video/b4es-loop.mp4`
-  (H.264), `.webm` (VP9) fallback, `b4es-loop-poster.webp`; `heroVideo()`
-  in `src/components.mjs`. It uses the London photo and the original line
-  "Your fee earners are spending 62%…", both Yawar's explicit choice after
-  the photo-licence and advertising-claim risks were flagged. Autoplays
-  muted; reduced motion keeps
-  it paused with controls. Layout after pwc.com (Yawar's choice): a
-  full-width band above the hero (`videoBand()` in `src/components.mjs`),
-  nothing overlaid because the video has its own headlines; hero copy and
-  buttons follow below. Small Pause (WCAG 2.2.2) and Sound buttons top-right.
-  The source is only 832 px wide, so full-width it looks soft on desktop;
-  replace the files with a 1920×1080 export when one is available.
-- **Strategic Partners:** one partner (theBPO, Karachi, est. 2014), but the
-  site must **not name or link to it** (Yawar, 26 Sep 2026). It is described
-  as "our delivery partner" / "A specialist accounting, tax and advisory
-  firm" (`PARTNER.label`, `PARTNER.descriptor` in `src/data/site.mjs`), with
-  its facts (2014, Karachi HQ, 5 countries, service lines) kept. A "Quality
-  first" section on `/strategic-partners/#quality` says B4ES takes part
-  directly in partners' recruitment, training and quality, and that quality
-  is every partner's first priority. Add partners via `PARTNERS`.
+- **Home hero video (26 Sep 2026, Yawar):** a full-width band above the
+  hero (`videoBand()` in `src/components.mjs`, layout after pwc.com), with
+  nothing overlaid because the video carries its own headlines; hero copy
+  and buttons follow below. Files: `public/assets/video/b4es-hero.mp4`,
+  `.webm` fallback and `b4es-hero-poster.webp`, 1920×1080 (PR #20 replaced
+  the earlier 832 px `b4es-loop` clip). PR #21 makes the band full-bleed at
+  the video's own 16:9 ratio, so there are no side bars and no cropping of
+  the scene text; site.js measures the sticky header into `--hero-offset`
+  (CSP-safe, no inline styles). It uses the London photo and the line "Your
+  fee earners are spending 62%…", both Yawar's explicit choice after the
+  photo-licence and advertising-claim risks were flagged. Autoplays muted
+  with small Pause (WCAG 2.2.2) and Sound buttons top-right; reduced motion
+  keeps it paused with controls.
 - **SEO (26 Sep 2026):** home title is brand-first ("Better 4 Enterprise
   Solutions (B4ES) | …", used as given by `layout.mjs`); titles that already
   contain "B4ES" get no "| B4ES" suffix. Home JSON-LD is one `@graph`:
