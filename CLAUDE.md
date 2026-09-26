@@ -20,6 +20,14 @@ For every change:
 3. Confirm the **Deploy to Cloudflare** run succeeds and the live site
    serves the change.
 
+**Only GitHub deploys to the live site; never run `wrangler deploy` by
+hand** (or from any other tool, local copy or Abacus.AI). A manual deploy on
+26 Sep 2026 at 14:46 UTC overwrote the live site with an old copy that showed
+test@b4es.co.uk and undid that day's work; it was fixed by re-running the
+Deploy to Cloudflare workflow on `main`. If the live site ever differs from
+`main`, re-run that workflow (Actions → Deploy to Cloudflare → Run workflow)
+rather than deploying by hand.
+
 Never merge on a red check, and report back if a deploy fails. Start each
 session by syncing your branch with `origin/main`: another partner may have
 shipped since you last looked.
@@ -123,6 +131,14 @@ edit cells.
   first" section on `/strategic-partners/#quality` says B4ES takes part
   directly in partners' recruitment, training and quality, and that quality
   is every partner's first priority. Add partners via `PARTNERS`.
+- **SEO (26 Sep 2026):** home title is brand-first ("Better 4 Enterprise
+  Solutions (B4ES) | …", used as given by `layout.mjs`); titles that already
+  contain "B4ES" get no "| B4ES" suffix. Home JSON-LD is one `@graph`:
+  ProfessionalService (alternateName B4ES / Better 4 / Better 4 Enterprise
+  Solutions LLP, legalName, logo, registered address) plus WebSite (drives
+  the site name Google shows). Every page has `og:image`
+  (`public/assets/img/og-b4es.png`, 1200×630). Sitemap has `lastmod`.
+  At that date Google had not indexed the site at all.
 - **Contact details:** site email `info@b4es.co.uk`. Registered office
   41 Woodside Close, Grays, RM16 2DN (from the LLP Members' Agreement,
   25 Sep 2026), shown on Contact and in the privacy notice. Offices live in
@@ -168,5 +184,17 @@ edit cells.
   photo commercially (neither source is known) before promoting the site.
 - **No-photos rule**: the hero video is the one exception (London photo,
   photo-style people on slide 2), at Yawar's request.
+- **SEO steps only the partners can do** (b4es.admin@gmail.com):
+  1. Google Search Console: add a Domain property for b4es.co.uk, verify with
+     the DNS TXT record in Cloudflare DNS, submit
+     https://b4es.co.uk/sitemap.xml, and use URL inspection → Request
+     indexing on the home page. 2. Bing Webmaster Tools: import from Search
+     Console. 3. Cloudflare → SSL/TLS → Edge Certificates → turn on "Always
+     Use HTTPS" (http://b4es.co.uk currently serves 200 instead of
+     redirecting). 4. Create the LinkedIn company page and Google Business
+     Profile (service-area business, address hidden); then add the LinkedIn
+     URL to `SITE.linkedin` and as `sameAs` in the home schema. 5. Get a few
+     links to the site (Companies House listing once registered, partners'
+     own LinkedIn profiles, directories).
 - Placeholders still empty in `src/data/site.mjs`: phone, Companies House
   number, ICO reference, LinkedIn URL.

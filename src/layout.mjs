@@ -30,6 +30,8 @@ const JS_SRC = "/" + v("assets/js/site.js");
 const JS_HEAD = "/" + v("assets/js/head.js");
 const ICON_HREF = "/" + v("assets/img/favicon.svg");
 const TOUCH_ICON_HREF = "/" + v("assets/img/apple-touch-icon.png");
+// Share card (LinkedIn, WhatsApp, X): absolute URL, as crawlers require.
+const OG_IMAGE = SITE.baseUrl + "/" + v("assets/img/og-b4es.png");
 
 /* ---------------------------------------------------------------- logo */
 
@@ -244,7 +246,7 @@ export function page({
   noindex = false,
 }) {
   const fullTitle =
-    path === "/" ? `${SITE.name} | ${title}` : `${title} | ${SITE.name}`;
+    path === "/" || title.includes(SITE.name) ? title : `${title} | ${SITE.name}`;
   const canonical = `${SITE.baseUrl}${path}`;
 
   const jsonLd = schema
@@ -268,9 +270,14 @@ export function page({
 <meta property="og:description" content="${description}">
 <meta property="og:url" content="${canonical}">
 <meta property="og:locale" content="en_GB">
+<meta property="og:image" content="${OG_IMAGE}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Better 4 Enterprise Solutions LLP: outsourced accounting, tax and payroll">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${fullTitle}">
 <meta name="twitter:description" content="${description}">
+<meta name="twitter:image" content="${OG_IMAGE}">
 <link rel="icon" href="${ICON_HREF}" type="image/svg+xml">
 <link rel="apple-touch-icon" href="${TOUCH_ICON_HREF}">
 ${FONTS}

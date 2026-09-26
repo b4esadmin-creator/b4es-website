@@ -184,9 +184,9 @@ ${ctaBand({
 
   return {
     path: "/about/",
-    title: "About B4ES",
+    title: "About Better 4 Enterprise Solutions (B4ES)",
     description:
-      "B4ES (Better 4 Enterprise Solutions) is a UK-facing outsourcing and business solutions venture delivering accounting, tax, payroll and advisory support through an established specialist delivery partner operating since 2014.",
+      "Better 4 Enterprise Solutions LLP (B4ES) is a UK-facing outsourcing and business solutions venture delivering accounting, tax, payroll and advisory support through an established specialist delivery partner operating since 2014.",
     body,
   };
 }
