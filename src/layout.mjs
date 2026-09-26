@@ -98,19 +98,14 @@ function header(current) {
     return `<li><a href="${n.href}" class="${cls}">${n.label}</a></li>`;
   }).join("");
 
-  const mobileLinks = [
-    ...NAV.map((n) => ({ label: n.label, href: n.href })),
-    { label: "For accountancy practices", href: "/for-accountants/", sub: true },
-    { label: "For businesses", href: "/for-business/", sub: true },
-    { label: "How we work", href: "/how-we-work/", sub: true },
-    { label: "Security", href: "/security/", sub: true },
-    { label: "Insights", href: "/insights/", sub: true },
-  ]
-    .map(
-      (n) =>
-        `<li><a href="${n.href}" class="block border-b border-line ${n.sub ? "py-3 text-[0.9375rem] text-slate-deep" : "py-3.5 text-[1.0625rem] font-medium text-ink"}">${n.label}</a></li>`
-    )
-    .join("");
+  // The desktop tabs, minus Contact Us: the full-width "Contact us" button
+  // below the list does that job on phones. Secondary pages (For
+  // accountants, How we work, Security, Insights...) are reached from Why
+  // Us, Services and the footer, as on desktop.
+  const mobileLinks = NAV.filter((n) => n.href !== "/contact/").map(
+    (n) =>
+      `<li><a href="${n.href}" class="block border-b border-line py-3.5 text-[1.0625rem] font-medium text-ink">${n.label}</a></li>`
+  ).join("");
 
   return `
 <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-ink focus:px-4 focus:py-2 focus:text-white">Skip to content</a>
