@@ -46,7 +46,7 @@ export const SITE = {
     },
     {
       label: "London Office",
-      lines: ["21 Mahonia House", "20 Heartwood Boulevard", "London", "W3 6XE"],
+      lines: ["21 Mahonia House", "30 Heartwood Boulevard", "London", "W3 6XE"],
       country: "United Kingdom",
     },
   ],
