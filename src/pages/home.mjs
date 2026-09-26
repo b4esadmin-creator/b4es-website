@@ -11,7 +11,7 @@ import {
   tabs,
   linkCard,
   capacityTransfer,
-  heroVideo,
+  videoBand,
 } from "../components.mjs";
 import { DIFFERENTIATORS } from "../data/why.mjs";
 
@@ -46,6 +46,8 @@ export function homePage() {
   const businessServices = SERVICES.filter((s) => s.audience.includes("business")).slice(0, 3);
 
   const body = `
+${videoBand()}
+
 ${hero({
   eyebrow: "Better 4 Enterprise Solutions",
   title: "Delivery capacity for UK accountancy practices — and the businesses they serve.",
@@ -53,8 +55,6 @@ ${hero({
     "Outsourced accounting, tax, payroll and back-office delivery for UK firms and growing UK businesses. The technical standard of the established outsourcing names, at a materially better rate, with the client relationship staying with you.",
   primary: { href: "/contact/", label: "Contact us" },
   secondary: { href: "/why-us/", label: "Why B4ES" },
-  aside: heroVideo(),
-  wide: true,
 })}
 
 <section class="border-b border-line bg-bone py-6">

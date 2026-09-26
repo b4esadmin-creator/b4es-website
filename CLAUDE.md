@@ -97,11 +97,13 @@ edit cells.
   in `src/components.mjs`. It uses the London photo and the original line
   "Your fee earners are spending 62%…", both Yawar's explicit choice after
   the photo-licence and advertising-claim risks were flagged. Autoplays
-  muted; small "Sound on" button top-right (site.js); reduced motion keeps
-  it paused with controls. The home hero uses `hero({ wide: true })` for a
-  bigger video column (about 630 px) with a smaller headline. The source
-  is only 832 px wide, so it will look slightly soft on retina screens; ask
-  for a 1080p export if that matters.
+  muted; reduced motion keeps
+  it paused with controls. Layout after pwc.com (Yawar's choice): a
+  full-width band above the hero (`videoBand()` in `src/components.mjs`),
+  nothing overlaid because the video has its own headlines; hero copy and
+  buttons follow below. Small Pause (WCAG 2.2.2) and Sound buttons top-right.
+  The source is only 832 px wide, so full-width it looks soft on desktop;
+  replace the files with a 1920×1080 export when one is available.
 - **Strategic Partners:** theBPO (Karachi, est. 2014) is the only partner;
   add more via `PARTNERS` in `src/data/site.mjs`.
 - **Contact details:** site email `info@b4es.co.uk`. Registered office

@@ -59,6 +59,7 @@ const P = {
   quote:
     '<path d="M9.5 6C6.5 7.5 5 10 5 13v5h6v-6H8.5c0-2 .8-3.5 2.5-4.5L9.5 6ZM19.5 6C16.5 7.5 15 10 15 13v5h6v-6h-2.5c0-2 .8-3.5 2.5-4.5L19.5 6Z"/>',
   volume: '<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/>',
+  pause: '<path d="M9 6v12M15 6v12"/>',
   menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
   close: '<path d="m6 6 12 12M18 6 6 18"/>',
   chevronDown: '<path d="m6 9.5 6 6 6-6"/>',

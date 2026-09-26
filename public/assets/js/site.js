@@ -9,39 +9,60 @@
 
   /* ---------------------------------------------------------- hero video */
 
-  // Starts muted (the only way browsers allow autoplay); the button turns
-  // the music on and off. Under reduced motion it stays paused on the
-  // poster and shows the native controls instead.
+  // Starts muted (the only way browsers allow autoplay). Pause stops the
+  // motion (WCAG 2.2.2); Sound turns the music on from the top. Under reduced
+  // motion it stays paused on the poster with the native controls instead.
   var heroVideo = document.querySelector("[data-hero-video]");
-  var heroSound = document.querySelector("[data-hero-sound]");
 
   if (heroVideo) {
+    var heroControls = document.querySelector("[data-hero-controls]");
+    var pauseBtn = document.querySelector("[data-hero-pause]");
+    var soundBtn = document.querySelector("[data-hero-sound]");
     var still = false;
     try {
       still = matchMedia("(prefers-reduced-motion: reduce)").matches;
     } catch (e) {}
+
+    var play = function () {
+      var p = heroVideo.play();
+      if (p && p.catch) p.catch(function () {});
+    };
+
+    var setLabel = function (btn, sel, pressed, text) {
+      btn.setAttribute("aria-pressed", String(pressed));
+      var label = btn.querySelector(sel);
+      if (label) label.textContent = text;
+    };
+
     if (still) {
       heroVideo.removeAttribute("autoplay");
       heroVideo.pause();
       heroVideo.controls = true;
-      if (heroSound) heroSound.hidden = true;
+      if (heroControls) heroControls.hidden = true;
     }
-  }
 
-  if (heroVideo && heroSound) {
-    var soundLabel = heroSound.querySelector("[data-hero-sound-label]");
-    heroSound.addEventListener("click", function () {
-      var on = heroVideo.muted;
-      heroVideo.muted = !on;
-      if (on) {
-        // Restart so the music is heard from the top, not mid-track.
-        heroVideo.currentTime = 0;
-        var played = heroVideo.play();
-        if (played && played.catch) played.catch(function () {});
-      }
-      heroSound.setAttribute("aria-pressed", String(on));
-      if (soundLabel) soundLabel.textContent = on ? "Sound off" : "Sound on";
-    });
+    if (pauseBtn) {
+      pauseBtn.addEventListener("click", function () {
+        var paused = !heroVideo.paused;
+        if (paused) heroVideo.pause();
+        else play();
+        setLabel(pauseBtn, "[data-hero-pause-label]", paused, paused ? "Play" : "Pause");
+      });
+    }
+
+    if (soundBtn) {
+      soundBtn.addEventListener("click", function () {
+        var on = heroVideo.muted;
+        heroVideo.muted = !on;
+        if (on) {
+          // Restart so the music is heard from the top, not mid-track.
+          heroVideo.currentTime = 0;
+          play();
+          if (pauseBtn) setLabel(pauseBtn, "[data-hero-pause-label]", false, "Pause");
+        }
+        setLabel(soundBtn, "[data-hero-sound-label]", on, on ? "Sound off" : "Sound on");
+      });
+    }
   }
 
   /* ---------------------------------------------------------- mobile nav */

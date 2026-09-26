@@ -29,7 +29,6 @@ export function hero({
   pills = [],
   aside = "",
   trail = null,
-  wide = false, // give the aside more room (home hero video)
 }) {
   return `<section class="band-dark grain relative overflow-hidden">
   <div class="drift pointer-events-none absolute -right-40 -top-40 h-[34rem] w-[34rem] rounded-full bg-teal/10 blur-3xl" data-drift="34"></div>
@@ -46,10 +45,10 @@ export function hero({
       : ""
   }
   <div class="wrap relative z-10 py-16 ${aside ? "md:py-24" : "md:py-20"}">
-    <div class="grid items-center gap-14 ${aside ? (wide ? "hero-grid-wide" : "lg:grid-cols-[1.15fr_1fr]") : ""}">
+    <div class="grid items-center gap-14 ${aside ? "lg:grid-cols-[1.15fr_1fr]" : ""}">
       <div class="${aside ? "" : "max-w-3xl"}">
         ${eyebrow ? `<p class="eyebrow-light mb-5" data-reveal="up" style="--d:0">${eyebrow}</p>` : ""}
-        <h1 class="h-display text-white${wide ? " hero-title-wide" : ""}" data-reveal="rise" style="--d:1">${title}</h1>
+        <h1 class="h-display text-white" data-reveal="rise" style="--d:1">${title}</h1>
         ${lede ? `<p class="mt-6 max-w-2xl text-[1.125rem] leading-[1.7] text-slate-soft sm:text-[1.1875rem]" data-reveal="up" style="--d:2">${lede}</p>` : ""}
         ${
           pills.length
@@ -429,26 +428,34 @@ export function illoSpot(category, { eager = false, cls = "" } = {}) {
   return `<div class="illo-spot ${cls}" aria-hidden="true">${illoImg(`cat-${category}`, SPOT, { eager })}</div>`;
 }
 
-/* ---------------------------------------------------------- hero video
+/* ---------------------------------------------------------- video band
  *
- * The 46-second B4ES loop video supplied by Yawar (cropped of its side bars
- * and re-encoded; MP4 plus WebM fallback). Browsers only autoplay muted video, so it starts
- * silent with a "Sound on" button; site.js wires the button and keeps it
- * paused under reduced motion. The slide text is repeated for screen readers.
+ * Full-width band at the top of the home page (layout after pwc.com): the
+ * partners' 46-second B4ES video edge to edge, nothing laid over it because
+ * the video carries its own headlines, with the hero copy directly below.
+ * Browsers only autoplay muted video, so it starts silent; small Pause and
+ * Sound buttons sit top-right (site.js). Pause is required for motion that
+ * autoplays for more than five seconds (WCAG 2.2.2). Under reduced motion it
+ * stays paused with native controls. The slide text is repeated for screen
+ * readers.
  */
 
-export function heroVideo() {
+export function videoBand() {
   const mp4 = "/" + v("assets/video/b4es-loop.mp4");
   const webm = "/" + v("assets/video/b4es-loop.webm");
   const poster = "/" + v("assets/video/b4es-loop-poster.webp");
-  return `<figure class="hero-video">
-    <div class="illo-frame">
-      <video class="hero-video-media" poster="${poster}" width="832" height="468"
-        autoplay muted loop playsinline preload="metadata" aria-describedby="heroVideoText" data-hero-video>
-        <source src="${mp4}" type="video/mp4">
-        <source src="${webm}" type="video/webm">
-      </video>
-      <button type="button" class="hero-video-sound" data-hero-sound aria-pressed="false">
+  return `<section class="video-band" aria-label="B4ES introduction video">
+  <figure class="video-band-inner">
+    <video class="video-band-media" poster="${poster}" width="832" height="468"
+      autoplay muted loop playsinline preload="metadata" aria-describedby="heroVideoText" data-hero-video>
+      <source src="${mp4}" type="video/mp4">
+      <source src="${webm}" type="video/webm">
+    </video>
+    <div class="video-band-controls" data-hero-controls>
+      <button type="button" class="video-band-btn" data-hero-pause aria-pressed="false">
+        ${icon("pause", "h-3.5 w-3.5")}<span data-hero-pause-label>Pause</span>
+      </button>
+      <button type="button" class="video-band-btn" data-hero-sound aria-pressed="false">
         ${icon("volume", "h-3.5 w-3.5")}<span data-hero-sound-label>Sound on</span>
       </button>
     </div>
@@ -460,7 +467,8 @@ export function heroVideo() {
       one agreed scope, your brand and your software. Market-leading quality, materially better
       pricing, and the client relationship stays with you, in writing. b4es.co.uk, info@b4es.co.uk.
     </figcaption>
-  </figure>`;
+  </figure>
+</section>`;
 }
 
 /* ------------------------------------------------------------------ misc */
