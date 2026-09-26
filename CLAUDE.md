@@ -198,15 +198,14 @@ partners (26 Sep 2026):
   Resend as the email processor and covers newsletter consent and retention.
 
 ## Open items
-- **Resend setup:** domain b4es.co.uk verified in Resend (EU, tracking
-  off), segment "Newsletter" (id in `RESEND_SEGMENT_ID`), and
-  `RESEND_API_KEY` set as a Worker secret (26 Sep 2026). Tested live:
-  enquiry emails reach info@b4es.co.uk and confirmation emails deliver. The
-  first key was **sending-only**, so contacts could not be added: replace it
-  with a **Full access** key (Resend → API Keys; paste straight into the
-  Worker secret, never into chat or this repo). Confirmed subscribers that
-  failed to sync are retried automatically (`syncContacts`). Resend is
-  US-based: accept its DPA so the privacy notice's transfer statement holds.
+- **Resend: done and tested live (26 Sep 2026).** Domain b4es.co.uk
+  verified (EU, tracking off), segment "Newsletter" (id in
+  `RESEND_SEGMENT_ID`), Full-access key in the Worker secret
+  `RESEND_API_KEY`. Enquiry emails reach info@b4es.co.uk; a sign-up was
+  confirmed and landed in the Newsletter segment. Resend's DPA (with EU SCCs
+  and the UK Addendum) is part of its Terms of Service, so accepting the
+  terms at sign-up put it in place; no separate signature is needed. Send
+  newsletters as Broadcasts to the Newsletter segment.
 - **Second office address**: not yet provided. Add it to `SITE.offices`.
 - **Registered office is a member's home address**: flagged to the partners
   (agreement clause 2.2 requires that member's informed agreement). Swap in a
