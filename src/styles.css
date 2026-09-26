@@ -778,16 +778,22 @@
   .illo-float { animation: illo-float 7s ease-in-out 1.2s infinite; }
   @keyframes illo-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-  /* Full-width home video band (videoBand in components.mjs). The frame is
-     capped so the whole 16:9 video fits under the header with the top of the
-     hero headline still showing below it (a cue to scroll);
-     on very wide ones it centres on navy rather than cropping its text. */
+  /* Full-viewport home video band (videoBand in components.mjs). The section
+     fills the remaining viewport height below the sticky header, sized via the
+     --hero-offset CSS variable measured in site.js (announcement bar + header).
+     The video shows its whole 16:9 frame — including baked-in scene text — with
+     no cropping; brand navy (bg-ink) fills any leftover space. */
   .video-band { @apply bg-ink; }
   .video-band-inner {
-    @apply relative m-0 mx-auto w-full;
-    max-width: calc((100svh - 11rem) * 16 / 9);
+    @apply relative m-0 w-full;
+    height: calc(100vh - 6.75rem);
+    height: calc(100dvh - var(--hero-offset, 6.75rem));
   }
-  .video-band-media { @apply block aspect-video h-auto w-full bg-ink; }
+  .video-band-media {
+    @apply block h-full w-full bg-ink;
+    object-fit: contain;
+    object-position: center;
+  }
   .video-band-controls { @apply absolute right-3 top-3 flex gap-1.5 sm:right-4 sm:top-4; }
   .video-band-btn {
     @apply inline-flex items-center gap-1.5 rounded-full bg-ink/75 px-2.5 py-1 text-[0.6875rem]

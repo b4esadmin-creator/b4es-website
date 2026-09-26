@@ -15,6 +15,24 @@
   var heroVideo = document.querySelector("[data-hero-video]");
 
   if (heroVideo) {
+    // Size the full-viewport video band to exactly the space below the sticky
+    // header (announcement bar height + header height), exposed as a CSS var so
+    // styles.css can use `calc(100dvh - var(--hero-offset))`. Set via script,
+    // never an inline style attribute, so the strict style-src CSP is respected.
+    var stickyHeader =
+      document.querySelector("header.sticky, header[class*='sticky']") ||
+      document.querySelector("header");
+    var setHeroOffset = function () {
+      if (!stickyHeader) return;
+      var offset = stickyHeader.offsetTop + stickyHeader.offsetHeight;
+      if (offset > 0) {
+        document.documentElement.style.setProperty("--hero-offset", offset + "px");
+      }
+    };
+    setHeroOffset();
+    window.addEventListener("resize", setHeroOffset);
+    window.addEventListener("orientationchange", setHeroOffset);
+
     var heroControls = document.querySelector("[data-hero-controls]");
     var pauseBtn = document.querySelector("[data-hero-pause]");
     var soundBtn = document.querySelector("[data-hero-sound]");
