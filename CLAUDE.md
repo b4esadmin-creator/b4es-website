@@ -199,12 +199,15 @@ partners (26 Sep 2026):
   Resend as the email processor and covers newsletter consent and retention.
 
 ## Open items
-- **Resend setup (owner):** create the Resend account, verify b4es.co.uk
-  (EU region) with the DNS records it lists, add a Full-access API key as the
-  Worker secret `RESEND_API_KEY`, optionally set `RESEND_SEGMENT_ID`. Until
-  then the newsletter dialog stays hidden. Resend is US-based: accept its DPA
-  so the privacy notice's transfer statement holds.
-
+- **Resend setup (owner):** done in Resend on 26 Sep 2026: domain
+  b4es.co.uk added (EU, open/click tracking off) and segment "Newsletter"
+  created (id in `RESEND_SEGMENT_ID`). Still needed: add Resend's four DNS
+  records in Cloudflare DNS (`resend._domainkey` TXT, `send` MX and TXT,
+  `rsend` CNAME; current values are in Resend → Domains), then verify the
+  domain; create a Full-access API key in the Resend dashboard and paste it
+  straight into the Worker secret `RESEND_API_KEY` (never into chat or this
+  repo). The newsletter dialog stays hidden until the key is set. Resend is
+  US-based: accept its DPA so the privacy notice's transfer statement holds.
 - **Second office address**: not yet provided. Add it to `SITE.offices`.
 - **Registered office is a member's home address**: flagged to the partners
   (agreement clause 2.2 requires that member's informed agreement). Swap in a
