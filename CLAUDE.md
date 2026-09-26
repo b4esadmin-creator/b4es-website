@@ -141,8 +141,8 @@ partners (26 Sep 2026):
   Contact Us. There is no "Book a scoping call" button anywhere; CTAs say
   "Contact us". How we work, Engagement models, Security, Insights, FAQs,
   Careers and Sectors pages still exist, linked from Why Us / Services and
-  the footer. The mobile menu shows the same five tabs plus a "Contact us"
-  button (extra mobile-only links removed 26 Sep 2026).
+  the footer. The mobile menu shows the first four tabs plus a full-width
+  "Contact us" button in place of the Contact Us item (26 Sep 2026, Yawar).
 - **Pages keep scroll short:** related sections sit in in-page tabs via
   `tabs()` in `src/components.mjs` (deep links like `/why-us/#security`).
   Brand SVG illustrations `artGrowth`, `artNetwork`, `artShield` with CSS

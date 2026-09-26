@@ -98,10 +98,11 @@ function header(current) {
     return `<li><a href="${n.href}" class="${cls}">${n.label}</a></li>`;
   }).join("");
 
-  // Same five tabs as the desktop menu. The secondary pages (For accountants,
-  // For businesses, How we work, Security, Insights...) are reached from Why
+  // The desktop tabs, minus Contact Us: the full-width "Contact us" button
+  // below the list does that job on phones. Secondary pages (For
+  // accountants, How we work, Security, Insights...) are reached from Why
   // Us, Services and the footer, as on desktop.
-  const mobileLinks = NAV.map(
+  const mobileLinks = NAV.filter((n) => n.href !== "/contact/").map(
     (n) =>
       `<li><a href="${n.href}" class="block border-b border-line py-3.5 text-[1.0625rem] font-medium text-ink">${n.label}</a></li>`
   ).join("");
