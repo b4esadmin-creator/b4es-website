@@ -54,6 +54,7 @@ ${hero({
   primary: { href: "/contact/", label: "Contact us" },
   secondary: { href: "/why-us/", label: "Why B4ES" },
   aside: heroVideo(),
+  wide: true,
 })}
 
 <section class="border-b border-line bg-bone py-6">

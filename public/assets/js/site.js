@@ -157,6 +157,7 @@
 
   if (!reduced) {
     var pending = [];
+    var firstSweep = true;
 
     var easeOut = function (t) {
       return 1 - Math.pow(1 - t, 3);
@@ -219,7 +220,11 @@
 
     var sweep = function (vh) {
       if (!pending.length) return;
-      var line = vh * 0.9; // reveal once the element's top crosses 90% of the viewport
+      // Reveal once the element's top crosses 90% of the viewport. On the first
+      // pass, anything already on screen shows at once, so a hero button just
+      // under the 90% line is not left invisible until the visitor scrolls.
+      var line = firstSweep ? vh : vh * 0.9;
+      firstSweep = false;
       var still = [];
       for (var i = 0; i < pending.length; i++) {
         var item = pending[i];

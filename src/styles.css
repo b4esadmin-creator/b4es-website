@@ -778,14 +778,18 @@
   /* Hero video (heroVideo in components.mjs). */
   .hero-video { @apply relative m-0; }
   .hero-video-media { @apply block aspect-video h-auto w-full bg-ink; }
+  .hero-video .illo-frame { @apply max-w-none; }
   .hero-video-sound {
-    @apply absolute bottom-3 right-3 inline-flex items-center gap-2 rounded-full
-           bg-ink/80 px-3.5 py-2 text-[0.8125rem] font-semibold text-white ring-1 ring-white/20
+    @apply absolute right-2.5 top-2.5 inline-flex items-center gap-1.5 rounded-full
+           bg-ink/75 px-2.5 py-1 text-[0.6875rem] font-semibold text-white ring-1 ring-white/20
            backdrop-blur-sm transition-colors hover:bg-ink focus-visible:outline-2
            focus-visible:outline-offset-2 focus-visible:outline-gold;
   }
-  @media (max-width: 639px) { .hero-video-sound { @apply bottom-2 right-2 px-2.5 py-1.5 text-[0.75rem]; } }
   .hero-video-sound[aria-pressed="true"] { @apply bg-gold text-ink hover:bg-gold-light; }
+
+  /* Home hero: wider video column, headline stepped down to keep its height. */
+  .hero-grid-wide { @apply lg:grid-cols-[0.85fr_1.15fr] lg:gap-10; }
+  .hero-title-wide { @apply lg:text-[2.75rem] xl:text-[3rem]; }
 
   /* ---------- counters ---------- */
 
