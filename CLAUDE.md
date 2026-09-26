@@ -39,6 +39,17 @@ Colours come from the brand-kit logo (Google Drive → B4ES-Brand-Kit) and live
 as tokens in `src/styles.css` `@theme`; see the Design system section of
 `README.md`. Keep text at WCAG AA contrast.
 
+## Copy style
+
+The site copy was put through the humanizer skill on 26 Sep 2026 so it does
+not read as AI-written. Keep new copy the same way: British English, plain
+statements, **no em or en dashes** in visible text (use commas, colons,
+full stops, or "to" for ranges such as "09:00 to 17:30"), no "not X but Y"
+contrasts used only for weight, no one-line closers, and none of "genuinely",
+"quietly", "crucial", "robust", "delve", "seamless". Keep the brand line
+"Market-leading quality. Materially better pricing. Your client stays yours."
+as it is.
+
 ## Change requests
 
 Requests come from the Google Sheet "B4ES Website changes" (tab `B4ES Web`,

@@ -244,7 +244,7 @@ export function page({
   noindex = false,
 }) {
   const fullTitle =
-    path === "/" ? `${SITE.name} — ${title}` : `${title} | ${SITE.name}`;
+    path === "/" ? `${SITE.name} | ${title}` : `${title} | ${SITE.name}`;
   const canonical = `${SITE.baseUrl}${path}`;
 
   const jsonLd = schema
