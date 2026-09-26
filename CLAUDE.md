@@ -188,10 +188,12 @@ partners (26 Sep 2026):
 - **Contact form:** fixed 26 Sep 2026: the Send button did nothing for
   anyone with motion enabled, because the motion code's `var pending`
   replaced the form's `pending()` function (now `setBusy()`); only no-JS or
-  reduced-motion visitors could submit before that. Every enquiry is saved in D1. Email notifications go to
-  `b4es.admin@gmail.com` (`wrangler.jsonc`), but only start sending once
-  Cloudflare Email Routing is enabled and that address verified; until then
-  rows are stored with `notified = 0`.
+  reduced-motion visitors could submit before that. Every enquiry is saved in D1
+  and emailed to info@b4es.co.uk through Resend (Cloudflare binding to
+  b4es.admin@gmail.com as fallback). The six enquiries received before email
+  worked (28 Aug to 23 Sep: five spam, one lead from StartUp Associates) were
+  resent to info@ on 26 Sep 2026 and marked notified; a reply to the lead
+  is drafted in the shared Gmail, not sent.
 - **Resend (26 Sep 2026, requested by Faisal):** live (README, "Email via
   Resend"). Enquiries email `info@b4es.co.uk` through Resend (falling back
   to the Cloudflare binding), and the home page shows a newsletter sign-up
@@ -254,10 +256,10 @@ partners (26 Sep 2026):
   `sameAs` in the home schema; and a few links to the site (Companies House
   once registered, partners' LinkedIn profiles, directories).
 - **Email Routing is on**: b4es.co.uk MX records point to Cloudflare Email
-  Routing (route1-3.mx.cloudflare.net) with a Cloudflare SPF record, as of
-  26 Sep 2026. So the business-email decision is effectively Cloudflare
-  Email Routing unless the partners change it. Check that
-  b4es.admin@gmail.com is a verified destination and info@ has a routing
-  rule; contact-form notifications (`notified = 0` rows) should then send.
+  Routing (route1-3.mx.cloudflare.net), and info@b4es.co.uk forwards to
+  b4es.admin@gmail.com (confirmed 26 Sep 2026: Resend deliveries to info@
+  arrive in that inbox). Replies currently go out from the Gmail address;
+  set up Gmail "Send mail as" info@b4es.co.uk (for example via Resend SMTP)
+  if the partners want to reply as info@.
 - Placeholders still empty in `src/data/site.mjs`: phone, Companies House
   number, ICO reference, LinkedIn URL.
