@@ -40,14 +40,14 @@ export const SITE = {
   // rendered, so these can be filled in one at a time.
   offices: [
     {
-      label: "Registered office",
+      label: "Grays Office",
       lines: ["Better 4 Enterprise Solutions LLP", "41 Woodside Close", "Grays", "RM16 2DN"],
       country: "United Kingdom",
     },
     {
-      label: "Second office",
-      lines: [], // TODO
-      country: "",
+      label: "London Office",
+      lines: ["21 Mahonia House", "30 Heartwood Boulevard", "London", "W3 6XE"],
+      country: "United Kingdom",
     },
   ],
 
