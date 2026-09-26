@@ -120,7 +120,7 @@ ${sec(
             ${s.cadence
               .map(
                 (c) => `<span class="block text-[0.875rem] leading-snug text-slate-deep">
-                  <span class="font-semibold text-ink">${c.k}</span> — ${c.v}
+                  <span class="font-semibold text-ink">${c.k}:</span> ${c.v}
                 </span>`
               )
               .join("")}
@@ -144,7 +144,7 @@ ${sec(
   ${sectionHead({
     eyebrow: "Scope",
     title: s.deliverables.title,
-    lede: "Scope is agreed in writing before work starts and reviewed at each service review. Anything outside it is quoted separately rather than absorbed quietly and invoiced later.",
+    lede: "Scope is agreed in writing before work starts and reviewed at each service review. Anything outside it is quoted separately, never absorbed and then invoiced later.",
     max: "max-w-3xl",
   })}
   <div class="mt-12 grid gap-5 ${
@@ -164,7 +164,7 @@ ${sec(
       ${sectionHead({
         eyebrow: "Software",
         title: "Platforms we work in for this service",
-        lede: "We work inside your existing systems under named user accounts. If your stack is not listed, tell us — we will confirm honestly whether we can support it immediately or need a ramp-up period.",
+        lede: "We work inside your existing systems under named user accounts. If your stack is not listed, tell us and we will confirm whether we can support it straight away or need a ramp-up period.",
       })}
       <ul class="mt-7 flex flex-wrap gap-2">
         ${s.software.map((x) => `<li class="pill">${x}</li>`).join("")}
@@ -179,7 +179,7 @@ ${sec(
   `
   <div class="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
     <div>
-      ${sectionHead({ eyebrow: "Questions", title: `${s.nav} — what firms ask` })}
+      ${sectionHead({ eyebrow: "Questions", title: `${s.nav}: what firms ask` })}
       <a href="/faqs/" class="link-arrow mt-6">All FAQs ${arrow("h-4 w-4")}</a>
     </div>
     <div>${accordion(s.faqs)}</div>
@@ -214,7 +214,7 @@ ${
 
 ${ctaBand({
   title: `Talk to us about ${s.nav.toLowerCase()}.`,
-  body: "Bring a real example — a live job, a difficult client file, a cycle you are behind on. A concrete case tells you far more about a provider than a capability slide ever will.",
+  body: "Bring a real example, such as a live job, a difficult client file or a cycle you are behind on. A concrete case tells you far more about a provider than a capability slide does.",
 })}
 `;
 

@@ -56,7 +56,7 @@ export const SITE = {
 
   linkedin: "https://www.linkedin.com/company/b4es", // TODO
 
-  hours: "Monday to Friday, 09:00–17:30 UK time",
+  hours: "Monday to Friday, 09:00 to 17:30 UK time",
 };
 
 // The delivery partnership. The partners asked (26 Sep 2026) that the site
@@ -88,7 +88,7 @@ export const PARTNERS = [
     role: "Delivery partner",
     region: "Pakistan",
     summary:
-      "Accounting, taxation, advisory and HR consulting, run as a discipline since 2014. Their team delivers B4ES engagements from Pakistan, working UK hours to UK standards.",
+      "In practice since 2014, with HR consulting alongside its accounting, tax and advisory work. Its team delivers B4ES engagements from Pakistan, on UK working hours and to UK standards.",
   },
 ];
 

@@ -50,7 +50,7 @@ export function servicesIndexPage() {
       <div class="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
         ${sectionHead({
           title: "Process mapped to how your clients operate",
-          lede: "Generic bookkeeping produces generic results. These are the sectors where we hold specific process knowledge.",
+          lede: "These are the sectors where we already hold specific process knowledge.",
         })}
         <a href="/sectors/" class="link-arrow shrink-0">All sectors in detail ${arrow("h-4 w-4")}</a>
       </div>
@@ -70,7 +70,7 @@ export function servicesIndexPage() {
     content: `
       ${sectionHead({
         title: "The platforms our teams are trained on",
-        lede: "We work in your stack. Nothing is migrated, nothing is extracted into a proprietary system, and no client is asked to change software to suit us.",
+        lede: "We work in your existing software, so there is no migration and nothing is moved into a proprietary system of ours. No client is asked to change platforms to suit us.",
         max: "max-w-3xl",
       })}
       <div class="mt-10">${softwareBand(SOFTWARE_STACK)}</div>`,
@@ -120,7 +120,7 @@ ${ctaBand({
     path: "/services/",
     title: "Outsourced Accounting & Back-Office Services",
     description:
-      "Fourteen outsourced service lines for UK accountancy practices and businesses — bookkeeping, year-end accounts, personal and corporation tax, VAT and MTD, payroll, audit support, company secretarial, advisory and CFO services.",
+      "Fourteen outsourced service lines for UK accountancy practices and businesses: bookkeeping, year-end accounts, personal and corporation tax, VAT and MTD, payroll, audit support, company secretarial, advisory and CFO services.",
     body,
   };
 }
@@ -131,28 +131,28 @@ const PRACTICE_OUTCOMES = [
   {
     icon: "clock",
     title: "Recover partner and senior time",
-    body: "Every hour a qualified senior spends on transaction processing is an hour priced at a fraction of its opportunity cost. Moving that work out is not primarily a cost saving — it is a reallocation of your most expensive resource to your highest-margin work.",
+    body: "Every hour a qualified senior spends on transaction processing is an hour priced at a fraction of its opportunity cost. Moving that work out saves some cost, but the bigger gain is putting your most expensive people on your highest-margin work.",
   },
   {
     icon: "chart",
     title: "Take on clients you currently decline",
-    body: "A large majority of UK practices report turning away work because they cannot resource it. Delivery capacity that scales with demand turns a hard no into a yes without a hiring commitment you would regret in a quieter year.",
+    body: "A large majority of UK practices report turning away work because they cannot resource it. With delivery capacity that scales with demand, you can say yes to that work without a hiring commitment you would regret in a quieter year.",
   },
   {
     icon: "people",
     title: "Stop losing staff to the grind",
-    body: "Junior accountants do not resign because of the interesting work. Removing the relentless, repetitive volume from their week is one of the more reliable retention levers available to a practice, and it costs less than the counter-offer.",
+    body: "What wears junior accountants down is the repetitive volume that fills their week. Taking it out is one of the more reliable ways for a practice to keep them, and it costs less than a counter-offer.",
   },
   {
     icon: "target",
     title: "Make advisory revenue actually happen",
-    body: "Firms have been talking about moving up the value chain for a decade. The obstacle has never been ambition or capability — it is that compliance work fills every available hour first. Free the hours and the advisory conversations follow.",
+    body: "Firms have talked about moving up the value chain for a decade, and most have the ambition and the capability. What stops them is that compliance work fills every available hour first. Free those hours and there is room for the advisory conversations.",
   },
 ];
 
 const WHITE_LABEL = [
   "Work performed inside your practice software under named logins you create, permission and revoke",
-  "All client-facing output — accounts, packs, payslips, letters — carries your branding, never ours",
+  "All client-facing output (accounts, packs, payslips and letters) carries your branding, never ours",
   "Where you want client contact handled, it happens from your email domain in your house style",
   "Our team members are introduced by name to your staff, not rotated anonymously between jobs",
   "Contractual non-solicitation: we do not approach, market to or accept engagements from your clients",
@@ -165,7 +165,7 @@ export function forAccountantsPage() {
   const body = `
 ${hero({
   eyebrow: "For accountancy practices",
-  title: "Extend your team. Keep your clients. Protect your margin.",
+  title: "Extend your team while keeping your clients and your margin.",
   lede:
     "B4ES gives UK practices a white-label delivery bench across bookkeeping, accounts, tax, payroll, audit support and practice administration. You keep the engagement, the brand, the review and the relationship. We supply the hours.",
   primary: { href: "/contact/", label: "Contact us" },
@@ -181,7 +181,7 @@ ${sec(
   ${sectionHead({
     eyebrow: "Why firms move now",
     title: "The capacity problem is not going to resolve itself",
-    lede: "UK practices are absorbing a talent shortage, a quadrupling of MTD contact cycles, a higher cost of employment and a rolling programme of Companies House reform — simultaneously, and mostly with the same headcount they had three years ago.",
+    lede: "UK practices are absorbing a talent shortage, a quadrupling of MTD contact cycles, a higher cost of employment and a rolling programme of Companies House reform all at once, mostly with the same headcount they had three years ago.",
     max: "max-w-3xl",
   })}
   <div class="mt-12">
@@ -197,7 +197,7 @@ ${sec(
       ${sectionHead({
         eyebrow: "White label",
         title: "Your clients never encounter us",
-        lede: "White-labelling is not a marketing line. It is a set of operational controls, and these are ours.",
+        lede: "For us, white-labelling means a set of operational controls. These are the ones we run.",
       })}
       <ul class="check-list mt-7">${WHITE_LABEL.map((w) => `<li>${w}</li>`).join("")}</ul>
     </div>
@@ -206,7 +206,7 @@ ${sec(
         tone: "teal",
         ic: "shield",
         title: "Your regulatory position, stated plainly",
-        body: "Under UK GDPR your practice is the data controller and B4ES is a processor. That relationship must be governed by a written Article 28 agreement, reflected in your engagement letters and privacy notice, and supported by a transfer risk assessment. We provide the documentation to make that straightforward — but the obligation stays yours, and any provider suggesting otherwise is not one to use.",
+        body: "Under UK GDPR your practice is the data controller and B4ES is a processor. That relationship must be governed by a written Article 28 agreement, reflected in your engagement letters and privacy notice, and supported by a transfer risk assessment. We provide the documentation to make that straightforward, but the obligation stays yours. Avoid any provider that suggests otherwise.",
       })}
       ${callout({
         tone: "gold",
@@ -245,13 +245,13 @@ ${sec(
       ${sectionHead({
         eyebrow: "Getting started",
         title: "What the first ninety days look like",
-        lede: "Deliberately paced. Firms that dump three hundred jobs into a new provider in week one create the failure they later blame on outsourcing.",
+        lede: "We pace it deliberately. Firms that dump three hundred jobs into a new provider in week one create the failure they later blame on outsourcing.",
       })}
       <a href="/how-we-work/" class="btn-ink mt-8">The full process</a>
     </div>
     <div>${steps([
       {
-        title: "Weeks 1–2 — Scope and diligence",
+        title: "Weeks 1 to 2: Scope and diligence",
         body: "Scoping call, written proposal, and your review of our documentation.",
         detail: [
           "Service mix, volumes, peak periods and software confirmed",
@@ -261,7 +261,7 @@ ${sec(
         ],
       },
       {
-        title: "Weeks 3–5 — Paid pilot",
+        title: "Weeks 3 to 5: Paid pilot",
         body: "A real batch of real work, priced standalone, with no obligation to continue.",
         detail: [
           "Typically ten to twenty jobs, or one full payroll or VAT cycle",
@@ -271,7 +271,7 @@ ${sec(
         ],
       },
       {
-        title: "Weeks 6–9 — Transition",
+        title: "Weeks 6 to 9: Transition",
         body: "Access, documentation, named team and escalation path established properly.",
         detail: [
           "Named user accounts created by you, with role-based permissions",
@@ -281,7 +281,7 @@ ${sec(
         ],
       },
       {
-        title: "Weeks 10–13 — Ramp and review",
+        title: "Weeks 10 to 13: Ramp and review",
         body: "Volume increases against a plan, then a formal review before steady state.",
         detail: [
           "Volume stepped up in agreed increments rather than all at once",
@@ -305,23 +305,23 @@ ${sec(
     <div>${accordion([
       {
         q: "We tried outsourcing before and it did not work. Why would this be different?",
-        a: "Worth saying plainly: most failed outsourcing engagements fail on file quality and review burden, not on technical accuracy. The accounts were right and the file was unreviewable, so the partner rebuilt the job to understand it. We address that with a second-person review and a completion checklist that travels with every file, and we would rather you tested that on a paid pilot than took our word for it.",
+        a: "Most failed outsourcing engagements fail on file quality and review burden rather than technical accuracy. The accounts were right but the file could not be reviewed, so the partner rebuilt the job to understand it. We address that with a second-person review and a completion checklist that travels with every file, and we would rather you tested that on a paid pilot than took our word for it.",
       },
       {
         q: "How do you handle our peak season?",
-        a: "By planning it in advance. We agree expected volumes and daily throughput ahead of the December and March peaks and reserve named resource against them. Capacity booked in September costs less and performs better than capacity scrambled for in January — that is true of every provider, but few will tell you before you have signed.",
+        a: "By planning it in advance. We agree expected volumes and daily throughput ahead of the December and March peaks and reserve named resource against them. Capacity booked in September costs less and performs better than capacity scrambled for in January. That is true of every provider, though few will tell you before you have signed.",
       },
       {
         q: "What is the minimum commitment?",
-        a: "There is not one for the pilot, and we do not require a long tie-in afterwards. We would rather retain firms on performance than on a notice period. Ad-hoc and per-job models exist precisely so you can use us for overflow without restructuring your practice around us.",
+        a: "There is not one for the pilot, and we do not require a long tie-in afterwards. We would rather retain firms on performance than on a notice period. Ad-hoc and per-job models exist so you can use us for overflow without restructuring your practice around us.",
       },
       {
         q: "Can you work with our existing outsourcing provider in place?",
-        a: "Yes, and several firms run a second provider deliberately — for resilience, for a specific service line, or to benchmark. We are comfortable being the second provider and we will not make it awkward.",
+        a: "Yes. Several firms deliberately run a second provider, for resilience, for a specific service line or as a benchmark. We are comfortable being the second provider and will not make it awkward.",
       },
       {
         q: "Who do we actually speak to day to day?",
-        a: "A named engagement lead on our side, plus the named team members working your files. Not a rotating pool and not a ticketing system. If your point of contact changes we tell you in advance and handle the handover ourselves.",
+        a: "A named engagement lead on our side, plus the named team members working your files. There is no rotating pool and no ticketing system. If your point of contact changes we tell you in advance and handle the handover ourselves.",
       },
     ])}</div>
   </div>`
@@ -337,7 +337,7 @@ ${ctaBand({
     path: "/for-accountants/",
     title: "Outsourcing for UK Accountancy Practices",
     description:
-      "White-label outsourced delivery for UK accountancy firms — bookkeeping, year-end accounts, personal and corporation tax, VAT and MTD, payroll, audit support and practice administration. You keep the client; we supply the capacity.",
+      "White-label outsourced delivery for UK accountancy firms: bookkeeping, year-end accounts, personal and corporation tax, VAT and MTD, payroll, audit support and practice administration. You keep the client; we supply the capacity.",
     body,
   };
 }
@@ -352,7 +352,7 @@ ${hero({
   eyebrow: "For growing UK businesses",
   title: "A finance function that fits where you are now.",
   lede:
-    "Between a part-time bookkeeper and a three-person finance team lies a gap most growing businesses fall into. B4ES fills it as a service — transaction processing, month-end close, management reporting and CFO-level input — sized to your business rather than to a standard package.",
+    "Most growing businesses reach a stage where a part-time bookkeeper is not enough and a three-person finance team is too much. B4ES covers that gap as a service: transaction processing, month-end close, management reporting and CFO-level input, sized to your business rather than to a standard package.",
   primary: { href: "/contact/", label: "Book a discovery call" },
   secondary: { href: "/services/finance-function/", label: "Outsourced finance function" },
   pills: ["No fixed headcount", "Month-end to a published timetable", "Segregation of duties built in", "Clean exit if you in-source"],
@@ -372,7 +372,7 @@ ${sec(
       })}
       <div class="prose-body mt-6">
         <p>A financial controller, a management accountant and a purchase ledger clerk is a substantial fixed commitment before employer National Insurance, pension contributions, software, holiday cover and recruitment fees. Employer NI at 15% with a £5,000 secondary threshold has made that arithmetic materially worse.</p>
-        <p>Meanwhile the need is real and growing. Lenders want forecasts. Investors want board packs. Suppliers want paying on terms. And the person currently holding it all together is either the founder or a single bookkeeper whose departure would be a genuine crisis.</p>
+        <p>Meanwhile the need is real and growing: lenders want forecasts, investors want board packs and suppliers want paying on terms. The person holding it all together is either the founder or a single bookkeeper whose departure would be a crisis.</p>
       </div>
       <ul class="check-list mt-7">
         <li>Management information that arrives weeks after it would have been useful</li>
@@ -387,10 +387,10 @@ ${sec(
       <ul class="mt-6 space-y-5">
         ${[
           ["reconcile", "Daily and weekly processing", "Purchase ledger, sales ledger, bank reconciliation and expenses handled on a rhythm that matches your business."],
-          ["calendar", "Month-end on a fixed date", "A published close timetable. The pack arrives on the same working day every month, not when someone gets to it."],
+          ["calendar", "Month-end on a fixed date", "A published close timetable. The pack arrives on the same working day every month."],
           ["chart", "Reporting with commentary", "Management accounts, KPIs, cash forecasting and variance analysis, written for a reader who is not an accountant."],
-          ["compass", "CFO-level input on demand", "Modelling, funding preparation, pricing analysis and board attendance when a decision actually warrants it."],
-          ["shield", "Controls and documentation", "Segregation of duties, a documented process manual and audit-ready records — all of which remain yours."],
+          ["compass", "CFO-level input on demand", "Modelling, funding preparation, pricing analysis and board attendance when a decision warrants it."],
+          ["shield", "Controls and documentation", "Segregation of duties, a documented process manual and audit-ready records, all of which remain yours."],
         ]
           .map(
             ([ic, t, d]) => `<li class="flex gap-4">
@@ -434,13 +434,13 @@ ${sec(
       tone: "teal",
       ic: "handshake",
       title: "We work alongside your accountant, not instead of them",
-      body: "Keep your accountant. They hold the statutory accounts, the tax advice and the independent professional relationship — and it is right that an independent party does. We run the finance function underneath and prepare their year-end pack, which normally makes their work faster and their fee smaller. If your accountant would rather deliver this themselves, we are equally happy to sit behind them instead.",
+      body: "Keep your accountant. They hold the statutory accounts, the tax advice and the independent professional relationship, and it is right that an independent party does. We run the finance function underneath and prepare their year-end pack, which normally makes their work faster and their fee smaller. If your accountant would rather deliver this themselves, we are equally happy to sit behind them instead.",
     })}
     ${callout({
       tone: "plain",
       ic: "route",
       title: "Designed so you can leave",
-      body: "The process manual, the controls documentation and the data all stay yours throughout. If you grow into wanting an in-house team, we help you recruit into a documented function and hand over cleanly rather than making the transition painful. A service you cannot exit is not a service — it is leverage, and it eventually gets used on you.",
+      body: "The process manual, the controls documentation and the data all stay yours throughout. If you grow into wanting an in-house team, we help you recruit into a documented function and hand over cleanly. If you cannot exit a service, the provider holds leverage over you, and sooner or later it gets used.",
     })}
   </div>`
 )}
@@ -467,7 +467,7 @@ ${sec(
       },
       {
         q: "How quickly can you start?",
-        a: "For a straightforward business with reasonable records, typically two to four weeks from agreement — allowing time for access setup, process documentation and a proper handover from whoever currently does the work. Rushing that stage is where transitions go wrong.",
+        a: "For a straightforward business with reasonable records, typically two to four weeks from agreement. That allows time for access setup, process documentation and a proper handover from whoever does the work now. Rushing that stage is where transitions go wrong.",
       },
       {
         q: "What if our records are a mess?",
@@ -479,7 +479,7 @@ ${sec(
 
 ${ctaBand({
   eyebrow: "Next step",
-  title: "Start with a conversation about where the pressure actually is.",
+  title: "Start with a conversation about where the pressure is.",
   body: "Thirty minutes on how your finance function runs today, what breaks first when you grow, and what a sensible next step looks like. If the answer is a better bookkeeper rather than us, we will tell you.",
   primary: { href: "/contact/", label: "Book a discovery call" },
   secondary: { href: "/services/finance-function/", label: "See the full service" },
@@ -495,7 +495,7 @@ ${ctaBand({
     path: "/for-business/",
     title: "Outsourced Finance Function for UK Businesses",
     description:
-      "A complete outsourced finance function for growing UK businesses — bookkeeping, purchase and sales ledger, payroll, month-end close, management accounts and fractional CFO support, without building an in-house team.",
+      "A complete outsourced finance function for growing UK businesses: bookkeeping, purchase and sales ledger, payroll, month-end close, management accounts and fractional CFO support, without building an in-house team.",
     body,
   };
 }
@@ -506,9 +506,9 @@ export function sectorsPage() {
   const body = `
 ${hero({
   eyebrow: "Sector expertise",
-  title: "Process mapped to how your industry actually runs.",
+  title: "Process mapped to how your industry runs.",
   lede:
-    "Generic bookkeeping produces generic results and a long list of queries. These are the sectors where we hold specific process knowledge — the treatments, the schemes and the reporting that make each one different from the last.",
+    "Bookkeeping without sector knowledge produces a long list of queries. These are the sectors where we hold specific process knowledge: the treatments, schemes and reporting that set each one apart.",
   primary: { href: "/contact/", label: "Discuss your sector" },
   secondary: { href: "/services/", label: "All services" },
   aside: illoScene("sectors"),
@@ -540,7 +540,7 @@ ${sec(
       tone: "plain",
       ic: "spark",
       title: "Your sector not listed?",
-      body: "Sector knowledge is built, not claimed. If your client base sits somewhere we have not listed, tell us during scoping and we will be straight with you about whether we hold the process knowledge already or would be learning it on your files — and if it is the latter, that should be reflected in the price and the pace.",
+      body: "If your client base sits somewhere we have not listed, tell us during scoping. We will say plainly whether we already hold the process knowledge or would be learning it on your files, and if it is the latter, the price and the pace should reflect that.",
     })}
   </div>`
 )}

@@ -39,7 +39,7 @@ const LOGO_SRC = "/" + v("assets/img/b4es-logo.svg");
 const LOGO_WHITE_SRC = "/" + v("assets/img/b4es-logo-white.svg");
 
 export function logo({ light = false, cls = "h-11 sm:h-12 lg:h-10 xl:h-11" } = {}) {
-  return `<a href="/" class="inline-flex shrink-0 items-center" aria-label="${SITE.name} — ${SITE.fullName}, home">
+  return `<a href="/" class="inline-flex shrink-0 items-center" aria-label="${SITE.name} (${SITE.fullName}) home">
     <img src="${light ? LOGO_WHITE_SRC : LOGO_SRC}" alt="${SITE.name}" width="827" height="272" class="${cls} w-auto">
   </a>`;
 }
@@ -195,7 +195,7 @@ function footer() {
     <div class="mt-14 border-t border-white/10 pt-8">
       <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
         <p class="text-[0.8125rem] text-slate-soft/85">
-          &copy; ${new Date().getFullYear()} ${SITE.name} &mdash; ${SITE.fullName}. All rights reserved.
+          &copy; ${new Date().getFullYear()} ${SITE.name} (${SITE.fullName}). All rights reserved.
         </p>
         <ul class="flex flex-wrap gap-x-6 gap-y-2">
           ${LEGAL_NAV.map(
@@ -244,7 +244,7 @@ export function page({
   noindex = false,
 }) {
   const fullTitle =
-    path === "/" ? `${SITE.name} — ${title}` : `${title} | ${SITE.name}`;
+    path === "/" ? `${SITE.name} | ${title}` : `${title} | ${SITE.name}`;
   const canonical = `${SITE.baseUrl}${path}`;
 
   const jsonLd = schema

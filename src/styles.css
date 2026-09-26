@@ -75,6 +75,9 @@
     @apply bg-white text-ink-800 font-sans antialiased;
     font-size: 1.0625rem;
     line-height: 1.65;
+    /* Reveals that slide in from the side start a few px off-canvas; clip
+       (unlike hidden) stops sideways scroll without breaking sticky. */
+    overflow-x: clip;
   }
 
   h1, h2, h3, h4 {

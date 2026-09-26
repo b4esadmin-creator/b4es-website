@@ -6,7 +6,7 @@ export function notFoundPage() {
     { href: "/services/", label: "All services", desc: "Fourteen service lines across accounts, tax, payroll, audit support and advisory." },
     { href: "/for-accountants/", label: "For accountancy practices", desc: "White-label delivery capacity for UK firms." },
     { href: "/for-business/", label: "For businesses", desc: "A complete outsourced finance function." },
-    { href: "/contact/", label: "Contact", desc: "Book a thirty-minute scoping call." },
+    { href: "/contact/", label: "Contact", desc: "Tell us what you need and we will reply within one working day." },
   ];
 
   const body = `

@@ -50,7 +50,7 @@ ${videoBand()}
 
 ${hero({
   eyebrow: "Better 4 Enterprise Solutions",
-  title: "Delivery capacity for UK accountancy practices — and the businesses they serve.",
+  title: "Delivery capacity for UK accountancy practices and the businesses they serve.",
   lede:
     "Outsourced accounting, tax, payroll and back-office delivery for UK firms and growing UK businesses. The technical standard of the established outsourcing names, at a materially better rate, with the client relationship staying with you.",
   primary: { href: "/contact/", label: "Contact us" },
