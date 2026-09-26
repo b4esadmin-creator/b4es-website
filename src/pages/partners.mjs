@@ -2,6 +2,27 @@ import { PARTNERS } from "../data/site.mjs";
 import { icon, arrow } from "../icons.mjs";
 import { hero, sectionHead, featureCard, grid, ctaBand, callout, sec, artNetwork, illoScene } from "../components.mjs";
 
+// How B4ES takes part in its partners' work. The partners' own wording
+// (Yawar, 26 Sep 2026): we participate directly in recruitment, training and
+// quality, and quality is the first priority for every strategic partner.
+const QUALITY = [
+  {
+    icon: "people",
+    title: "Recruitment",
+    body: "We take part directly in recruiting the people who work on B4ES engagements, so the team behind your files is one we have helped choose.",
+  },
+  {
+    icon: "book",
+    title: "Training",
+    body: "We are involved directly in their training, so the people on your work are prepared for the way B4ES engagements are run.",
+  },
+  {
+    icon: "magnifier",
+    title: "Quality",
+    body: "We take part directly in quality review. Work is held to the standard we commit to with you before it reaches you.",
+  },
+];
+
 /* ===================================================== strategic partners */
 
 const HOW_IT_WORKS = [
@@ -26,7 +47,7 @@ function partnerProfile(p) {
   return `<div class="grid items-start gap-12 lg:grid-cols-[1.1fr_0.9fr]">
     <div>
       <p class="eyebrow mb-4">${p.role}</p>
-      <h2 class="h-section">${p.name}</h2>
+      <h2 class="h-section">${p.descriptor}</h2>
       <p class="lede mt-5">${p.summary}</p>
       <div class="prose-body mt-6">
         <p>What made them the right partner was the breadth of the technical bench rather than the price. That range means we can support specialist requests a pure processing operation would have to decline.</p>
@@ -35,7 +56,7 @@ function partnerProfile(p) {
         ${p.offices.map((o) => `<li class="pill">${icon("pin", "h-3.5 w-3.5 text-teal")} ${o}</li>`).join("")}
       </ul>
       <div class="mt-8 flex flex-wrap gap-3">
-        <a href="${p.url}" target="_blank" rel="noopener" class="btn-primary">Visit ${p.name} ${icon("arrowUpRight", "h-4 w-4")}</a>
+        <a href="/contact/" class="btn-primary">Contact us</a>
         <a href="/why-us/#security" class="btn-outline">How data is protected</a>
       </div>
     </div>
@@ -60,13 +81,34 @@ ${hero({
   title: "Established capability behind a UK-facing team.",
   lede:
     "B4ES owns the client relationship. Our strategic partners provide specialist delivery capacity behind it, under written agreements, so you get the depth of an established firm through a single UK point of contact.",
-  primary: { href: PARTNERS[0].url, label: `Visit ${PARTNERS[0].name}` },
-  secondary: { href: "/contact/", label: "Contact us" },
-  aside: `<div class="mx-auto max-w-md">${artNetwork("", { left: "B4ES · UK", right: `${PARTNERS[0].name} · ${PARTNERS[0].region}` })}</div>`,
+  primary: { href: "/contact/", label: "Contact us" },
+  secondary: { href: "#quality", label: "How we assure quality" },
+  aside: `<div class="mx-auto max-w-md">${artNetwork("", { left: "B4ES · UK", right: `Partner · ${PARTNERS[0].region}` })}</div>`,
   trail: [{ label: "Home", href: "/" }, { label: "Strategic Partners" }],
 })}
 
 ${PARTNERS.map((p, i) => sec(`section${i % 2 ? " band-bone" : ""}`, partnerProfile(p))).join("")}
+
+<section id="quality" class="section band-dark grain relative overflow-hidden scroll-mt-24">
+  <div class="wrap relative z-10">
+    ${sectionHead({
+      eyebrow: "Quality first",
+      title: "We are inside our partners' recruitment, training and quality",
+      lede: "Our strategic partners are not a black box. We take part directly in how their people are recruited, trained and reviewed, and quality is the first priority we set for every one of them.",
+      light: true,
+      max: "max-w-3xl",
+    })}
+    <div class="mt-12 grid gap-x-10 gap-y-9 sm:grid-cols-3">
+      ${QUALITY.map(
+        (q) => `<div data-reveal="rise">
+        <div class="icon-tile-dark mb-5">${icon(q.icon, "h-5 w-5")}</div>
+        <h3 class="font-display text-[1.1875rem] leading-snug text-white">${q.title}</h3>
+        <p class="mt-2.5 text-[0.9375rem] leading-relaxed text-slate-soft">${q.body}</p>
+      </div>`
+      ).join("")}
+    </div>
+  </div>
+</section>
 
 ${sec(
   "section band-bone",
@@ -101,7 +143,7 @@ ${ctaBand({
     path: "/strategic-partners/",
     title: "Strategic Partners",
     description:
-      "B4ES strategic partners: theBPO, a specialist accounting, tax and advisory firm established in 2014, delivers B4ES engagements from Pakistan under written confidentiality and UK GDPR terms.",
+      "B4ES strategic partners: a specialist accounting, tax and advisory firm established in 2014 delivers B4ES engagements from Pakistan under written confidentiality and UK GDPR terms, with B4ES directly involved in recruitment, training and quality.",
     body,
   };
 }

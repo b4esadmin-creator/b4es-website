@@ -104,8 +104,14 @@ edit cells.
   buttons follow below. Small Pause (WCAG 2.2.2) and Sound buttons top-right.
   The source is only 832 px wide, so full-width it looks soft on desktop;
   replace the files with a 1920×1080 export when one is available.
-- **Strategic Partners:** theBPO (Karachi, est. 2014) is the only partner;
-  add more via `PARTNERS` in `src/data/site.mjs`.
+- **Strategic Partners:** one partner (theBPO, Karachi, est. 2014), but the
+  site must **not name or link to it** (Yawar, 26 Sep 2026). It is described
+  as "our delivery partner" / "A specialist accounting, tax and advisory
+  firm" (`PARTNER.label`, `PARTNER.descriptor` in `src/data/site.mjs`), with
+  its facts (2014, Karachi HQ, 5 countries, service lines) kept. A "Quality
+  first" section on `/strategic-partners/#quality` says B4ES takes part
+  directly in partners' recruitment, training and quality, and that quality
+  is every partner's first priority. Add partners via `PARTNERS`.
 - **Contact details:** site email `info@b4es.co.uk`. Registered office
   41 Woodside Close, Grays, RM16 2DN (from the LLP Members' Agreement,
   25 Sep 2026), shown on Contact and in the privacy notice. Offices live in

@@ -14,7 +14,7 @@ const CONTACT_REASONS = [
 ];
 
 // UK offices from SITE.offices (hidden until an address is filled in), plus
-// the delivery centre in Pakistan, which links out to theBPO.
+// the delivery centre in Pakistan (partner not named, per the partners).
 function officesCard() {
   const offices = (SITE.offices || []).filter((o) => o.lines && o.lines.length);
   const row = (ic, label, inner) => `<li class="flex gap-4">
@@ -41,7 +41,7 @@ function officesCard() {
       ${row(
         "globe",
         "Delivery centre, Pakistan",
-        `<a href="${PARTNER.url}" target="_blank" rel="noopener" class="mt-0.5 inline-flex items-center gap-1.5 font-display text-[1.0625rem] text-ink hover:text-teal">${PARTNER.name}, ${PARTNER.hq} ${icon("arrowUpRight", "h-4 w-4")}</a>
+        `<span class="mt-0.5 block font-display text-[1.0625rem] text-ink">${PARTNER.hq}</span>
         <span class="mt-1 block text-[0.8125rem] text-slate-mid">Our strategic delivery partner. <a href="/strategic-partners/" class="font-semibold text-teal hover:underline">About the partnership</a></span>`
       )}
     </ul>
