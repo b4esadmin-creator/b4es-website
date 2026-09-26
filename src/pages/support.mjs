@@ -368,7 +368,7 @@ const FAQ_GROUPS = [
     items: [
       {
         q: "Why is there no pricing on the website?",
-        a: "A published rate without context gives you nothing useful to compare. The same nominal hourly rate can mean a junior processor or a review-grade qualified accountant, standard or priority turnaround, clean records or a reconstruction. We commit to putting the figure in writing before you decide, keeping it fixed afterwards, and pricing well below the established UK outsourcing firms.",
+        a: "A published rate without context gives you nothing useful to compare. The same nominal hourly rate can mean a junior processor or a review-grade qualified accountant, standard or priority turnaround, clean records or a reconstruction. We commit to putting the figure in writing before you decide, keeping it fixed afterwards, and pricing meaningfully below the established UK outsourcing firms.",
       },
       {
         q: "Is there a minimum commitment?",

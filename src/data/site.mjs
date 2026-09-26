@@ -88,7 +88,7 @@ export const PARTNERS = [
     role: "Delivery partner",
     region: "Pakistan",
     summary:
-      "Accounting, taxation, advisory and HR consulting, run as a discipline since 2014. Their team delivers B4ES engagements from Pakistan, working UK hours to UK standards.",
+      "In practice since 2014, with HR consulting alongside its accounting, tax and advisory work. Its team delivers B4ES engagements from Pakistan, on UK working hours and to UK standards.",
   },
 ];
 
