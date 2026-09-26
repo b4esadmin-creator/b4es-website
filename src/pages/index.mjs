@@ -9,6 +9,8 @@ import { contactPage, faqsPage, thankYouPage } from "./support.mjs";
 import { insightsIndexPage, allArticlePages } from "./insights.mjs";
 import { privacyPage, termsPage, cookiesPage } from "./legal.mjs";
 import { notFoundPage } from "./notFound.mjs";
+import { whyUsPage } from "./whyUs.mjs";
+import { partnersPage } from "./partners.mjs";
 
 /**
  * Assembles every page definition and renders it through the shared layout.
@@ -17,6 +19,9 @@ import { notFoundPage } from "./notFound.mjs";
 export async function page() {
   const defs = [
     homePage(),
+    aboutPage(),
+    whyUsPage(),
+    partnersPage(),
     servicesIndexPage(),
     ...allServicePages(),
     forAccountantsPage(),
@@ -25,7 +30,6 @@ export async function page() {
     howWeWorkPage(),
     engagementModelsPage(),
     securityPage(),
-    aboutPage(),
     insightsIndexPage(),
     ...allArticlePages(),
     faqsPage(),

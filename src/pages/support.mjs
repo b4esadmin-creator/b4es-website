@@ -1,4 +1,4 @@
-import { SITE } from "../data/site.mjs";
+import { SITE, PARTNER } from "../data/site.mjs";
 import { SERVICES } from "../data/services.mjs";
 import { icon, arrow } from "../icons.mjs";
 import { hero, sectionHead, accordion, ctaBand, callout, sec } from "../components.mjs";
@@ -13,6 +13,41 @@ const CONTACT_REASONS = [
   ["Something else", "other"],
 ];
 
+// UK offices from SITE.offices (hidden until an address is filled in), plus
+// the delivery centre in Pakistan, which links out to theBPO.
+function officesCard() {
+  const offices = (SITE.offices || []).filter((o) => o.lines && o.lines.length);
+  const row = (ic, label, inner) => `<li class="flex gap-4">
+    <span class="icon-tile">${icon(ic, "h-5 w-5")}</span>
+    <span>
+      <span class="block text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-slate-mid">${label}</span>
+      ${inner}
+    </span>
+  </li>`;
+  return `<div class="card">
+    <p class="eyebrow">Our offices</p>
+    <ul class="mt-5 space-y-5">
+      ${offices
+        .map((o) =>
+          row(
+            "building",
+            o.label,
+            `<address class="mt-0.5 not-italic text-[0.9375rem] leading-relaxed text-slate-deep">${[...o.lines, o.country]
+              .filter(Boolean)
+              .join("<br>")}</address>`
+          )
+        )
+        .join("")}
+      ${row(
+        "globe",
+        "Delivery centre, Pakistan",
+        `<a href="${PARTNER.url}" target="_blank" rel="noopener" class="mt-0.5 inline-flex items-center gap-1.5 font-display text-[1.0625rem] text-ink hover:text-teal">${PARTNER.name}, ${PARTNER.hq} ${icon("arrowUpRight", "h-4 w-4")}</a>
+        <span class="mt-1 block text-[0.8125rem] text-slate-mid">Our strategic delivery partner. <a href="/strategic-partners/" class="font-semibold text-teal hover:underline">About the partnership</a></span>`
+      )}
+    </ul>
+  </div>`;
+}
+
 export function contactPage() {
   const serviceOptions = SERVICES.map(
     (s) => `<option value="${s.nav}">${s.nav}</option>`
@@ -20,7 +55,7 @@ export function contactPage() {
 
   const body = `
 ${hero({
-  eyebrow: "Contact",
+  eyebrow: "Contact Us",
   title: "Start with a thirty-minute call and no deck.",
   lede:
     "We would rather spend the first conversation understanding where your capacity actually hurts than presenting capability slides. If it turns out outsourcing is not the right answer for your firm, we will say so on that call.",
@@ -152,6 +187,8 @@ ${sec(
         </ul>
       </div>
 
+      ${officesCard()}
+
       ${callout({
         tone: "teal",
         ic: "shield",
@@ -175,7 +212,7 @@ ${sec(
     path: "/contact/",
     title: "Contact B4ES",
     description:
-      "Talk to B4ES about outsourced accounting, tax, payroll and back-office delivery for UK accountancy practices and businesses. Book a thirty-minute scoping call or request our security diligence pack.",
+      "Talk to B4ES about outsourced accounting, tax, payroll and back-office delivery for UK accountancy practices and businesses. Send an enquiry, find our offices, or request our security diligence pack.",
     body,
     schema: {
       "@context": "https://schema.org",

@@ -12,82 +12,101 @@ import {
   softwareBand,
   callout,
   sec,
+  tabs,
 } from "../components.mjs";
 
 /* ============================================================ services index */
 
 export function servicesIndexPage() {
-  const groups = CATEGORIES.map((c) => {
+  // One tab per service category, plus sectors and software, so the whole
+  // catalogue fits on one screen height. Each card opens the service's page.
+  const categoryTabs = CATEGORIES.map((c) => {
     const items = SERVICES.filter((s) => s.category === c.id);
-    if (!items.length) return "";
-    return `<div class="border-t border-line pt-10">
-      <div class="grid gap-8 lg:grid-cols-[0.55fr_1.45fr]">
-        <div>
-          <h2 class="font-display text-[1.5rem] leading-snug text-ink">${c.label}</h2>
-          <p class="mt-2 text-[0.875rem] text-slate-mid">${items.length} service${items.length > 1 ? "s" : ""}</p>
-        </div>
-        <div>${grid(
-          items.map((s) =>
-            featureCard({ icon: s.icon, title: s.nav, body: s.short, href: `/services/${s.slug}/` })
-          ),
-          2
-        )}</div>
+    if (!items.length) return null;
+    return {
+      id: c.id,
+      label: c.label,
+      content: `
+      <div class="mb-8 flex flex-wrap items-baseline justify-between gap-3">
+        <h2 class="font-display text-[1.625rem] leading-snug text-ink">${c.label}</h2>
+        <p class="text-[0.875rem] text-slate-mid">${items.length} service${items.length > 1 ? "s" : ""} &middot; select one for the full detail</p>
       </div>
-    </div>`;
-  }).join('<div class="h-14"></div>');
+      ${grid(
+        items.map((s) => featureCard({ icon: s.icon, title: s.nav, body: s.short, href: `/services/${s.slug}/` })),
+        3
+      )}`,
+    };
+  }).filter(Boolean);
+
+  const sectorsTab = {
+    id: "sectors",
+    label: "Sectors",
+    content: `
+      <div class="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+        ${sectionHead({
+          title: "Process mapped to how your clients operate",
+          lede: "Generic bookkeeping produces generic results. These are the sectors where we hold specific process knowledge.",
+        })}
+        <a href="/sectors/" class="link-arrow shrink-0">All sectors in detail ${arrow("h-4 w-4")}</a>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        ${SECTORS.map(
+          (x, i) => `<a href="/sectors/#${x.slug}" class="card-hover" data-reveal="rise" style="--d:${i % 4}">
+          <div class="icon-tile mb-4">${icon(x.icon, "h-5 w-5")}</div>
+          <h3 class="font-display text-[1.0625rem] leading-snug text-ink">${x.name}</h3>
+        </a>`
+        ).join("")}
+      </div>`,
+  };
+
+  const softwareTab = {
+    id: "software",
+    label: "Software",
+    content: `
+      ${sectionHead({
+        title: "The platforms our teams are trained on",
+        lede: "We work in your stack. Nothing is migrated, nothing is extracted into a proprietary system, and no client is asked to change software to suit us.",
+        max: "max-w-3xl",
+      })}
+      <div class="mt-10">${softwareBand(SOFTWARE_STACK)}</div>`,
+  };
 
   const body = `
 ${hero({
   eyebrow: "Services",
-  title: "Everything we deliver, and exactly where the boundaries sit.",
+  title: "Fourteen service lines, one agreed scope.",
   lede:
-    "Fourteen service lines across accounts, tax, payroll, audit support, advisory and business support. Each is delivered under your brand and your review, in your software, to a scope agreed in writing before any work begins.",
-  primary: { href: "/contact/", label: "Book a scoping call" },
-  secondary: { href: "/engagement-models/", label: "How engagements are priced" },
+    "Accounts, tax, payroll, audit support, advisory and business support, each delivered under your brand and your review, in your software, to a scope agreed in writing before any work begins. Choose a category, then a service for the full detail.",
+  primary: { href: "/contact/", label: "Contact us" },
+  secondary: { href: "/why-us/#engagement-models", label: "How engagements work" },
   trail: [{ label: "Home", href: "/" }, { label: "Services" }],
 })}
 
 ${sec(
   "section",
   `
-  <div class="mb-14 grid gap-5 sm:grid-cols-2">
-    <a href="/for-accountants/" class="card-hover">
-      <div class="icon-tile mb-5">${icon("building", "h-5 w-5")}</div>
-      <h2 class="h-card">For accountancy practices</h2>
-      <p class="mt-2.5 text-[0.9375rem] leading-relaxed text-slate-deep">
-        White-label compliance and tax delivery that extends your team without fixed headcount.
-        You keep the client, the brand, the review and the fee.
-      </p>
-      <span class="link-arrow mt-5">Practice overview ${arrow("h-3.5 w-3.5")}</span>
+  <div class="mb-12 grid gap-4 sm:grid-cols-2">
+    <a href="/for-accountants/" class="card-hover flex items-start gap-4 !p-6">
+      <span class="icon-tile">${icon("building", "h-5 w-5")}</span>
+      <span>
+        <span class="block font-display text-[1.1875rem] text-ink">For accountancy practices</span>
+        <span class="mt-1 block text-[0.9375rem] leading-relaxed text-slate-deep">White-label delivery. You keep the client, the brand and the fee.</span>
+      </span>
     </a>
-    <a href="/for-business/" class="card-hover">
-      <div class="icon-tile mb-5">${icon("layers", "h-5 w-5")}</div>
-      <h2 class="h-card">For growing UK businesses</h2>
-      <p class="mt-2.5 text-[0.9375rem] leading-relaxed text-slate-deep">
-        A complete finance function delivered as a service — transactions through to board
-        reporting — for businesses that have outgrown a bookkeeper.
-      </p>
-      <span class="link-arrow mt-5">Business overview ${arrow("h-3.5 w-3.5")}</span>
+    <a href="/for-business/" class="card-hover flex items-start gap-4 !p-6">
+      <span class="icon-tile">${icon("layers", "h-5 w-5")}</span>
+      <span>
+        <span class="block font-display text-[1.1875rem] text-ink">For growing UK businesses</span>
+        <span class="mt-1 block text-[0.9375rem] leading-relaxed text-slate-deep">A complete finance function, delivered as a service.</span>
+      </span>
     </a>
   </div>
-  ${groups}`
-)}
-
-${sec(
-  "section band-bone",
-  `
-  ${sectionHead({
-    eyebrow: "Software",
-    title: "The platforms our teams are trained on",
-    lede: "We work in your stack. Nothing is migrated, nothing is extracted into a proprietary system, and no client is asked to change software to suit us.",
-    max: "max-w-3xl",
-  })}
-  <div class="mt-11">${softwareBand(SOFTWARE_STACK)}</div>`
+  ${tabs([...categoryTabs, sectorsTab, softwareTab], { label: "Service categories" })}`
 )}
 
 ${ctaBand({
   title: "Not sure which service line to move first?",
-  body: "Most firms overthink this. The answer is almost always the work that is highest in volume, lowest in judgement and most consistently late — and it takes about twenty minutes on a call to identify it.",
+  body: "The answer is almost always the work that is highest in volume, lowest in judgement and most consistently late, and it takes about twenty minutes on a call to identify it.",
 })}
 `;
 
@@ -143,7 +162,7 @@ ${hero({
   title: "Extend your team. Keep your clients. Protect your margin.",
   lede:
     "B4ES gives UK practices a white-label delivery bench across bookkeeping, accounts, tax, payroll, audit support and practice administration. You keep the engagement, the brand, the review and the relationship. We supply the hours.",
-  primary: { href: "/contact/", label: "Book a scoping call" },
+  primary: { href: "/contact/", label: "Contact us" },
   secondary: { href: "/engagement-models/", label: "Engagement models" },
   pills: ["Fully white-labelled", "Second-person review", "Non-solicitation contracted", "No minimum commitment"],
   trail: [{ label: "Home", href: "/" }, { label: "For accountancy practices" }],

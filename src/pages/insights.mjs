@@ -279,7 +279,7 @@ ${hero({
   title: "Practical writing for people making a delivery decision.",
   lede:
     "No thought leadership and no listicles. These are the arguments we would make in a scoping call, written out properly — including the parts that argue against using us.",
-  primary: { href: "/contact/", label: "Book a scoping call" },
+  primary: { href: "/contact/", label: "Contact us" },
   secondary: { href: "/faqs/", label: "Read the FAQs" },
   trail: [{ label: "Home", href: "/" }, { label: "Insights" }],
 })}
@@ -396,7 +396,7 @@ export function articlePage(slug) {
       we are not the right answer.
     </p>
     <div class="mt-6 flex flex-wrap gap-3">
-      <a href="/contact/" class="btn-primary">Book a scoping call</a>
+      <a href="/contact/" class="btn-primary">Contact us</a>
       <a href="/insights/" class="btn-outline">More insights</a>
     </div>
   </div>

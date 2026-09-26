@@ -36,6 +36,21 @@ export const SITE = {
     country: "United Kingdom",
   },
 
+  // Shown on the contact page. An office with no address lines is not
+  // rendered, so these can be filled in one at a time.
+  offices: [
+    {
+      label: "Registered office",
+      lines: [], // TODO: e.g. ["Building, Street", "Town", "Postcode"]
+      country: "United Kingdom",
+    },
+    {
+      label: "Second office",
+      lines: [], // TODO
+      country: "",
+    },
+  ],
+
   companyNumber: "", // TODO: Companies House number once incorporated
   icoRef: "", // TODO: ICO registration reference once registered
 
@@ -64,22 +79,27 @@ export const PARTNER = {
   ],
 };
 
+// Strategic partners, shown on /strategic-partners/. Add an entry here and the
+// page renders it; only state what the partner has confirmed publicly.
+export const PARTNERS = [
+  {
+    ...PARTNER,
+    role: "Delivery partner",
+    region: "Pakistan",
+    summary:
+      "A specialist accounting, taxation, advisory and HR consulting firm running this discipline since 2014. Their team delivers B4ES engagements from Pakistan, working UK hours to UK standards.",
+  },
+];
+
+// Primary tabs, in order. The pages these replaced in the top bar (who we
+// help, how we work, engagement models, security, insights) are still live:
+// they are summarised inside Why Us and Services and listed in the footer.
 export const NAV = [
-  {
-    label: "Services",
-    href: "/services/",
-    mega: "services",
-  },
-  {
-    label: "Who we help",
-    href: "/for-accountants/",
-    mega: "audience",
-  },
-  { label: "How we work", href: "/how-we-work/" },
-  { label: "Engagement models", href: "/engagement-models/" },
-  { label: "Security", href: "/security/" },
-  { label: "Insights", href: "/insights/" },
-  { label: "About", href: "/about/" },
+  { label: "About Us", href: "/about/" },
+  { label: "Why Us", href: "/why-us/" },
+  { label: "Services", href: "/services/", mega: "services" },
+  { label: "Strategic Partners", href: "/strategic-partners/" },
+  { label: "Contact Us", href: "/contact/" },
 ];
 
 export const FOOTER_NAV = [
@@ -114,6 +134,8 @@ export const FOOTER_NAV = [
     title: "Company",
     links: [
       { label: "About B4ES", href: "/about/" },
+      { label: "Why B4ES", href: "/why-us/" },
+      { label: "Strategic partners", href: "/strategic-partners/" },
       { label: "How we work", href: "/how-we-work/" },
       { label: "Engagement models", href: "/engagement-models/" },
       { label: "Security & compliance", href: "/security/" },

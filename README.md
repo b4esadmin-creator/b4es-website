@@ -333,5 +333,12 @@ brand-kit logo (navy `#022454`, blue `#05527A`, teal `#0A8AA3`, gold `#E1B76D`).
   lifted so secondary text stays AA on navy.
 - **Display type** Source Serif 4 · **Body type** Inter (both via Google Fonts)
 
+Primary navigation is five tabs (About Us, Why Us, Services, Strategic Partners,
+Contact Us). To keep pages short, `tabs()` in `src/components.mjs` groups
+related sections into in-page tabs; each panel id is a deep link
+(`/why-us/#security`), and without JavaScript every panel simply renders in
+sequence. Brand illustrations (`artGrowth`, `artNetwork`, `artShield`) are
+inline SVG with CSS motion that switches off under reduced motion.
+
 Component classes (`.card`, `.btn-primary`, `.check-list`, `.acc`, …) keep the
 generated markup semantic rather than a wall of utilities.

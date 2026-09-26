@@ -11,6 +11,9 @@ import {
   callout,
   sec,
   secNarrow,
+  tabs,
+  linkCard,
+  artGrowth,
 } from "../components.mjs";
 
 /* ================================================================== about */
@@ -68,20 +71,7 @@ export function aboutPage() {
         <p>Delivery is led by our partner's senior finance and advisory management, who have been running this discipline since 2014. Named individuals on both sides are introduced during transition, and you are told in advance if any of them change.</p>
       </div>`;
 
-  const body = `
-${hero({
-  eyebrow: "About B4ES",
-  title: "Better 4 Enterprise Solutions.",
-  lede:
-    "We started with a straightforward observation: UK firms and UK businesses are paying established outsourcing rates for work that can be delivered to the same standard for materially less. B4ES exists to close that gap — and, over time, to become a broader solutions partner to the enterprises we serve rather than only a delivery one.",
-  primary: { href: "/contact/", label: "Talk to us" },
-  secondary: { href: "/how-we-work/", label: "How we work" },
-  trail: [{ label: "Home", href: "/" }, { label: "About" }],
-})}
-
-${sec(
-  "section",
-  `
+  const storyTab = `
   <div class="grid items-start gap-14 lg:grid-cols-[1.15fr_1fr]">
     <div>
       ${sectionHead({ eyebrow: "The name", title: "What “Better 4 Enterprise Solutions” actually means" })}
@@ -112,56 +102,39 @@ ${sec(
           .join("")}
       </ul>
     </div>
-  </div>`
-)}
+  </div>`;
 
-${sec(
-  "section band-bone",
-  `
-  <div class="grid items-start gap-12 lg:grid-cols-[1fr_1fr]">
+  const partnerTab = `
+  <div class="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
     <div>
       ${sectionHead({
         eyebrow: "The delivery partnership",
         title: "Who actually does the work",
-        lede: "Providers who are vague about this are usually vague for a reason. Ours is a formal partnership with a specialist finance and business consulting firm operating since 2014.",
+        lede: `Our delivery partner, ${PARTNER.name}, is a specialist accounting, tax, advisory and HR consulting firm headquartered in ${PARTNER.hq}, operating since ${PARTNER.founded} across ${PARTNER.offices.length} countries.`,
       })}
       <div class="prose-body mt-6">
-        <p>Our delivery partner is a specialist accounting, taxation, advisory and HR consulting firm headquartered in ${PARTNER.hq}, with a presence across ${PARTNER.offices.length} countries including the United Kingdom, Canada, Saudi Arabia and the United States. They have operated in this discipline since ${PARTNER.founded}.</p>
-        <p>What made them the right partner was the breadth of the technical bench rather than the price. Accounting and reporting, taxation and statutory compliance, governance and risk, transaction advisory and valuation, IT and cyber risk, ESG reporting, HR advisory and a dedicated actuarial practice — that range is unusual, and it means we can support specialist requests that a pure processing operation would have to decline.</p>
-        <p>The commercial structure is deliberately simple. B4ES owns the client relationship entirely. Our partner provides back-office resourcing and delivery under a written agreement with defined confidentiality, security and data protection obligations. You contract with one party and deal with one party.</p>
+        <p>B4ES owns the client relationship entirely. Our partner provides delivery under a written agreement with defined confidentiality, security and data protection obligations. You contract with one party and deal with one party.</p>
       </div>
     </div>
-    <div class="card">
-      <p class="eyebrow">Partner capability</p>
-      <p class="mt-3 font-display text-[1.1875rem] leading-snug text-ink">Specialist service lines behind the delivery team</p>
-      <ul class="check-list mt-6">
-        ${PARTNER.specialisms.map((x) => `<li>${x}</li>`).join("")}
-      </ul>
-      <div class="mt-7 border-t border-line pt-5">
-        <p class="text-[0.8125rem] leading-relaxed text-slate-mid">
-          Established ${PARTNER.founded} &middot; Headquartered in ${PARTNER.hq} &middot;
-          Offices across ${PARTNER.offices.join(", ")}
-        </p>
-      </div>
-    </div>
-  </div>`
-)}
+    ${linkCard({
+      href: "/strategic-partners/",
+      ic: "handshake",
+      title: "Our strategic partners",
+      body: `${PARTNER.name}'s capability, offices and how the partnership is governed.`,
+      cta: "Meet our partners",
+    })}
+  </div>`;
 
-${sec(
-  "section",
-  `
+  const valuesTab = `
   ${sectionHead({
     eyebrow: "How we operate",
-    title: "Four commitments that shape how we behave when something goes wrong",
+    title: "Four commitments for the days something goes wrong",
     lede: "Any supplier looks the same when everything runs smoothly. These describe what we do on the days it does not.",
     max: "max-w-3xl",
   })}
-  <div class="mt-12">${grid(VALUES.map((v) => featureCard(v)), 2)}</div>`
-)}
+  <div class="mt-10">${grid(VALUES.map((v) => featureCard(v)), 2)}</div>`;
 
-${sec(
-  "section band-bone",
-  `
+  const peopleTab = `
   <div class="grid items-start gap-12 lg:grid-cols-[1fr_1fr]">
     <div>
       ${sectionHead({
@@ -175,12 +148,36 @@ ${sec(
       ${sectionHead({ eyebrow: "Leadership", title: "Who you will be dealing with" })}
       ${leadershipBlock}
     </div>
-  </div>`
+  </div>`;
+
+  const body = `
+${hero({
+  eyebrow: "About Us",
+  title: "Better 4 Enterprise Solutions.",
+  lede:
+    "UK firms and UK businesses are paying established outsourcing rates for work that can be delivered to the same standard for materially less. B4ES exists to close that gap, and over time to become a broader solutions partner to the enterprises we serve.",
+  primary: { href: "/contact/", label: "Contact us" },
+  secondary: { href: "/why-us/", label: "Why B4ES" },
+  aside: `<div class="mx-auto max-w-md">${artGrowth()}</div>`,
+  trail: [{ label: "Home", href: "/" }, { label: "About Us" }],
+})}
+
+${sec(
+  "section",
+  tabs(
+    [
+      { id: "our-story", label: "Our story", content: storyTab },
+      { id: "our-partner", label: "Our partner", content: partnerTab },
+      { id: "our-values", label: "Our values", content: valuesTab },
+      { id: "boundaries", label: "Boundaries & leadership", content: peopleTab },
+    ],
+    { label: "About B4ES" }
+  )
 )}
 
 ${ctaBand({
   title: "Have the sceptical conversation with us.",
-  body: "Bring the objections — data security, quality, control, previous bad experiences, whether the price is too good to be true. Those are more productive first conversations than a capability overview, and we would rather have them at the start.",
+  body: "Bring the objections: data security, quality, control, previous bad experiences, whether the price is too good to be true. Those are more productive first conversations than a capability overview.",
 })}
 `;
 
@@ -235,7 +232,7 @@ ${hero({
   title: "The operating model, in enough detail to be assessed.",
   lede:
     "Most outsourcing goes wrong in transition rather than in delivery. Access is rushed, process is undocumented, volume ramps too fast and nobody agrees what “finished” looks like. This is how we avoid that, stage by stage.",
-  primary: { href: "/contact/", label: "Book a scoping call" },
+  primary: { href: "/contact/", label: "Contact us" },
   secondary: { href: "/engagement-models/", label: "Engagement models" },
   trail: [{ label: "Home", href: "/" }, { label: "How we work" }],
 })}
@@ -390,7 +387,7 @@ ${ctaBand()}
 
 /* ======================================================= engagement models */
 
-const MODELS = [
+export const MODELS = [
   {
     icon: "receipt",
     name: "Per job",
@@ -612,7 +609,7 @@ ${ctaBand({
 
 /* =============================================================== security */
 
-const CONTROL_DOMAINS = [
+export const CONTROL_DOMAINS = [
   {
     icon: "lock",
     title: "Access control",
@@ -659,7 +656,7 @@ const CONTROL_DOMAINS = [
   },
 ];
 
-const DILIGENCE = [
+export const DILIGENCE = [
   "Draft UK GDPR Article 28 data processing agreement for your legal review",
   "Information security policy summary and control framework overview",
   "Support for your international transfer risk assessment and transfer mechanism",

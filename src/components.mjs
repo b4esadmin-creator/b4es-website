@@ -181,8 +181,8 @@ export function ctaBand({
   eyebrow = "Next step",
   title = "Let’s find out where your capacity actually hurts.",
   body = "A 30-minute scoping call, no pitch deck. We look at your service mix, your peak periods and your software, and tell you plainly whether we can help and where we would start.",
-  primary = { href: "/contact/", label: "Book a scoping call" },
-  secondary = { href: "/how-we-work/", label: "See how we work" },
+  primary = { href: "/contact/", label: "Contact us" },
+  secondary = { href: "/why-us/", label: "Why B4ES" },
   points = [
     "No obligation and no minimum commitment to talk",
     "A written proposal within five working days",
@@ -264,6 +264,138 @@ export function splitPanel({ eyebrow, title, body, list = [], side, reverse = fa
     </div>
     <div>${side}</div>
   </div>`;
+}
+
+/* ------------------------------------------------------------------ tabs
+ *
+ * Keeps a page short: related sections sit side by side as tabs instead of
+ * stacking into a long scroll. Progressive enhancement: without JavaScript
+ * the tab bar is not shown and every panel renders in sequence, so no content
+ * is ever unreachable. Each panel's id doubles as a deep link, so
+ * /why-us/#security opens that tab directly.
+ *
+ * items: [{ id, label, content }]
+ */
+
+export function tabs(items, { label = "Sections", light = false } = {}) {
+  return `<div class="tabs${light ? " tabs-light" : ""}" data-tabs>
+    <div class="tab-list" role="tablist" aria-label="${label}">
+      ${items
+        .map(
+          (t, i) => `<button type="button" role="tab" class="tab" id="tab-${t.id}" aria-controls="${t.id}"
+        aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">${t.label}</button>`
+        )
+        .join("")}
+    </div>
+    ${items
+      .map(
+        (t) => `<div class="tab-panel scroll-mt-32" role="tabpanel" id="${t.id}" aria-labelledby="tab-${t.id}" tabindex="0">
+      ${t.content}
+    </div>`
+      )
+      .join("")}
+  </div>`;
+}
+
+/* ---------------------------------------------------------- page links
+ *
+ * Compact "go deeper" cards used at the foot of a section or tab, so the
+ * summary stays short and the detail lives on its own page.
+ */
+
+export function linkCard({ href, title, body, ic = "arrowRight", cta = "Read more", external = false }) {
+  const ext = external ? ` target="_blank" rel="noopener"` : "";
+  return `<a href="${href}"${ext} class="card-hover flex flex-col">
+    <div class="icon-tile mb-4">${icon(ic, "h-5 w-5")}</div>
+    <h3 class="h-card">${title}</h3>
+    ${body ? `<p class="mt-2 text-[0.9375rem] leading-relaxed text-slate-deep">${body}</p>` : ""}
+    <span class="link-arrow mt-auto pt-5">${cta} ${arrow("h-3.5 w-3.5")}</span>
+  </a>`;
+}
+
+/* ---------------------------------------------------------- illustrations
+ *
+ * Inline SVG in the brand palette. Motion is CSS-only (see "illustrations"
+ * in styles.css) and switched off under prefers-reduced-motion. All are
+ * decorative: aria-hidden, with the meaning carried by the surrounding copy.
+ */
+
+// Rising bars and the logo's arrow: capacity growing.
+export function artGrowth(cls = "") {
+  const bars = [
+    [40, 150, 44],
+    [96, 118, 76],
+    [152, 84, 110],
+    [208, 52, 142],
+  ];
+  return `<svg viewBox="0 0 300 220" class="art ${cls}" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="artArrow" x1="0" y1="1" x2="1" y2="0">
+        <stop offset="0" stop-color="#05527a"/><stop offset="1" stop-color="#2bb3c9"/>
+      </linearGradient>
+    </defs>
+    <line x1="24" y1="196" x2="276" y2="196" stroke="rgba(255,255,255,.18)" stroke-width="1.5"/>
+    ${bars
+      .map(
+        ([x, y, h], i) =>
+          `<rect class="art-bar" style="--i:${i}" x="${x}" y="${y}" width="36" height="${h}" rx="5" fill="${
+            i === 3 ? "#2bb3c9" : i === 2 ? "#0a8aa3" : i === 1 ? "#05527a" : "#1b4a82"
+          }"/>`
+      )
+      .join("")}
+    <path class="art-draw" d="M30 170 C 90 150, 140 120, 176 88 S 238 40, 262 30" fill="none"
+      stroke="url(#artArrow)" stroke-width="5" stroke-linecap="round"/>
+    <path class="art-pop" d="M248 22 L270 26 L264 48" fill="none" stroke="#2bb3c9" stroke-width="5"
+      stroke-linecap="round" stroke-linejoin="round"/>
+    <rect class="art-pop art-float" x="252" y="-4" width="18" height="18" rx="2" fill="#e1b76d"/>
+  </svg>`;
+}
+
+// Two hubs joined by a live connection: UK client side and the delivery team.
+export function artNetwork(cls = "", { left = "United Kingdom", right = "Pakistan" } = {}) {
+  return `<svg viewBox="0 0 340 220" class="art ${cls}" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="artLink" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#2bb3c9"/><stop offset="1" stop-color="#e1b76d"/>
+      </linearGradient>
+    </defs>
+    <path d="M70 110 C 130 40, 210 40, 270 110" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="2"/>
+    <path class="art-flow" d="M70 110 C 130 40, 210 40, 270 110" fill="none" stroke="url(#artLink)"
+      stroke-width="3" stroke-linecap="round" stroke-dasharray="6 10"/>
+    <path d="M70 130 C 130 190, 210 190, 270 130" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="2"/>
+    <path class="art-flow art-flow-rev" d="M70 130 C 130 190, 210 190, 270 130" fill="none" stroke="#2bb3c9"
+      stroke-width="3" stroke-linecap="round" stroke-dasharray="6 10" opacity=".7"/>
+    ${[
+      [70, left, "#2bb3c9"],
+      [270, right, "#e1b76d"],
+    ]
+      .map(
+        ([cx, name, c], i) => `<g class="art-pop" style="--i:${i}">
+      <circle class="art-pulse" cx="${cx}" cy="120" r="34" fill="${c}" opacity=".16"/>
+      <circle cx="${cx}" cy="120" r="22" fill="#022454" stroke="${c}" stroke-width="3"/>
+      <circle cx="${cx}" cy="120" r="7" fill="${c}"/>
+      <text x="${cx}" y="178" text-anchor="middle" fill="#a3b4c8" font-size="12" font-family="Inter, sans-serif" font-weight="600">${name}</text>
+    </g>`
+      )
+      .join("")}
+    <circle class="art-dot" r="5" fill="#fff"><animateMotion dur="3.6s" repeatCount="indefinite"
+      path="M70 110 C 130 40, 210 40, 270 110"/></circle>
+  </svg>`;
+}
+
+// A shield assembling around a document: controls around client data.
+export function artShield(cls = "") {
+  return `<svg viewBox="0 0 260 220" class="art ${cls}" aria-hidden="true" focusable="false">
+    <path class="art-draw" d="M130 22 L206 50 V110 C206 156 172 188 130 202 C88 188 54 156 54 110 V50 Z"
+      fill="rgba(43,179,201,.08)" stroke="#2bb3c9" stroke-width="4" stroke-linejoin="round"/>
+    <rect class="art-pop" style="--i:1" x="100" y="72" width="60" height="76" rx="6" fill="#022454" stroke="#a3b4c8" stroke-width="2"/>
+    ${[88, 102, 116, 130]
+      .map((y, i) => `<rect class="art-bar" style="--i:${i + 1}" x="110" y="${y}" width="${i === 3 ? 24 : 40}" height="4" rx="2" fill="#a3b4c8"/>`)
+      .join("")}
+    <circle class="art-pop" style="--i:3" cx="170" cy="150" r="20" fill="#e1b76d"/>
+    <path class="art-draw" style="--i:4" d="M161 150 l6 6 l12 -13" fill="none" stroke="#022454" stroke-width="4"
+      stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
 }
 
 /* ------------------------------------------------------------------ misc */
@@ -395,7 +527,7 @@ export function capacityTransfer() {
 
 /* ------------------------------------------------------ time-zone strip */
 
-export function timezoneStrip() {
+export function timezoneStrip({ bare = false } = {}) {
   // 24-hour strip, expressed in UK time.
   const band = (startH, endH) => ({
     left: (startH / 24) * 100,
@@ -425,9 +557,7 @@ export function timezoneStrip() {
     </div>
   </div>`;
 
-  return `<section class="section">
-  <div class="wrap">
-    <div class="grid items-start gap-12 lg:grid-cols-[0.9fr_1.1fr]">
+  const inner = `<div class="grid items-start gap-12 lg:grid-cols-[0.9fr_1.1fr]">
       <div>
         ${sectionHead({
           eyebrow: "The overnight advantage",
@@ -468,7 +598,7 @@ export function timezoneStrip() {
           </p>
         </div>
       </div>
-    </div>
-  </div>
-</section>`;
+    </div>`;
+
+  return bare ? inner : `<section class="section"><div class="wrap">${inner}</div></section>`;
 }
