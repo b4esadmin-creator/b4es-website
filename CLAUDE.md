@@ -189,9 +189,8 @@ partners (26 Sep 2026):
   `b4es.admin@gmail.com` (`wrangler.jsonc`), but only start sending once
   Cloudflare Email Routing is enabled and that address verified; until then
   rows are stored with `notified = 0`.
-- **Resend (26 Sep 2026, requested by Faisal):** code is live but dormant
-  until the `RESEND_API_KEY` Worker secret is set (README, "Email via
-  Resend"). Then enquiries email `info@b4es.co.uk` through Resend (falling back
+- **Resend (26 Sep 2026, requested by Faisal):** live (README, "Email via
+  Resend"). Enquiries email `info@b4es.co.uk` through Resend (falling back
   to the Cloudflare binding), and the home page shows a newsletter sign-up
   dialog (double opt-in, `subscribers` table in D1, confirmed addresses go to
   Resend Contacts). The `subscribers` table was created in production by hand
@@ -199,14 +198,14 @@ partners (26 Sep 2026):
   Resend as the email processor and covers newsletter consent and retention.
 
 ## Open items
-- **Resend setup (owner):** done in Resend on 26 Sep 2026: domain
-  b4es.co.uk added (EU, open/click tracking off) and segment "Newsletter"
-  created (id in `RESEND_SEGMENT_ID`). Still needed: add Resend's four DNS
-  records in Cloudflare DNS (`resend._domainkey` TXT, `send` MX and TXT,
-  `rsend` CNAME; current values are in Resend → Domains), then verify the
-  domain; create a Full-access API key in the Resend dashboard and paste it
-  straight into the Worker secret `RESEND_API_KEY` (never into chat or this
-  repo). The newsletter dialog stays hidden until the key is set. Resend is
+- **Resend setup:** domain b4es.co.uk verified in Resend (EU, tracking
+  off), segment "Newsletter" (id in `RESEND_SEGMENT_ID`), and
+  `RESEND_API_KEY` set as a Worker secret (26 Sep 2026). Tested live:
+  enquiry emails reach info@b4es.co.uk and confirmation emails deliver. The
+  first key was **sending-only**, so contacts could not be added: replace it
+  with a **Full access** key (Resend → API Keys; paste straight into the
+  Worker secret, never into chat or this repo). Confirmed subscribers that
+  failed to sync are retried automatically (`syncContacts`). Resend is
   US-based: accept its DPA so the privacy notice's transfer statement holds.
 - **Second office address**: not yet provided. Add it to `SITE.offices`.
 - **Registered office is a member's home address**: flagged to the partners
