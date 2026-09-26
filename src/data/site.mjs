@@ -18,7 +18,7 @@ export const SITE = {
   domain: "b4es.co.uk", // TODO: confirm live domain
   baseUrl: "https://b4es.co.uk", // TODO: confirm live domain
 
-  email: "info@b4es.co.uk", // TODO: replace with live mailbox
+  email: "test@b4es.co.uk", // TODO: replace with live mailbox
   emailSales: "newbusiness@b4es.co.uk", // TODO
   emailCareers: "careers@b4es.co.uk", // TODO
   // TODO: add the real business number, e.g. "+44 (0)20 1234 5678".

@@ -53,7 +53,7 @@
   "send_email": [
     {
       "name": "ENQUIRY_EMAIL",
-      "destination_address": "info@b4es.co.uk"
+      "destination_address": "test@b4es.co.uk"
     }
   ],
 
@@ -61,7 +61,7 @@
     // Sender must be on a domain onboarded to Email Routing.
     "ENQUIRY_FROM": "website@b4es.co.uk",
     // Must match the binding's destination_address above.
-    "ENQUIRY_TO": "info@b4es.co.uk"
+    "ENQUIRY_TO": "test@b4es.co.uk"
   },
 
   "observability": {
