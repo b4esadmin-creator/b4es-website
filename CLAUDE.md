@@ -90,6 +90,17 @@ edit cells.
   section. The For business scene was regenerated with a £ coin. Spots: every service page hero (by category) and the Services
   category tabs. Motion is a slow CSS float, off under reduced motion.
   The home proposition card moved from the hero to a section just below it.
+- **Home hero video (26 Sep 2026, Yawar):** the home illustration is replaced
+  by a 48 s loop, `public/assets/video/b4es-loop.mp4` (H.264) with a
+  `.webm` (VP9) fallback and `b4es-loop-poster.webp`, via `heroVideo()` in
+  `src/components.mjs`. Recorded from Yawar's "b4es_loop_presentation.html"
+  with his music track. Changes from his file: slide 1's stock London photo
+  swapped for our Canva London scene (no-photos rule, unknown licence), the
+  62% line softened to "In many practices, fee earners spend up to 62%…",
+  brand colours, larger type, site SVG logo. It autoplays muted; a "Sound
+  on" button (site.js) plays the music; reduced motion keeps it paused with
+  controls. To re-record: open the slideshow at 1280×720 in Playwright with
+  recordVideo, then ffmpeg-mux the audio (both formats).
   thebpo.net was the loose reference, but B4ES keeps its own look.
 - **Strategic Partners:** theBPO (Karachi, est. 2014) is the only partner;
   add more via `PARTNERS` in `src/data/site.mjs`.
@@ -134,5 +145,11 @@ edit cells.
   at Yawar's request (26 Sep 2026); the only caveat left is the
   "Illustrative example" label above the first bar. Keep that label: the
   figures are a model, not client data.
+- **Hero video music licence**: the track came as a WhatsApp audio file
+  with no artist or title. Confirm B4ES has the right to use it commercially
+  (or swap for a licensed track) before promoting the site.
+- **Hero video slide 2** uses two illustrations with people (from Yawar's
+  file) in a different style from our Canva set; swap if the partners want
+  one look.
 - Placeholders still empty in `src/data/site.mjs`: phone, Companies House
   number, ICO reference, LinkedIn URL.
