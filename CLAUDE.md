@@ -116,15 +116,16 @@ partners (26 Sep 2026):
   (remote MCP on mcp.b4es.co.uk); 4 bank statement upload and
   reconciliation; 5 in-app AI categorisation (Anthropic API key); 6 VAT
   returns and more reports.
-- **Owner steps still needed:** Zero Trust + Access app for
-  ledger.b4es.co.uk (send AUD tag and team domain), enable R2 (backups,
+- **Owner steps still needed:** enable R2 (backups,
   statements), 2-step verification on the
   shared Gmail and Cloudflare.
 - **Status:** stage 1 code is merged. The EU database `b4es-ledger`
   exists (created 26 Sep 2026 via `ledger-db-create.yml`; id in
   `apps/ledger/wrangler.jsonc`) and `ledger-deploy.yml` applies migrations
-  and deploys on merge. The ledger shows "set-up pending" until
-  `TEAM_DOMAIN` and `POLICY_AUD` from the Access application are filled in.
+  and deploys on merge. Cloudflare Access (team `damp-mode-0f67`, app for
+  ledger.b4es.co.uk, One-time PIN) is set up and its team domain and AUD
+  tag are in `wrangler.jsonc` (identifiers, not secrets). Partners are
+  allowed or removed only in the Access policy in the Zero Trust dashboard.
 - **Working on the ledger locally:** `apps/ledger/README.md` has the
   commands (local D1, `wrangler dev` with `DEV_EMAIL` and
   `--local-upstream`, tests). CI runs the report tests, the 34 database-rule
