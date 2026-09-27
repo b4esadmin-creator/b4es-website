@@ -239,3 +239,4 @@ body.gate { display: grid; place-items: center; background: var(--navy); padding
 .print-only { display: none; }
 
 .decision { flex-basis: 100%; }
+.pill.claude { background: #e6f3f6; color: #05527a; }

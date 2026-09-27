@@ -15,10 +15,31 @@ in the "Ledger app" section of the root `CLAUDE.md`.
 | `src/coa.js` | UK chart of accounts templates (LLP and limited company) |
 | `src/reports.js` | Trial balance, P&L, balance sheet, cash flow (pure functions) |
 | `public/` | The app: `index.html`, `app.js` (no framework, CSP-safe), `app.css`, PWA manifest, service worker, icons |
+| `cli/ledger.mjs` | Command line used by Claude Code: read accounts and entries, send proposals |
 | `test/` | `reports.test.mjs` (node:test) and `triggers.sh` (database rules on a local D1) |
 
 Money is always integer pence. Posted entries are corrected by reversal,
 never edited.
+
+## Claude proposals
+
+Claude reads the books and sends entries for approval through
+`cli/ledger.mjs`, following `.claude/skills/ledger-entries/SKILL.md`. It signs
+in with a Cloudflare Access service token:
+
+1. Zero Trust, Access controls, Service credentials: create a service token
+   "B4ES Ledger - Claude". Copy the Client ID and Client Secret (the secret is
+   shown once).
+2. On the ledger's Access application add a policy with action **Service
+   Auth**, including that service token.
+3. Put the Client ID in `AGENT_CLIENT_IDS` in `wrangler.jsonc` (PR).
+4. Each partner who wants Claude to propose entries adds `LEDGER_CLIENT_ID` and
+   `LEDGER_CLIENT_SECRET` as environment variables in their Claude
+   environment. Check with `node apps/ledger/cli/ledger.mjs check`.
+
+Locally, `--var DEV_AGENT:test.access --var AGENT_CLIENT_IDS:test.access`
+makes every localhost request act as Claude (with any values for the two
+environment variables and `LEDGER_URL=http://127.0.0.1:8799`).
 
 ## Run it locally
 

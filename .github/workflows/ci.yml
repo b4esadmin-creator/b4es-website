@@ -42,7 +42,7 @@ jobs:
         run: bash apps/ledger/test/triggers.sh
 
       - name: Ledger syntax
-        run: for f in apps/ledger/src/*.js apps/ledger/public/*.js; do node --check "$f"; done
+        run: for f in apps/ledger/src/*.js apps/ledger/public/*.js apps/ledger/cli/*.mjs; do node --check "$f"; done
 
       - name: Validate ledger Cloudflare config
         run: npx wrangler deploy --dry-run -c apps/ledger/wrangler.jsonc

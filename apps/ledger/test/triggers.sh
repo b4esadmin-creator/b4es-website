@@ -135,6 +135,20 @@ UPDATE journal_lines SET debit_p=200 WHERE journal_id='D1';
 DELETE FROM journal_lines WHERE journal_id='D1';
 DELETE FROM journals WHERE id='D1';"
 
+# ---- Claude as an agent: proposals only
+expect_ok "agent principal" "INSERT INTO principals (id, email, role) VALUES (9, 'service-token:test.access', 'agent');"
+expect_fail "agent inserts a draft" "INSERT INTO journals (id, entity_id, date, narrative, created_by, source) VALUES ('C0', 1, '2026-06-01', 'x', 9, 'claude');" "only send entries for approval"
+expect_fail "agent inserts pending without second approval" "INSERT INTO journals (id, entity_id, date, narrative, status, created_by, source) VALUES ('C0', 1, '2026-06-01', 'x', 'pending', 9, 'claude');" "only send entries for approval"
+expect_fail "agent entry not marked as Claude" "INSERT INTO journals (id, entity_id, date, narrative, status, requires_second, created_by) VALUES ('C0', 1, '2026-06-01', 'x', 'pending', 1, 9);" "only send entries for approval"
+expect_ok "agent proposes an entry" "
+INSERT INTO journals (id, entity_id, date, narrative, total_p, status, requires_second, source, created_by, origin_note) VALUES ('C1', 1, '2026-06-01', 'Xero subscription', 3000, 'pending', 1, 'claude', 9, 'Faisal via Claude Code');
+INSERT INTO journal_lines (journal_id, line_no, account_id, debit_p) VALUES ('C1', 1, 3, 3000);
+INSERT INTO journal_lines (journal_id, line_no, account_id, credit_p) VALUES ('C1', 2, 1, 3000);"
+expect_fail "agent approves" "UPDATE journals SET status='posted', number=5, decided_by=9, posted_by=9 WHERE id='C1';" "cannot post, approve or reject"
+expect_fail "agent rejects" "UPDATE journals SET status='rejected', decided_by=9 WHERE id='C1';" "cannot post, approve or reject"
+expect_fail "agent entry withdrawn and posted directly" "UPDATE journals SET status='draft', requires_second=0 WHERE id='C1'; UPDATE journals SET status='posted', number=5, posted_by=1 WHERE id='C1';" "posted by approving"
+expect_ok "partner approves agent entry" "UPDATE journals SET status='posted', number=5, decided_by=1, posted_by=1, posted_at=datetime('now') WHERE id='C1';"
+
 # ---- trial balance still balances
 run "SELECT SUM(l.debit_p) - SUM(l.credit_p) AS diff FROM journal_lines l JOIN journals j ON j.id=l.journal_id WHERE j.status='posted';"
 if grep -q '"diff": 0' /tmp/ledger-sql.out; then pass=$((pass+1)); else fail=$((fail+1)); echo "FAIL: trial balance does not balance"; cat /tmp/ledger-sql.out; fi

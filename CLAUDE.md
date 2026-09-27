@@ -126,6 +126,16 @@ partners (26 Sep 2026):
   ledger.b4es.co.uk, One-time PIN) is set up and its team domain and AUD
   tag are in `wrangler.jsonc` (identifiers, not secrets). Partners are
   allowed or removed only in the Access policy in the Zero Trust dashboard.
+- **Claude proposes entries (phase 2):** partners ask Claude in plain English;
+  Claude follows `.claude/skills/ledger-entries/SKILL.md` and uses
+  `apps/ledger/cli/ledger.mjs` with a Cloudflare Access **service token**
+  (env vars `LEDGER_CLIENT_ID` and `LEDGER_CLIENT_SECRET` in each partner's
+  Claude environment, never in the repo). The token's Client ID must be in
+  `AGENT_CLIENT_IDS` in `apps/ledger/wrangler.jsonc`. It becomes the "Claude"
+  agent, which can only read the books and send entries for approval: no
+  posting, approving, editing, exports or audit log (Worker guard plus
+  triggers in `migrations/0002_agent.sql`). Admins can switch Claude off in
+  Settings, Partners.
 - **Working on the ledger locally:** `apps/ledger/README.md` has the
   commands (local D1, `wrangler dev` with `DEV_EMAIL` and
   `--local-upstream`, tests). CI runs the report tests, the 34 database-rule

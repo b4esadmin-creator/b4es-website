@@ -116,24 +116,36 @@ export default {
     }
 
     // ---- identity
-    let email;
-    const local = (url.hostname === "localhost" || url.hostname === "127.0.0.1") && env.DEV_EMAIL;
-    if (local) {
+    let email = null;
+    let serviceToken = null;
+    const localHost = url.hostname === "localhost" || url.hostname === "127.0.0.1";
+    if (localHost && env.DEV_AGENT) {
+      serviceToken = String(env.DEV_AGENT);
+    } else if (localHost && env.DEV_EMAIL) {
       email = String(env.DEV_EMAIL).toLowerCase();
     } else {
       if (!env.TEAM_DOMAIN || !env.POLICY_AUD) {
         return isApi ? json({ error: "The ledger's sign-in is not set up yet" }, 503) : setupPendingPage();
       }
       try {
-        ({ email } = await verifyAccess(request, env.TEAM_DOMAIN, env.POLICY_AUD));
+        ({ email = null, serviceToken = null } = await verifyAccess(request, env.TEAM_DOMAIN, env.POLICY_AUD));
       } catch (e) {
         return isApi ? json({ error: "Not signed in" }, 401) : deniedPage(401, "You are not signed in to the B4ES Ledger.");
       }
     }
 
+    // Service tokens are Claude. Only the Client IDs listed in AGENT_CLIENT_IDS
+    // are accepted, and only for the API.
+    if (serviceToken) {
+      const allowed = list(env.AGENT_CLIENT_IDS);
+      if (!isApi || !allowed.includes(serviceToken)) {
+        return isApi ? json({ error: "This service token is not allowed" }, 403) : deniedPage(403, "Service tokens can only use the ledger API.");
+      }
+    }
+
     let me;
     try {
-      me = await principalFor(env, email);
+      me = serviceToken ? await agentFor(env, serviceToken) : await principalFor(env, email);
     } catch (e) {
       return isApi ? json({ error: "Could not load your account" }, 500) : deniedPage(500, "Could not load your account.");
     }
@@ -155,6 +167,9 @@ export default {
           throw new HttpError(403, "Your role is view-only");
         }
       }
+      if (me.role === "agent" && !agentMayCall(request.method, url.pathname)) {
+        throw new HttpError(403, "Claude can only read the books and send entries for approval");
+      }
       return await route(request, env, url, me);
     } catch (e) {
       if (e instanceof HttpError) return json({ error: e.message }, e.status);
@@ -165,6 +180,48 @@ export default {
     }
   },
 };
+
+function list(v) {
+  return String(v || "")
+    .split(",")
+    .map((x) => x.trim())
+    .filter(Boolean);
+}
+
+/**
+ * What Claude (role 'agent') may do: read the books and send entries for
+ * approval. No exports, audit log, partner list or any other write. The
+ * database triggers in 0002_agent.sql enforce the same limits.
+ */
+function agentMayCall(method, pathname) {
+  const p = pathname.replace(/^\/api\/?/, "").split("/").filter(Boolean);
+  if (method === "GET") {
+    if (p.length === 1 && p[0] === "me") return true;
+    if (p[0] !== "entities") return false;
+    if (p.length <= 2) return true;
+    return ["accounts", "contacts", "journals", "approvals", "fiscal-years", "reports"].includes(p[2]);
+  }
+  return method === "POST" && p.length === 3 && p[0] === "entities" && p[2] === "journals";
+}
+
+async function agentFor(env, clientId) {
+  const key = `service-token:${clientId}`;
+  const now = new Date().toISOString();
+  let p = await env.DB.prepare("SELECT * FROM principals WHERE email = ?").bind(key).first();
+  if (!p) {
+    await env.DB.batch([
+      env.DB.prepare("INSERT OR IGNORE INTO principals (email, role, display_name, last_seen_at) VALUES (?, 'agent', 'Claude', ?)").bind(key, now),
+      env.DB.prepare(
+        "INSERT INTO audit_log (principal_id, action, object_type, object_id, detail_json) SELECT id, 'principal.first_sign_in', 'principal', id, json_object('role', 'agent') FROM principals WHERE email = ?"
+      ).bind(key),
+    ]);
+    p = await env.DB.prepare("SELECT * FROM principals WHERE email = ?").bind(key).first();
+  } else if (!p.last_seen_at || now.slice(0, 13) !== String(p.last_seen_at).slice(0, 13)) {
+    await env.DB.prepare("UPDATE principals SET last_seen_at = ? WHERE id = ?").bind(now, p.id).run();
+  }
+  if (p.role !== "agent") throw new Error("service token principal has a person's role");
+  return p;
+}
 
 async function principalFor(env, email) {
   const now = new Date().toISOString();
@@ -227,9 +284,10 @@ async function route(request, env, url, me) {
       const b = await body(request);
       const target = await db.prepare("SELECT * FROM principals WHERE id = ?").bind(id).first();
       if (!target) throw new HttpError(404, "Not found");
-      const role = b.role ?? target.role;
+      if (target.role === "agent" && b.role !== undefined && b.role !== "agent") throw bad("Claude's role cannot be changed; switch it off instead");
+      const role = target.role === "agent" ? "agent" : b.role ?? target.role;
       const active = b.active === undefined ? target.active : b.active ? 1 : 0;
-      if (!["admin", "partner", "viewer"].includes(role)) throw bad("Unknown role");
+      if (!["admin", "partner", "viewer"].includes(role) && !(role === "agent" && target.role === "agent")) throw bad("Unknown role");
       if (target.id === me.id && (role !== "admin" || !active)) throw bad("You cannot remove your own admin access");
       await db.batch([
         db.prepare("UPDATE principals SET role = ?, active = ? WHERE id = ?").bind(role, active, id),
@@ -512,7 +570,7 @@ async function listJournals(db, entityId, { status, from, to, account, q, limit 
   const { results } = await db
     .prepare(
       `SELECT j.id, j.number, j.date, j.reference, j.narrative, j.status, j.source, j.total_p, j.requires_second,
-              j.created_at, j.reversal_of, j.reversed_by, j.requested_approver_id,
+              j.created_at, j.reversal_of, j.reversed_by, j.requested_approver_id, j.origin_note,
               c.display_name AS created_by_name, c.email AS created_by_email, j.created_by
          FROM journals j JOIN principals c ON c.id = j.created_by
         WHERE ${where.join(" AND ")}
@@ -669,24 +727,27 @@ async function journalsRoute(request, db, me, entity, rest, q) {
   // Create: action = draft | post | submit
   if (rest.length === 1 && m === "POST") {
     const b = await body(request);
-    const action = b.action || "draft";
+    const agent = me.role === "agent";
+    // Claude only ever sends entries for approval.
+    const action = agent ? "submit" : b.action || "draft";
     if (!["draft", "post", "submit"].includes(action)) throw bad("Unknown action");
     const j = await validJournal(db, entity, b);
     const id = ulid();
+    const originNote = agent ? String(b.requested_by || "").trim().slice(0, 200) || null : null;
     const approver = action === "submit" ? await validApprover(db, me, b.approver_id) : null;
     const status = action === "submit" ? "pending" : "draft";
-    const source = ["manual", "quick", "opening"].includes(b.source) ? b.source : "manual";
+    const source = agent ? "claude" : ["manual", "quick", "opening"].includes(b.source) ? b.source : "manual";
     const stmts = [
       db
         .prepare(
-          `INSERT INTO journals (id, entity_id, date, reference, narrative, status, source, requires_second, requested_approver_id, total_p, created_by, submitted_at)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+          `INSERT INTO journals (id, entity_id, date, reference, narrative, status, source, requires_second, requested_approver_id, total_p, created_by, submitted_at, origin_note)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
         )
-        .bind(id, entity.id, j.date, j.reference, j.narrative, status, source, action === "submit" ? 1 : 0, approver, j.total_p, me.id, action === "submit" ? now : null),
+        .bind(id, entity.id, j.date, j.reference, j.narrative, status, source, action === "submit" ? 1 : 0, approver, j.total_p, me.id, action === "submit" ? now : null, originNote),
       ...lineStmts(db, id, j.lines),
     ];
     if (action === "post") stmts.push(postStmt(db, entity.id, id, me));
-    stmts.push(audit(db, me, `journal.${action === "post" ? "post" : action === "submit" ? "submit" : "draft"}`, entity.id, "journal", id, { date: j.date, total_p: j.total_p }));
+    stmts.push(audit(db, me, `journal.${action === "post" ? "post" : action === "submit" ? "submit" : "draft"}`, entity.id, "journal", id, { date: j.date, total_p: j.total_p, ...(originNote ? { requested_by: originNote } : {}) }));
     await db.batch(stmts);
     return json({ journal: await getJournal(db, entity.id, id) }, 201);
   }
