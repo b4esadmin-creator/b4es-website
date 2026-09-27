@@ -124,8 +124,8 @@ partners (26 Sep 2026):
   protects the whole hostname; its team domain and AUD tag are in
   `wrangler.jsonc` (identifiers, not secrets). Partners are added or
   removed only in the "B4ES partners" Access policy in the Zero Trust
-  dashboard. Faisal has signed in and set up B4ES LLP; the other partners
-  have been sent sign-in instructions.
+  dashboard. Faisal has signed in and set up B4ES LLP; by 27 Sep 2026 two
+  more partners had signed in (three people plus Claude).
 - **Claude proposes entries (phase 2, live):** partners ask Claude in plain
   English; Claude follows `.claude/skills/ledger-entries/SKILL.md` (workflow
   and UK LLP bookkeeping rules) and uses `apps/ledger/cli/ledger.mjs`. It
@@ -142,11 +142,19 @@ partners (26 Sep 2026):
   entries, lock or unlock years, archive a company or change who has access
   (`agentMayCall` in `src/index.js`, triggers in `migrations/0002_agent.sql`
   and `0003_agent_setup.sql`). Admins can switch Claude off in Settings,
-  Partners. Faisal added the environment variables on 27 Sep
-  2026; the first end-to-end proposal from a new session is still to be
-  tried.
-- **Next:** first live Claude proposal and approval; then phase 3
-  (claude.ai connector), phase 4 (bank statement upload, needs R2).
+  Partners. Faisal added the environment variables on 27 Sep 2026.
+- **First live proposals (27 Sep 2026, Faisal):** five entries sent for
+  approval: the b4es.co.uk domain (£3.90, Faisal's capital) and the £102
+  partners' dinner with the BPO Pakistan firm, booked as four entries
+  (expense owed to Faisal on 2300; £25.50 capital due from each partner on
+  1110/3000; Faisal's share set off; Rao Junaid's share paid to Faisal).
+  Once approved, B4ES owes Faisal £51 and Yawar and Ghufran each owe £25.50;
+  when they pay Faisal, book debit 2300 (Faisal) / credit 1110 (partner).
+  Claude added account 6520 Entertainment and member contacts Faisal, Yawar,
+  Ghufran and Rao Junaid (use these contacts on member lines).
+- **Next:** partner approval of those entries; consider per-partner capital
+  accounts before year end; then phase 3 (claude.ai connector), phase 4
+  (bank statement upload, needs R2).
 - **R2** is enabled on the account (27 Sep 2026); no buckets yet. Phase 4
   creates the statements bucket with EU jurisdiction.
 - **Owner steps still needed:** 2-step verification on the shared Gmail and
