@@ -154,7 +154,7 @@ export function aboutPage() {
   const body = `
 ${hero({
   eyebrow: "About Us",
-  title: "Better 4 Enterprise Solutions.",
+  title: "Better 4 Enterprise Solutions LLP.",
   lede:
     "UK firms and UK businesses are paying established outsourcing rates for work that can be delivered to the same standard for materially less. B4ES exists to close that gap, and over time to become a broader solutions partner to the enterprises we serve.",
   primary: { href: "/contact/", label: "Contact us" },
@@ -184,7 +184,7 @@ ${ctaBand({
 
   return {
     path: "/about/",
-    title: "About Better 4 Enterprise Solutions (B4ES)",
+    title: "About Better 4 Enterprise Solutions LLP (B4ES)",
     description:
       "Better 4 Enterprise Solutions LLP (B4ES) is a UK-facing outsourcing and business solutions venture delivering accounting, tax, payroll and advisory support through an established specialist delivery partner operating since 2014.",
     body,

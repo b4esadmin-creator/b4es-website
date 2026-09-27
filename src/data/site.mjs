@@ -13,7 +13,7 @@
 
 export const SITE = {
   name: "B4ES",
-  fullName: "Better 4 Enterprise Solutions",
+  fullName: "Better 4 Enterprise Solutions LLP",
   tagline: "Better 4 Enterprise Solutions",
   domain: "b4es.co.uk", // TODO: confirm live domain
   baseUrl: "https://b4es.co.uk", // TODO: confirm live domain

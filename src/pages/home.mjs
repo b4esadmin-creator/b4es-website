@@ -152,7 +152,7 @@ ${newsletterDialog()}
     path: "/",
     // Brand-first so searches for "B4ES", "Better 4" or "Better 4 Enterprise
     // Solutions" match the title; layout.mjs uses the home title as given.
-    title: "Better 4 Enterprise Solutions (B4ES) | Outsourced Accounting, Tax & Payroll UK",
+    title: "Better 4 Enterprise Solutions LLP (B4ES) | Outsourced Accounting, Tax & Payroll UK",
     description:
       "Better 4 Enterprise Solutions LLP (B4ES) provides white-label outsourced accounting, tax, payroll, audit support and back-office delivery for UK accountancy practices, plus a complete outsourced finance function for growing UK businesses.",
     body,
@@ -165,8 +165,8 @@ ${newsletterDialog()}
       "@type": "ProfessionalService",
       "@id": `${SITE.baseUrl}/#organization`,
       name: SITE.name,
-      alternateName: [SITE.fullName, `${SITE.fullName} LLP`, "Better 4"],
-      legalName: `${SITE.fullName} LLP`,
+      alternateName: ["Better 4 Enterprise Solutions", SITE.fullName, "Better 4"],
+      legalName: SITE.fullName,
       url: SITE.baseUrl,
       logo: `${SITE.baseUrl}/assets/img/b4es-logo.svg`,
       image: `${SITE.baseUrl}/assets/img/og-b4es.png`,
@@ -197,7 +197,7 @@ ${newsletterDialog()}
       "@type": "WebSite",
       "@id": `${SITE.baseUrl}/#website`,
       name: SITE.name,
-      alternateName: [SITE.fullName, `${SITE.fullName} LLP`],
+      alternateName: ["Better 4 Enterprise Solutions", SITE.fullName],
       url: `${SITE.baseUrl}/`,
       publisher: { "@id": `${SITE.baseUrl}/#organization` },
     },
