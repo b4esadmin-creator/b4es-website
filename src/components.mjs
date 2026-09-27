@@ -82,7 +82,7 @@ export function sectionHead({
   return `<div class="${a}">
     ${eyebrow ? `<p class="${light ? "eyebrow-light" : "eyebrow"} mb-4" data-reveal="up" style="--d:0">${eyebrow}</p>` : ""}
     <h2 class="h-section ${light ? "text-white" : ""}" data-reveal="up" style="--d:1">${title}</h2>
-    ${lede ? `<p class="mt-6 ${light ? "text-[1.0625rem] leading-[1.7] text-slate-soft" : "lede"}" data-reveal="up" style="--d:2">${lede}</p>` : ""}
+    ${lede ? `<p class="mt-6 sm:mt-8 ${light ? "text-[1.0625rem] leading-[1.7] text-slate-soft" : "lede"}" data-reveal="up" style="--d:2">${lede}</p>` : ""}
   </div>`;
 }
 
