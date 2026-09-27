@@ -52,7 +52,7 @@ function tokenFrom(request) {
 }
 
 /**
- * Returns { email } for a valid Access token, or throws.
+ * Returns { email } for a person, { serviceToken } for a service token, or throws.
  * teamDomain: "https://<team>.cloudflareaccess.com"; aud: the app's AUD tag.
  */
 export async function verifyAccess(request, teamDomain, aud) {
@@ -92,9 +92,11 @@ export async function verifyAccess(request, teamDomain, aud) {
   if (typeof claims.nbf === "number" && claims.nbf > now + 30) throw new Error("not yet valid");
   if (claims.type && claims.type !== "app") throw new Error("wrong token type");
 
-  // People sign in with an email. Service tokens (for Claude, phase 2) carry
-  // common_name instead and an empty sub; they are not accepted yet.
+  // People sign in with an email. Service tokens (Claude) carry common_name,
+  // the token's Client ID, instead; the caller decides whether to trust it.
   const email = typeof claims.email === "string" ? claims.email.trim().toLowerCase() : "";
-  if (!email) throw new Error("token has no email");
-  return { email };
+  if (email) return { email };
+  const serviceToken = typeof claims.common_name === "string" ? claims.common_name.trim() : "";
+  if (serviceToken) return { serviceToken };
+  throw new Error("token has no email");
 }

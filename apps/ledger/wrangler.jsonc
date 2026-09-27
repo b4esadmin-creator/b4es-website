@@ -33,7 +33,12 @@
     "TEAM_DOMAIN": "https://damp-mode-0f67.cloudflareaccess.com",
     "POLICY_AUD": "b9e5822c0bc06e3fe0447bfa568f1e4cb50237bc55166231ee3ebd26329d6083",
     // Signed-in emails that get the admin role on first sign-in.
-    "ADMIN_EMAILS": "b4es.admin@gmail.com"
+    "ADMIN_EMAILS": "b4es.admin@gmail.com",
+    // Client IDs of the Access service tokens that act as Claude (comma
+    // separated). Claude may only read the books and send entries for
+    // approval. The Client ID is an identifier; the Client Secret stays in
+    // each partner's Claude environment and never goes in this repo.
+    "AGENT_CLIENT_IDS": ""
   },
 
   // Only the custom domain, which sits behind Cloudflare Access. The

@@ -260,6 +260,8 @@
   const pageHead = (title, sub, ...actions) =>
     h("div", { class: "page-head" }, h("div", null, h("h1", null, title), sub ? h("p", { class: "muted" }, sub) : null), actions.length ? h("div", { class: "row" }, ...actions) : null);
 
+  const claudePill = (j) => (j.source === "claude" ? h("span", { class: "pill claude", title: j.origin_note ? `Requested by ${j.origin_note}` : null }, "Proposed by Claude") : null);
+
   function statusPill(j) {
     if (j.status === "posted" && j.reversed_by) return h("span", { class: "pill reversed" }, "Reversed");
     const label = { posted: "Posted", pending: "Awaiting approval", draft: "Draft", rejected: "Rejected" }[j.status] || j.status;
@@ -417,7 +419,7 @@
       h("td", null, prettyDate(j.date)),
       h("td", { class: "num" }, j.number ? "#" + j.number : ""),
       h("td", null, j.narrative, j.reference ? h("div", { class: "small muted" }, j.reference) : null),
-      h("td", null, statusPill(j)),
+      h("td", null, statusPill(j), " ", claudePill(j)),
       h("td", { class: "num" }, fmt(j.total_p))));
 
     setView(
@@ -505,6 +507,7 @@
       ["Date", prettyDate(j.date)],
       ["Reference", j.reference || "None"],
       ["Made by", `${who(j.created_by_name, j.created_by_email)} on ${prettyDate(j.created_at)}`],
+      j.source === "claude" ? ["Requested by", j.origin_note || "Not stated"] : null,
       j.requires_second ? ["Second approval", j.requested_approver_name ? `Requested from ${j.requested_approver_name}` : "Any other partner"] : null,
       j.decided_by ? [j.status === "rejected" ? "Rejected by" : "Approved by", `${j.decided_by_name || ""} on ${prettyDate(j.decided_at)}${j.decision_note ? `: ${j.decision_note}` : ""}`] : null,
       j.posted_at ? ["Posted by", `${j.posted_by_name || ""} on ${prettyDate(j.posted_at)}`] : null,
@@ -513,7 +516,10 @@
     ].filter(Boolean);
 
     setView(
-      pageHead(j.number ? `Entry #${j.number}` : "Entry", null, statusPill(j)),
+      pageHead(j.number ? `Entry #${j.number}` : "Entry", null, statusPill(j), claudePill(j)),
+      j.source === "claude" && j.status === "pending"
+        ? h("div", { class: "notice info" }, "Claude proposed this entry. Check the accounts and amounts, then approve to post it or reject with a note.")
+        : null,
       h("div", { class: "card" }, h("h2", null, j.narrative),
         h("dl", { class: "meta" }, meta.map(([k, v]) => [h("dt", null, k), h("dd", null, v)])),
         h("div", { class: "table-wrap" }, h("table", null,
@@ -704,7 +710,7 @@
       pageHead("Awaiting approval", journals.length ? `${journals.length} waiting${mineCount ? `, ${mineCount} made by you (another partner must approve those)` : ""}` : null),
       journals.length
         ? h("div", { class: "list" }, journals.map((j) => h("a", { class: "list-item", href: `#/entries/${j.id}` },
-          h("div", null, h("div", { class: "title" }, j.narrative), h("div", { class: "small muted" }, `${prettyDate(j.date)} · by ${who(j.created_by_name, j.created_by_email)}${j.created_by === state.me.id ? " (you)" : ""}`)),
+          h("div", null, h("div", { class: "title" }, j.narrative, " ", claudePill(j)), h("div", { class: "small muted" }, `${prettyDate(j.date)} · by ${who(j.created_by_name, j.created_by_email)}${j.created_by === state.me.id ? " (you)" : ""}${j.origin_note ? ` for ${j.origin_note}` : ""}`)),
           h("div", { class: "num" }, fmt(j.total_p)))))
         : h("div", { class: "card empty" }, "Nothing is waiting for approval.")
     );
@@ -1016,8 +1022,10 @@
     sections.push(h("div", { class: "card" }, h("h2", null, "Partners"),
       h("p", { class: "small muted" }, "Anyone allowed through the Cloudflare Access sign-in appears here after their first visit."),
       table(["Partner", "Role", "Last seen"], principals.map((p) => h("tr", null,
-        h("td", null, who(p.display_name, p.email), h("div", { class: "small muted" }, p.email)),
-        h("td", { class: "num" }, isAdmin && p.id !== me.id
+        h("td", null, who(p.display_name, p.email), h("div", { class: "small muted" }, p.role === "agent" ? "Service token: can only send entries for approval" : p.email)),
+        h("td", { class: "num" }, p.role === "agent"
+          ? (p.active ? "Agent" : "Agent (off)")
+          : isAdmin && p.id !== me.id
           ? h("select", { "aria-label": "Role", onchange: async (ev) => { try { await api(`/principals/${p.id}`, { method: "PATCH", body: { role: ev.target.value } }); toast("Role updated"); } catch (err) { toast(err.message, true); render(); } } },
             [["admin", "Admin"], ["partner", "Partner"], ["viewer", "View only"]].map(([v, t]) => h("option", { value: v, selected: p.role === v }, t)))
           : p.role + (p.active ? "" : " (off)"),
