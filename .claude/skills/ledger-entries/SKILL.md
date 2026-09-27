@@ -5,14 +5,26 @@ description: Turn plain-English descriptions of B4ES transactions (expenses, inv
 
 # B4ES Ledger: proposing entries from plain English
 
-Claude can **read** the ledger and **send entries for approval**. It can never
-post, approve, reject, edit or delete; the ledger enforces this for Claude's
-service token, in the Worker and in the database. A partner approves each
-proposal in the app at https://ledger.b4es.co.uk (Approvals tab).
+Claude can **read** the ledger, **set up the books** (accounts, contacts,
+financial years, company details) and **send entries for approval**, and can
+edit, withdraw, resend or delete its own proposals (an edit goes back into
+the approval queue). It can never post, approve, reject or reverse an entry,
+lock or unlock a year, archive a company or change who has access; the ledger
+enforces this for Claude's service token, in the Worker and in the database
+(agreed by the partners, 27 Sep 2026). A partner approves each proposal in
+the app at https://ledger.b4es.co.uk (Approvals tab).
 
 Tool: `node apps/ledger/cli/ledger.mjs <command>` from the repository root.
 Commands: `check`, `entities`, `accounts`, `contacts`, `journals`, `show ID`,
-`propose FILE.json [--dry-run]`. Details are at the top of that file.
+`propose FILE.json [--dry-run]`, `edit ID FILE.json`, `withdraw ID`,
+`resend ID`, `delete ID`, `account-add`, `account-update`, `contact-add`,
+`year-add`, `principals`, `audit`. Details are at the top of that file.
+
+Set-up changes take effect at once and are in the audit log, so make them
+only when the partner asks or agrees: say which account or contact you will
+add (code, name, type) before adding it. Do not add a new company (client
+entity) until the partners confirm the data-processing terms and DPIA are in
+place.
 
 ## Setup check (first, every session)
 
@@ -62,6 +74,9 @@ Run `node apps/ledger/cli/ledger.mjs check`.
 7. Report back with the link it prints and say it is **awaiting approval**.
    Never say an entry is posted, booked or in the accounts until a partner has
    approved it (`show ID` tells you its status).
+8. If the partner wants a pending or rejected proposal changed, `edit ID
+   FILE.json` replaces it and resends it for approval; `delete ID` removes a
+   rejected one (`withdraw ID` first if it is still pending).
 
 ### Checklist before sending
 

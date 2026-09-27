@@ -168,7 +168,7 @@ export default {
         }
       }
       if (me.role === "agent" && !agentMayCall(request.method, url.pathname)) {
-        throw new HttpError(403, "Claude can only read the books and send entries for approval");
+        throw new HttpError(403, "Claude cannot post, approve, reject or reverse entries, lock years or change who has access");
       }
       return await route(request, env, url, me);
     } catch (e) {
@@ -189,19 +189,32 @@ function list(v) {
 }
 
 /**
- * What Claude (role 'agent') may do: read the books and send entries for
- * approval. No exports, audit log, partner list or any other write. The
- * database triggers in 0002_agent.sql enforce the same limits.
+ * What Claude (role 'agent') may do: read everything, set up the books
+ * (companies, accounts, contacts, financial years) and manage its own
+ * proposals (send, edit, withdraw, resend, delete). It never posts, approves,
+ * rejects or reverses an entry, locks or unlocks a year, archives a company
+ * or changes who has access. The database triggers in 0002_agent.sql and
+ * 0003_agent_setup.sql enforce the entry and year limits as well.
  */
 function agentMayCall(method, pathname) {
   const p = pathname.replace(/^\/api\/?/, "").split("/").filter(Boolean);
-  if (method === "GET") {
-    if (p.length === 1 && p[0] === "me") return true;
-    if (p[0] !== "entities") return false;
-    if (p.length <= 2) return true;
-    return ["accounts", "contacts", "journals", "approvals", "fiscal-years", "reports"].includes(p[2]);
+  if (method === "GET") return (p.length === 1 && (p[0] === "me" || p[0] === "principals")) || p[0] === "entities";
+  if (p[0] !== "entities") return false;
+  if (p.length === 1) return method === "POST"; // add a company
+  if (p.length === 2) return method === "PATCH"; // company details (archiving stays admin-only)
+  switch (p[2]) {
+    case "accounts":
+      return (method === "POST" && (p.length === 3 || (p.length === 4 && p[3] === "template"))) || (method === "PATCH" && p.length === 4);
+    case "contacts":
+      return method === "POST" && p.length === 3;
+    case "fiscal-years":
+      return method === "POST" && p.length === 3; // add a year; locking stays with the partners
+    case "journals":
+      if (p.length === 3) return method === "POST";
+      if (p.length === 4) return method === "PUT" || method === "DELETE";
+      return method === "POST" && p.length === 5 && (p[4] === "submit" || p[4] === "withdraw");
   }
-  return method === "POST" && p.length === 3 && p[0] === "entities" && p[2] === "journals";
+  return false;
 }
 
 async function agentFor(env, clientId) {
@@ -763,7 +776,8 @@ async function journalsRoute(request, db, me, entity, rest, q) {
     if (cur.status === "posted") throw bad("Posted entries cannot be edited; reverse it instead");
     if (cur.created_by !== me.id && me.role !== "admin") throw new HttpError(403, "Only the person who made this entry can edit it");
     const b = await body(request);
-    const action = b.action || "draft";
+    // Claude's edits always go back into the approval queue.
+    const action = me.role === "agent" ? "submit" : b.action || "draft";
     if (!["draft", "post", "submit"].includes(action)) throw bad("Unknown action");
     if (action === "post" && cur.status === "rejected") throw bad("A rejected entry must be sent for approval again");
     const j = await validJournal(db, entity, b);

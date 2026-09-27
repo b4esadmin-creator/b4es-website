@@ -1022,7 +1022,7 @@
     sections.push(h("div", { class: "card" }, h("h2", null, "Partners"),
       h("p", { class: "small muted" }, "Anyone allowed through the Cloudflare Access sign-in appears here after their first visit."),
       table(["Partner", "Role", "Last seen"], principals.map((p) => h("tr", null,
-        h("td", null, who(p.display_name, p.email), h("div", { class: "small muted" }, p.role === "agent" ? "Service token: can only send entries for approval" : p.email)),
+        h("td", null, who(p.display_name, p.email), h("div", { class: "small muted" }, p.role === "agent" ? "Service token: sets up the books and proposes entries; cannot post or approve" : p.email)),
         h("td", { class: "num" }, p.role === "agent"
           ? (p.active ? "Agent" : "Agent (off)")
           : isAdmin && p.id !== me.id
