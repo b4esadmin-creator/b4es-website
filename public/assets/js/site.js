@@ -68,19 +68,27 @@
       });
     }
 
-    if (soundBtn) {
-      soundBtn.addEventListener("click", function () {
-        var on = heroVideo.muted;
-        heroVideo.muted = !on;
-        if (on) {
-          // Restart so the music is heard from the top, not mid-track.
-          heroVideo.currentTime = 0;
-          play();
-          if (pauseBtn) setLabel(pauseBtn, "[data-hero-pause-label]", false, "Pause");
-        }
+    // Toggle sound on/off. Browsers force the video to start muted (the only way
+    // autoplay is allowed), so a user gesture is what lets the audio play.
+    var toggleSound = function () {
+      var on = heroVideo.muted;
+      heroVideo.muted = !on;
+      if (on) {
+        // Restart so the music is heard from the top, not mid-track.
+        heroVideo.currentTime = 0;
+        play();
+        if (pauseBtn) setLabel(pauseBtn, "[data-hero-pause-label]", false, "Pause");
+      }
+      if (soundBtn) {
         setLabel(soundBtn, "[data-hero-sound-label]", on, on ? "Sound off" : "Sound on");
-      });
-    }
+      }
+    };
+
+    if (soundBtn) soundBtn.addEventListener("click", toggleSound);
+
+    // Clicking anywhere on the video itself also toggles the sound, so the audio
+    // is easy to reach without having to find the small control button.
+    heroVideo.addEventListener("click", toggleSound);
   }
 
   /* ---------------------------------------------------------- mobile nav */
