@@ -434,8 +434,8 @@
 
   .mega {
     @apply pointer-events-none invisible absolute left-1/2 top-full z-50
-           w-[min(64rem,calc(100vw-3rem))] -translate-x-1/2 pt-3 opacity-0
-           transition-all duration-200 delay-300;
+           w-[min(64rem,calc(100vw-3rem))] -translate-x-1/2 -mt-6 pt-9 opacity-0
+           transition-[opacity,visibility] duration-200 delay-200;
   }
 
   .has-mega:hover .mega,
@@ -458,6 +458,25 @@
 
   .mega-item-desc {
     @apply mt-0.5 text-[0.8125rem] leading-snug text-slate-mid;
+  }
+
+  /* ---------- footer link columns (accordion on phones) ---------- */
+  .footer-col-head {
+    @apply flex cursor-pointer list-none items-center justify-between gap-3
+           border-b border-white/10 py-3.5 text-[0.75rem] font-semibold
+           uppercase tracking-[0.14em] text-teal-light select-none
+           sm:mb-4 sm:cursor-default sm:border-0 sm:py-0;
+  }
+  .footer-col-head::-webkit-details-marker { display: none; }
+  .footer-col-head::marker { content: ""; }
+  .footer-col-chev { transition: transform 200ms var(--ease-out-soft); }
+  .footer-col[open] .footer-col-chev { transform: rotate(180deg); }
+  .footer-col-body { @apply pt-3.5 pb-1 sm:pt-0 sm:pb-0; }
+
+  /* Desktop: always expanded, no toggle. */
+  @media (width >= 40rem) {
+    .footer-col-body { display: block !important; }
+    .footer-col-head { pointer-events: none; }
   }
 
   /* ---------- Accordion ---------- */

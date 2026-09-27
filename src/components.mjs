@@ -540,12 +540,12 @@ export function capacityTransfer() {
 
       <div data-reveal="up">
         <div class="mb-3 flex items-baseline justify-between gap-4">
-          <p class="text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-slate-mid">Today</p>
+          <p class="text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-slate-mid">Without B4ES delivering the processing</p>
           <p class="text-[0.8125rem] text-slate-mid">Illustrative example: your team's hours</p>
         </div>
-        <div class="cap-track">
+        <div class="cap-track" data-cap>
           ${TODAY.map(
-            (t) => `<span class="cap-seg ${t.cls} cap-w-${t.v}">
+            (t, i) => `<span class="cap-seg ${t.cls} cap-from-0 cap-w-${t.v} cap-d-${i}">
             <span class="cap-seg-label">${t.label}</span>
           </span>`
           ).join("")}

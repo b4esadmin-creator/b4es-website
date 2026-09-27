@@ -160,13 +160,6 @@ ${sec(
               <a href="mailto:${SITE.email}" class="mt-0.5 block font-display text-[1.0625rem] text-ink hover:text-teal">${SITE.email}</a>
             </span>
           </li>
-          <li class="flex gap-4">
-            <span class="icon-tile">${icon("handshake", "h-5 w-5")}</span>
-            <span>
-              <span class="block text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-slate-mid">New business</span>
-              <a href="mailto:${SITE.emailSales}" class="mt-0.5 block font-display text-[1.0625rem] text-ink hover:text-teal">${SITE.emailSales}</a>
-            </span>
-          </li>
           ${
             SITE.phone
               ? `<li class="flex gap-4">

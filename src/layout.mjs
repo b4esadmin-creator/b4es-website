@@ -110,21 +110,6 @@ function header(current) {
   return `
 <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-ink focus:px-4 focus:py-2 focus:text-white">Skip to content</a>
 
-<div class="no-print border-b border-line-dark bg-ink">
-  <div class="wrap flex flex-wrap items-center justify-between gap-2 py-2 text-[0.8125rem] text-slate-soft">
-    <p class="flex items-start gap-2">${icon("globe", "mt-[0.2rem] h-3.5 w-3.5 shrink-0 text-teal-light")} UK-facing delivery, aligned to UK working hours and UK filing deadlines</p>
-    <p class="hidden items-center gap-4 sm:flex">
-      <a href="mailto:${SITE.email}" class="transition-colors hover:text-white">${SITE.email}</a>
-      ${
-        SITE.phone
-          ? `<span class="text-white/20">|</span>
-      <a href="tel:${SITE.phoneHref}" class="transition-colors hover:text-white">${SITE.phone}</a>`
-          : ""
-      }
-    </p>
-  </div>
-</div>
-
 <header class="no-print sticky top-0 z-50 border-b border-line bg-white/95 backdrop-blur-md">
   <div class="wrap relative flex items-center justify-between gap-4 py-3.5">
     ${logo()}
@@ -153,9 +138,12 @@ function header(current) {
 
 function footer() {
   const cols = FOOTER_NAV.map(
-    (c) => `<div>
-    <p class="mb-4 text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-teal-light">${c.title}</p>
-    <ul class="space-y-2.5">
+    (c) => `<details class="footer-col">
+    <summary class="footer-col-head">
+      <span>${c.title}</span>
+      ${icon("chevronDown", "footer-col-chev h-4 w-4 shrink-0 text-slate-soft sm:hidden")}
+    </summary>
+    <ul class="footer-col-body space-y-2.5">
       ${c.links
         .map(
           (l) =>
@@ -163,7 +151,7 @@ function footer() {
         )
         .join("")}
     </ul>
-  </div>`
+  </details>`
   ).join("");
 
   return `
@@ -186,7 +174,7 @@ function footer() {
           <p class="flex items-start gap-3 text-slate-soft">${icon("clock", "mt-0.5 h-4 w-4 shrink-0 text-teal-light")}${SITE.hours}</p>
         </div>
       </div>
-      <div class="grid gap-10 sm:grid-cols-3">${cols}</div>
+      <div class="grid gap-1 sm:grid-cols-3 sm:gap-10">${cols}</div>
     </div>
 
     <div class="mt-14 border-t border-white/10 pt-8">
