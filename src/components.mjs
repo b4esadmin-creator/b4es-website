@@ -82,7 +82,7 @@ export function sectionHead({
   return `<div class="${a}">
     ${eyebrow ? `<p class="${light ? "eyebrow-light" : "eyebrow"} mb-4" data-reveal="up" style="--d:0">${eyebrow}</p>` : ""}
     <h2 class="h-section ${light ? "text-white" : ""}" data-reveal="up" style="--d:1">${title}</h2>
-    ${lede ? `<p class="mt-5 ${light ? "text-[1.0625rem] leading-[1.7] text-slate-soft" : "lede"}" data-reveal="up" style="--d:2">${lede}</p>` : ""}
+    ${lede ? `<p class="mt-6 ${light ? "text-[1.0625rem] leading-[1.7] text-slate-soft" : "lede"}" data-reveal="up" style="--d:2">${lede}</p>` : ""}
   </div>`;
 }
 
@@ -531,15 +531,12 @@ export function capacityTransfer() {
   <div class="wrap">
     ${sectionHead({
       eyebrow: "The core idea",
-      title: "Free your fee earners for the work only they can do",
-      lede: "Same team, same headcount — we take the processing so your people spend their hours on review and advisory.",
+      title: "Watch where your fee earners' week goes",
+      lede: "What matters is whether your most expensive people spend their hours on work only they can do. Same team, same headcount.",
       max: "max-w-3xl",
     })}
 
-    <details class="acc mt-8 border-t">
-      <summary>See where the week goes${icon("plus", "acc-icon h-5 w-5")}</summary>
-      <div class="acc-body pr-0 pt-2">
-    <div class="space-y-9">
+    <div class="mt-12 space-y-9">
 
       <div data-reveal="up">
         <div class="mb-3 flex items-baseline justify-between gap-4">
@@ -595,8 +592,6 @@ export function capacityTransfer() {
       </div>
 
     </div>
-      </div>
-    </details>
   </div>
 </section>`;
 }
