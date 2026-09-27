@@ -29,8 +29,18 @@ following `.claude/skills/ledger-entries/SKILL.md`. It can edit, withdraw,
 resend and delete its own proposals; it cannot post, approve, reject or
 reverse entries, lock or unlock years, archive a company or change who has
 access (`agentMayCall` in `src/index.js`, triggers in `migrations/0002_agent.sql`
-and `0003_agent_setup.sql`). It signs in with a Cloudflare Access service
-token:
+and `0003_agent_setup.sql`).
+
+Supporting documents (any file up to 25 MB) are stored in the R2 bucket
+`b4es-ledger-documents` (EU jurisdiction, created by `ledger-deploy.yml` if
+missing) with a row per file in `documents` (`migrations/0004_documents.sql`).
+They can be added to any entry at any time, in the app ("Upload file" or
+"Take photo" on the entry page or while writing an entry) or with `ledger
+attach`; once the entry is posted they cannot be removed. Downloads are
+served with `nosniff` and a sandbox CSP, and only PDFs, images and plain text
+open in the browser.
+
+Claude signs in with a Cloudflare Access service token:
 
 1. Zero Trust, Access controls, Service credentials: create a service token
    "B4ES Ledger - Claude". Copy the Client ID and Client Secret (the secret is

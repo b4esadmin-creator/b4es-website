@@ -1,6 +1,6 @@
 // B4ES Ledger service worker. Caches the app shell only so the installed app
 // opens quickly; ledger data (/api) is never cached and always comes live.
-const CACHE = "ledger-shell-v1";
+const CACHE = "ledger-shell-v2";
 const SHELL = ["/", "/app.css", "/app.js", "/favicon.svg", "/manifest.webmanifest", "/icons/icon-192.png"];
 
 self.addEventListener("install", (event) => {

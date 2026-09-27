@@ -25,6 +25,10 @@
     }
   ],
 
+  // Supporting documents (any file up to 25 MB). The EU bucket is created by
+  // ledger-deploy.yml if it does not exist yet.
+  "r2_buckets": [{ "binding": "DOCS", "bucket_name": "b4es-ledger-documents", "jurisdiction": "eu" }],
+
   "vars": {
     // Cloudflare Access. Until both are filled in the app shows
     // "set-up pending" and serves nothing. Neither value is secret.

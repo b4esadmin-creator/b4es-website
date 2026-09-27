@@ -176,6 +176,20 @@ expect_ok "partner locks and admin unlocks a year" "
 UPDATE fiscal_years SET status='locked', locked_by=1 WHERE entity_id=1 AND start_date='2026-01-01';
 UPDATE fiscal_years SET status='open', locked_by=NULL WHERE entity_id=1 AND start_date='2026-01-01';"
 
+# ---- supporting documents (0004)
+H64="'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'"
+expect_ok "attach to a draft and remove it" "
+INSERT INTO journals (id, entity_id, date, narrative, created_by) VALUES ('D2', 1, '2026-05-02', 'draft', 1);
+INSERT INTO documents (id, entity_id, journal_id, filename, content_type, size, sha256, r2_key, uploaded_by) VALUES ('F1', 1, 'D2', 'r.pdf', 'application/pdf', 100, $H64, 'k1', 1);
+DELETE FROM documents WHERE id='F1';"
+expect_ok "attach to a posted entry" "INSERT INTO documents (id, entity_id, journal_id, filename, content_type, size, sha256, r2_key, uploaded_by) VALUES ('F2', 1, 'J1', 'receipt.jpg', 'image/jpeg', 2048, $H64, 'k2', 2);"
+expect_ok "Claude attaches to an entry" "INSERT INTO documents (id, entity_id, journal_id, filename, content_type, size, sha256, r2_key, uploaded_by) VALUES ('F3', 1, 'C1', 'invoice.pdf', 'application/pdf', 4096, $H64, 'k3', 9);"
+expect_fail "remove a document from a posted entry" "DELETE FROM documents WHERE id='F2';" "posted entry cannot be removed"
+expect_fail "change a document" "UPDATE documents SET filename='other.pdf' WHERE id='F2';" "cannot be changed"
+expect_fail "document for another company" "INSERT INTO documents (id, entity_id, journal_id, filename, content_type, size, sha256, r2_key, uploaded_by) VALUES ('F4', 2, 'J1', 'x.pdf', 'application/pdf', 1, $H64, 'k4', 1);" "same company"
+expect_fail "document over 25 MB" "INSERT INTO documents (id, entity_id, journal_id, filename, content_type, size, sha256, r2_key, uploaded_by) VALUES ('F5', 1, 'J1', 'big.pdf', 'application/pdf', 26214401, $H64, 'k5', 1);" "CHECK"
+expect_fail "posted entry with documents cannot be deleted" "DELETE FROM journals WHERE id='J1';" "ledger: "
+
 # ---- trial balance still balances
 run "SELECT SUM(l.debit_p) - SUM(l.credit_p) AS diff FROM journal_lines l JOIN journals j ON j.id=l.journal_id WHERE j.status='posted';"
 if grep -q '"diff": 0' /tmp/ledger-sql.out; then pass=$((pass+1)); else fail=$((fail+1)); echo "FAIL: trial balance does not balance"; cat /tmp/ledger-sql.out; fi
