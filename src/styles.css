@@ -847,15 +847,19 @@
   /* Down-arrow scroll cue anchored to the bottom of the video, inviting the
      visitor to scroll to the rest of the page. Plain anchor + smooth scroll. */
   .video-scroll-cue {
-    @apply absolute bottom-5 left-1/2 z-10 inline-flex h-11 w-11 -translate-x-1/2
+    @apply absolute bottom-5 left-1/2 z-10 inline-flex h-11 w-11
            items-center justify-center rounded-full bg-ink/70 text-white ring-1 ring-white/25
            backdrop-blur-sm transition-colors hover:bg-ink
            focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold;
+    /* Center horizontally with a fixed margin (half of w-11 = 22px) so the bob
+       animation can own `transform` without fighting a translateX centering.
+       This keeps the arrow exactly on the video's vertical divider line. */
+    margin-left: -1.375rem;
     animation: video-cue-bob 2s ease-in-out infinite;
   }
   @keyframes video-cue-bob {
-    0%, 100% { transform: translate(-50%, 0); }
-    50% { transform: translate(-50%, 6px); }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
   }
   /* The scroll target sits just below the sticky header when jumped to. */
   #explore { scroll-margin-top: var(--header-h); }
