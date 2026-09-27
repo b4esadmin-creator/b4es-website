@@ -97,7 +97,7 @@ partners (26 Sep 2026):
 - **Posting:** whoever makes an entry chooses **Post now** or **Send for
   second approval**. A second approval must be by a different partner
   (enforced in the database). Entries proposed by Claude always go to the
-  approval queue; Claude never posts. Mandatory second approval for certain
+  approval queue; Claude never posts, approves, rejects or reverses. Mandatory second approval for certain
   transaction types can be added later.
 - **Integrity rules (database triggers):** entries must balance, amounts are
   integer pence, posted entries are never edited or deleted (correct by
@@ -119,7 +119,7 @@ partners (26 Sep 2026):
 - **Status (27 Sep 2026): live at https://ledger.b4es.co.uk.** Phases 1
   and 2 are shipped (PRs #25, #30, #34, #35, #36). The EU database
   `b4es-ledger` (id in `apps/ledger/wrangler.jsonc`) has migrations 0001
-  and 0002 applied; `ledger-deploy.yml` applies migrations and deploys on
+  to 0003 applied; `ledger-deploy.yml` applies migrations and deploys on
   merge to `main`. Cloudflare Access (team `damp-mode-0f67`, One-time PIN)
   protects the whole hostname; its team domain and AUD tag are in
   `wrangler.jsonc` (identifiers, not secrets). Partners are added or
@@ -134,10 +134,15 @@ partners (26 Sep 2026):
   `AGENT_CLIENT_IDS`; the Client Secret lives only in each partner's Claude
   environment as `LEDGER_CLIENT_ID` / `LEDGER_CLIENT_SECRET` (new sessions
   pick them up), never in the repo or chat. The token becomes the "Claude"
-  agent, which can only read the books and send entries for approval: no
-  posting, approving, editing, exports or audit log (Worker guard plus
-  triggers in `migrations/0002_agent.sql`). Admins can switch Claude off in
-  Settings, Partners. Faisal added the environment variables on 27 Sep
+  agent. Since 27 Sep 2026 (Faisal, with partner agreement) it can read
+  everything (including partners, exports and the audit log), set up the
+  books (add or edit companies, accounts, contacts and financial years) and
+  edit, withdraw, resend or delete its own proposals; every edit goes back
+  into the approval queue. It still cannot post, approve, reject or reverse
+  entries, lock or unlock years, archive a company or change who has access
+  (`agentMayCall` in `src/index.js`, triggers in `migrations/0002_agent.sql`
+  and `0003_agent_setup.sql`). Admins can switch Claude off in Settings,
+  Partners. Faisal added the environment variables on 27 Sep
   2026; the first end-to-end proposal from a new session is still to be
   tried.
 - **Next:** first live Claude proposal and approval; then phase 3
@@ -148,7 +153,7 @@ partners (26 Sep 2026):
   Cloudflare.
 - **Working on the ledger locally:** `apps/ledger/README.md` has the
   commands (local D1, `wrangler dev` with `DEV_EMAIL` or `DEV_AGENT` and
-  `--local-upstream`, tests). CI runs the report tests, the 43
+  `--local-upstream`, tests). CI runs the report tests, the 53
   database-rule tests, syntax checks and a dry-run deploy.
 
 ## Project state (as of 27 Sep 2026)

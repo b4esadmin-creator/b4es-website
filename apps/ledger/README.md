@@ -23,9 +23,14 @@ never edited.
 
 ## Claude proposals
 
-Claude reads the books and sends entries for approval through
-`cli/ledger.mjs`, following `.claude/skills/ledger-entries/SKILL.md`. It signs
-in with a Cloudflare Access service token:
+Claude reads the books, sets them up (companies, accounts, contacts,
+financial years) and sends entries for approval through `cli/ledger.mjs`,
+following `.claude/skills/ledger-entries/SKILL.md`. It can edit, withdraw,
+resend and delete its own proposals; it cannot post, approve, reject or
+reverse entries, lock or unlock years, archive a company or change who has
+access (`agentMayCall` in `src/index.js`, triggers in `migrations/0002_agent.sql`
+and `0003_agent_setup.sql`). It signs in with a Cloudflare Access service
+token:
 
 1. Zero Trust, Access controls, Service credentials: create a service token
    "B4ES Ledger - Claude". Copy the Client ID and Client Secret (the secret is

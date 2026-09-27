@@ -149,6 +149,33 @@ expect_fail "agent rejects" "UPDATE journals SET status='rejected', decided_by=9
 expect_fail "agent entry withdrawn and posted directly" "UPDATE journals SET status='draft', requires_second=0 WHERE id='C1'; UPDATE journals SET status='posted', number=5, posted_by=1 WHERE id='C1';" "posted by approving"
 expect_ok "partner approves agent entry" "UPDATE journals SET status='posted', number=5, decided_by=1, posted_by=1, posted_at=datetime('now') WHERE id='C1';"
 
+# ---- Claude sets up the books and manages its own proposals (0003)
+expect_ok "agent adds an account and a contact" "
+INSERT INTO accounts (entity_id, code, name, type) VALUES (1, '6520', 'Entertainment', 'expense');
+INSERT INTO contacts (entity_id, name, kind) VALUES (1, 'Yawar', 'member');"
+expect_ok "agent proposes a second entry" "
+INSERT INTO journals (id, entity_id, date, narrative, total_p, status, requires_second, source, created_by) VALUES ('C2', 1, '2026-06-02', 'Domain', 390, 'pending', 1, 'claude', 9);
+INSERT INTO journal_lines (journal_id, line_no, account_id, debit_p) VALUES ('C2', 1, 3, 390);
+INSERT INTO journal_lines (journal_id, line_no, account_id, credit_p) VALUES ('C2', 2, 1, 390);"
+expect_ok "agent edits and resends its entry" "
+UPDATE journals SET status='draft', total_p=400 WHERE id='C2';
+DELETE FROM journal_lines WHERE journal_id='C2';
+INSERT INTO journal_lines (journal_id, line_no, account_id, debit_p) VALUES ('C2', 1, 3, 400);
+INSERT INTO journal_lines (journal_id, line_no, account_id, credit_p) VALUES ('C2', 2, 1, 400);
+UPDATE journals SET status='pending', requires_second=1 WHERE id='C2';"
+expect_fail "agent entry resent without second approval" "UPDATE journals SET requires_second=0 WHERE id='C2';" "always go for approval"
+expect_fail "agent entry handed to a partner" "UPDATE journals SET created_by=1 WHERE id='C2';" "always go for approval"
+expect_fail "agent entry no longer marked as Claude" "UPDATE journals SET source='manual' WHERE id='C2';" "always go for approval"
+expect_fail "agent posts its edited entry" "UPDATE journals SET status='posted', number=6, posted_by=9 WHERE id='C2';" "ledger: "
+expect_ok "agent withdraws and deletes its entry" "
+UPDATE journals SET status='draft' WHERE id='C2';
+DELETE FROM journal_lines WHERE journal_id='C2';
+DELETE FROM journals WHERE id='C2';"
+expect_fail "agent locks a year" "UPDATE fiscal_years SET status='locked', locked_by=9 WHERE entity_id=1 AND start_date='2026-01-01';" "cannot lock financial years"
+expect_ok "partner locks and admin unlocks a year" "
+UPDATE fiscal_years SET status='locked', locked_by=1 WHERE entity_id=1 AND start_date='2026-01-01';
+UPDATE fiscal_years SET status='open', locked_by=NULL WHERE entity_id=1 AND start_date='2026-01-01';"
+
 # ---- trial balance still balances
 run "SELECT SUM(l.debit_p) - SUM(l.credit_p) AS diff FROM journal_lines l JOIN journals j ON j.id=l.journal_id WHERE j.status='posted';"
 if grep -q '"diff": 0' /tmp/ledger-sql.out; then pass=$((pass+1)); else fail=$((fail+1)); echo "FAIL: trial balance does not balance"; cat /tmp/ledger-sql.out; fi

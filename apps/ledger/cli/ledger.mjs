@@ -1,7 +1,8 @@
 #!/usr/bin/env node
-// B4ES Ledger command line for Claude Code. Reads the books and sends entries
-// for approval; it cannot post, approve or change anything else (the ledger
-// enforces that for the service token).
+// B4ES Ledger command line for Claude Code. Reads the books, sets them up
+// (accounts, contacts, years) and sends entries for approval; it cannot post,
+// approve, reject or reverse entries, lock years or change who has access (the
+// ledger enforces that for the service token).
 //
 // Needs, in the Claude environment (never in the repo):
 //   LEDGER_CLIENT_ID      Cloudflare Access service token Client ID
@@ -16,6 +17,13 @@
 //   node apps/ledger/cli/ledger.mjs journals [--entity ID] [--status pending] [--q text] [--from D] [--to D]
 //   node apps/ledger/cli/ledger.mjs show JOURNAL_ID [--entity ID]
 //   node apps/ledger/cli/ledger.mjs propose FILE.json|- [--entity ID] [--dry-run]
+//   node apps/ledger/cli/ledger.mjs edit JOURNAL_ID FILE.json|- [--dry-run]   (Claude's own entry; resent for approval)
+//   node apps/ledger/cli/ledger.mjs withdraw|resend|delete JOURNAL_ID       (Claude's own entry)
+//   node apps/ledger/cli/ledger.mjs account-add --code 6520 --name "Entertainment" --type expense [--bank]
+//   node apps/ledger/cli/ledger.mjs account-update CODE [--name N] [--code NEW] [--active yes|no]
+//   node apps/ledger/cli/ledger.mjs contact-add --name N [--kind customer|supplier|member|employee|other]
+//   node apps/ledger/cli/ledger.mjs year-add --start 2026-01-01 --end 2026-12-31
+//   node apps/ledger/cli/ledger.mjs principals | audit [--limit N]
 //
 // Proposal JSON (amounts in pounds as strings, accounts by code):
 //   { "date": "2026-09-26", "narrative": "Xero subscription, September",
@@ -114,7 +122,7 @@ async function main() {
       const e = await entityId();
       const { contacts } = await api(`/entities/${e.id}/contacts`);
       for (const c of contacts) console.log(`${c.id}\t${c.name}\t${c.kind}`);
-      if (!contacts.length) console.log("No contacts yet (partners add them in Settings).");
+      if (!contacts.length) console.log("No contacts yet (add one with: ledger contact-add --name N --kind member).");
       return;
     }
     case "journals": {
@@ -139,9 +147,11 @@ async function main() {
       console.log(`${BASE}/#/entries/${j.id}`);
       return;
     }
-    case "propose": {
-      const src = args[1];
-      if (!src) die("usage: ledger propose FILE.json|- [--dry-run]");
+    case "propose":
+    case "edit": {
+      const editId = cmd === "edit" ? args[1] : null;
+      const src = cmd === "edit" ? args[2] : args[1];
+      if (!src) die(cmd === "edit" ? "usage: ledger edit JOURNAL_ID FILE.json|- [--dry-run]" : "usage: ledger propose FILE.json|- [--dry-run]");
       let p;
       try {
         p = JSON.parse(readFileSync(src === "-" ? 0 : src, "utf8"));
@@ -169,7 +179,7 @@ async function main() {
         let contact_id = null;
         if (l.contact) {
           const c = contacts.find((x) => x.name.toLowerCase() === String(l.contact).toLowerCase());
-          if (!c) die(`line ${i + 1}: unknown contact "${l.contact}"; leave it out or ask a partner to add it`);
+          if (!c) die(`line ${i + 1}: unknown contact "${l.contact}"; add it with: ledger contact-add --name "..."`);
           contact_id = c.id;
         }
         return { account: a, account_id: a.id, debit_p, credit_p, description: l.description || "", contact_id, contact: l.contact || "" };
@@ -189,7 +199,7 @@ async function main() {
       const d = new Date(p.date + "T00:00:00Z");
       const around = (n) => new Date(d.getTime() + n * 86400000).toISOString().slice(0, 10);
       const { journals: near } = await api(`/entities/${e.id}/journals?from=${around(-7)}&to=${around(7)}&limit=200`);
-      const dupes = near.filter((j) => j.total_p === dr && j.status !== "rejected");
+      const dupes = near.filter((j) => j.total_p === dr && j.status !== "rejected" && j.id !== editId);
 
       console.log(`${e.name}: proposed entry for approval`);
       console.log(`${p.date}  ${p.narrative}${p.reference ? `  (ref ${p.reference})` : ""}`);
@@ -204,14 +214,15 @@ async function main() {
         console.log("Dry run: nothing was sent.");
         return;
       }
-      const r = await api(`/entities/${e.id}/journals`, {
-        method: "POST",
+      const r = await api(`/entities/${e.id}/journals${editId ? "/" + editId : ""}`, {
+        method: editId ? "PUT" : "POST",
         body: {
           date: p.date,
           narrative: p.narrative,
           reference: p.reference || "",
           requested_by: p.requested_by || "",
           approver_id,
+          action: "submit",
           lines: lines.map(({ account_id, debit_p, credit_p, description, contact_id }) => ({ account_id, debit_p, credit_p, description, contact_id })),
         },
       });
@@ -219,8 +230,74 @@ async function main() {
       console.log(`${BASE}/#/entries/${r.journal.id}`);
       return;
     }
+    case "withdraw":
+    case "resend":
+    case "delete": {
+      const id = args[1];
+      if (!id) die(`usage: ledger ${cmd} JOURNAL_ID`);
+      const e = await entityId();
+      const path = `/entities/${e.id}/journals/${id}`;
+      if (cmd === "delete") {
+        await api(path, { method: "DELETE" });
+        console.log("Deleted.");
+        return;
+      }
+      const r = await api(`${path}/${cmd === "resend" ? "submit" : "withdraw"}`, { method: "POST" });
+      console.log(`Status: ${r.journal.status}. ${BASE}/#/entries/${id}`);
+      return;
+    }
+    case "account-add": {
+      const e = await entityId();
+      const body = { code: flag("code"), name: flag("name"), type: flag("type"), is_bank: has("bank") };
+      if (!body.code || !body.name || !body.type) die('usage: ledger account-add --code 6520 --name "Entertainment" --type expense [--bank]');
+      await api(`/entities/${e.id}/accounts`, { method: "POST", body });
+      console.log(`Added account ${body.code} ${body.name} (${body.type}).`);
+      return;
+    }
+    case "account-update": {
+      const code = args[1];
+      if (!code || code.startsWith("--")) die("usage: ledger account-update CODE [--name N] [--code NEW] [--active yes|no]");
+      const e = await entityId();
+      const { accounts } = await api(`/entities/${e.id}/accounts`);
+      const a = accounts.find((x) => x.code === code);
+      if (!a) die(`no account with code ${code}`);
+      const body = {};
+      if (flag("name")) body.name = flag("name");
+      if (flag("code")) body.code = flag("code");
+      if (flag("active")) body.active = flag("active") === "yes";
+      if (!Object.keys(body).length) die("nothing to change");
+      await api(`/entities/${e.id}/accounts/${a.id}`, { method: "PATCH", body });
+      console.log(`Updated account ${code}.`);
+      return;
+    }
+    case "contact-add": {
+      const e = await entityId();
+      const name = flag("name");
+      if (!name) die("usage: ledger contact-add --name N [--kind member]");
+      await api(`/entities/${e.id}/contacts`, { method: "POST", body: { name, kind: flag("kind") || "other" } });
+      console.log(`Added contact ${name}.`);
+      return;
+    }
+    case "year-add": {
+      const e = await entityId();
+      if (!flag("start") || !flag("end")) die("usage: ledger year-add --start YYYY-MM-DD --end YYYY-MM-DD");
+      await api(`/entities/${e.id}/fiscal-years`, { method: "POST", body: { start_date: flag("start"), end_date: flag("end") } });
+      console.log(`Added financial year ${flag("start")} to ${flag("end")}.`);
+      return;
+    }
+    case "principals": {
+      const { principals } = await api("/principals");
+      for (const p of principals) console.log(`${p.id}\t${p.display_name || ""}\t${p.email}\t${p.role}${p.active ? "" : " (off)"}`);
+      return;
+    }
+    case "audit": {
+      const e = await entityId();
+      const { audit } = await api(`/entities/${e.id}/audit?limit=${Number(flag("limit")) || 50}`);
+      for (const a of audit) console.log(`${a.at}  ${pad(a.display_name || a.email || "", 20)}${pad(a.action, 22)}${a.object_type} ${a.object_id ?? ""}`);
+      return;
+    }
     default:
-      die("commands: check, entities, accounts, contacts, journals, show, propose (see the top of this file)");
+      die("commands: check, entities, accounts, contacts, journals, show, propose, edit, withdraw, resend, delete, account-add, account-update, contact-add, year-add, principals, audit (see the top of this file)");
   }
 }
 
