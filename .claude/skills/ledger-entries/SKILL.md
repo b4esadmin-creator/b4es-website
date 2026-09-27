@@ -40,7 +40,11 @@ Run `node apps/ledger/cli/ledger.mjs check`.
    If something that changes the entry is missing or ambiguous, ask **one**
    short question rather than guess. "Today" and "yesterday" mean real dates;
    write them out.
-3. Show the partner the proposed entry before sending:
+3. Check consistency: `journals --q <supplier or keyword>` finds earlier
+   entries of the same kind. Use the same accounts as before unless the
+   partner says otherwise, and mention if an amount is well out of line with
+   earlier ones.
+4. Show the partner the proposed entry before sending:
 
    | Date | Description | Debit | Credit | Amount |
    | --- | --- | --- | --- | --- |
@@ -48,21 +52,38 @@ Run `node apps/ledger/cli/ledger.mjs check`.
 
    Add one line on any assumption (for example "treated as paid from the
    current account").
-4. Write the proposal JSON to a scratch file (not in the repo) and run
-   `propose FILE --dry-run`. If it lists possible duplicates, show them and
+5. Run the checklist below, write the proposal JSON to a scratch file (not
+   in the repo) and run `propose FILE --dry-run`. If it lists possible duplicates, show them and
    ask before sending.
-5. Send it with `propose FILE` once the partner confirms (or straight away if
+6. Send it with `propose FILE` once the partner confirms (or straight away if
    they already said to go ahead). Put the requesting partner's name in
    `requested_by`, for example "Faisal via Claude Code". Add `approver` only if
    the partner names someone.
-6. Report back with the link it prints and say it is **awaiting approval**.
+7. Report back with the link it prints and say it is **awaiting approval**.
    Never say an entry is posted, booked or in the accounts until a partner has
    approved it (`show ID` tells you its status).
+
+### Checklist before sending
+
+- Debits equal credits (the CLI refuses otherwise).
+- The date is the date of the transaction and not in a locked financial year.
+- Every account code exists in the live chart and suits the transaction.
+- The description says what, who with and which period, specifically enough
+  for an accountant to understand it a year later ("Xero subscription,
+  September 2026", not "software"). Put the invoice or receipt number in
+  `reference`, and any calculation (for example "£1,200 annual policy / 12")
+  in the line description.
+- Treatment matches earlier entries of the same kind.
+- Unusual amounts, round-sum estimates and anything touching members'
+  capital or drawings are called out to the partner before sending.
 
 One proposal per real-world transaction. For a batch (for example a list of
 receipts), confirm the table for all of them once, then send each.
 
 ## Bookkeeping rules for B4ES LLP
+
+Adapted in part from Anthropic's Finance plugin (journal-entry skill),
+reworked for UK FRS 102 and B4ES.
 
 B4ES is a UK LLP (FRS 102 section 1A), **not VAT registered** yet, year end
 31 December. Amounts are in pounds and pence; the CLI converts them.
@@ -108,6 +129,27 @@ Choosing the account:
   asked.
 - Use **9998 Suspense** only when the partner cannot say what a payment was
   for, and say clearly that it needs sorting before the year is locked.
+
+### Year-end and period-end adjustments
+
+Propose these only when a partner asks (usually when closing the year). Show
+the calculation in the line descriptions.
+
+| Adjustment | Debit | Credit | Reverse? |
+| --- | --- | --- | --- |
+| Cost incurred, no invoice yet (accrual) | expense account | 2110 Accruals and deferred income | Yes, on the first day of the next year |
+| Cost paid in advance for a later period (prepayment) | 1120 Prepayments and accrued income | expense account | Yes, on the first day of the next year |
+| Work done, not yet invoiced (accrued income) | 1120 Prepayments and accrued income | income account | Yes, on the first day of the next year |
+| Invoiced or paid for work not yet done (deferred income) | income account | 2110 Accruals and deferred income | Yes, on the first day of the next year |
+| Depreciation, straight line (cost / useful life, time-apportioned) | 6900 Depreciation | 0011 or 0021 accumulated depreciation | No |
+| Amortisation of software and website | 6910 Amortisation | 0031 accumulated amortisation | No |
+
+The ledger has no automatic reversal. For each adjustment marked "Yes",
+propose the reversal as a separate entry dated the first day of the next
+year (same lines, debits and credits swapped, description starting
+"Reversal of year-end accrual: ..."), and tell the partner both are in the
+queue. Small items (as a guide under £100) can be left unadjusted; say so
+rather than propose them.
 
 If a request would reverse or correct a posted entry, explain that partners do
 that in the app with "Reverse this entry" followed by a corrected entry.
