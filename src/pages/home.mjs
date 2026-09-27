@@ -16,8 +16,8 @@ import {
 } from "../components.mjs";
 import { DIFFERENTIATORS } from "../data/why.mjs";
 
-// The proposition, set just under the hero so the hero can carry the
-// illustration. Wording unchanged from when it sat in the hero aside.
+// The proposition — a scannable hook: one headline, four one-line proof
+// points, and a link out to the detail. No paragraphs on the home page.
 const proposition = `
 <section class="section-tight">
   <div class="wrap grid items-start gap-10 lg:grid-cols-[1fr_1.1fr]">
@@ -26,12 +26,7 @@ const proposition = `
       <p class="font-display text-[1.625rem] leading-snug text-ink sm:text-[1.875rem]">
         Top-tier quality. Better pricing. Your client stays yours.
       </p>
-      <div class="mt-7 flex items-start gap-3 border-t border-line pt-5">
-        <span class="mt-0.5 text-teal">${icon("shield", "h-5 w-5")}</span>
-        <p class="text-[0.9375rem] leading-snug text-slate-deep">
-          UK GDPR Article 28 DPA on every engagement. No client data leaves your systems.
-        </p>
-      </div>
+      <a href="/why-us/" class="link-arrow mt-6">Why B4ES ${arrow("h-4 w-4")}</a>
     </div>
     <ul class="check-list" data-reveal="up" style="--d:1">
       <li>White-labelled delivery capacity for UK practices</li>
@@ -132,9 +127,9 @@ ${sec(
           businessServices.map((s) => featureCard({ icon: s.icon, title: s.nav, body: s.short, href: `/services/${s.slug}/` })),
           3
         )}
-        <div class="card-quiet mt-5">
-          <p class="font-display text-[1.0625rem] text-ink">Already have an accountant?</p>
-          <p class="mt-2 text-[0.9375rem] leading-relaxed text-slate-deep">Keep them. We run the finance function; they keep the statutory accounts and tax advice. <a href="/for-business/" class="font-semibold text-teal hover:underline">How it works for businesses</a></p>
+        <div class="card-quiet mt-5 flex flex-wrap items-center justify-between gap-3">
+          <p class="font-display text-[1.0625rem] text-ink">Already have an accountant? Keep them.</p>
+          <a href="/for-business/" class="link-arrow">How it works ${arrow("h-4 w-4")}</a>
         </div>`,
       },
     ],
@@ -148,19 +143,18 @@ ${sec(
     <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
       ${sectionHead({
         eyebrow: "Why B4ES",
-        title: "Commitments we are prepared to put in a contract",
+        title: "Commitments we put in a contract",
         light: true,
         max: "max-w-2xl",
       })}
       <a href="/why-us/" class="btn-outline-light shrink-0">See all six ${arrow("h-4 w-4")}</a>
     </div>
-    <div class="mt-12 grid gap-x-10 gap-y-9 sm:grid-cols-3">
-      ${DIFFERENTIATORS.slice(0, 3)
+    <div class="mt-12 grid gap-x-10 gap-y-8 sm:grid-cols-3">
+      ${DIFFERENTIATORS.slice(0, 6)
         .map(
-          (d, i) => `<div data-reveal="rise" style="--d:${i}">
-        <div class="icon-tile-dark mb-5">${icon(d.icon, "h-5 w-5")}</div>
-        <h3 class="font-display text-[1.1875rem] leading-snug text-white">${d.title}</h3>
-        <p class="mt-2.5 text-[0.9375rem] leading-relaxed text-slate-soft">${d.body}</p>
+          (d, i) => `<div class="flex items-start gap-3" data-reveal="rise" style="--d:${i % 3}">
+        <span class="mt-0.5 shrink-0 text-teal-light">${icon(d.icon, "h-5 w-5")}</span>
+        <h3 class="font-display text-[1.0625rem] leading-snug text-white">${d.title}</h3>
       </div>`
         )
         .join("")}
