@@ -860,6 +860,15 @@
   /* The scroll target sits just below the sticky header when jumped to. */
   #explore { scroll-margin-top: var(--header-h); }
 
+  /* On narrow (mobile) screens a 16:9 landscape video forced into a full-height
+     portrait band zooms in with object-fit:cover and crops off the split-screen
+     scenes and centered text. Instead, fit the whole frame to the screen width
+     at its natural 16:9 aspect ratio so the entire video is visible. */
+  @media (max-width: 639px) {
+    .video-band-inner { height: auto; aspect-ratio: 16 / 9; }
+    .video-band-media { object-fit: contain; }
+  }
+
   /* ---------- counters ---------- */
 
   .tabular { font-variant-numeric: tabular-nums; }
