@@ -53,25 +53,6 @@ ${hero({
   secondary: { href: "/why-us/", label: "Why B4ES" },
 })}
 
-<section class="border-b border-line bg-bone py-6">
-  <div class="wrap flex flex-wrap items-center justify-center gap-x-9 gap-y-3 text-center">
-    ${[
-      ["shield", "UK GDPR Article 28 DPA"],
-      ["lock", "ISO 27001-aligned controls"],
-      ["handshake", "Contractual non-solicitation"],
-      ["clock", "UK working hours"],
-      ["magnifier", "Second-person review"],
-    ]
-      .map(
-        ([ic, label], i) =>
-          `<span class="inline-flex items-center gap-2 text-[0.8125rem] font-medium text-slate-deep" data-reveal="up" style="--d:${i}">
-            <span class="text-teal">${icon(ic, "h-4 w-4")}</span>${label}
-          </span>`
-      )
-      .join("")}
-  </div>
-</section>
-
 ${proposition}
 
 ${sec(
