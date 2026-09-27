@@ -137,59 +137,25 @@ function header(current) {
 /* ---------------------------------------------------------------- footer */
 
 function footer() {
-  const cols = FOOTER_NAV.map(
-    (c) => `<details class="footer-col">
-    <summary class="footer-col-head">
-      <span>${c.title}</span>
-      ${icon("chevronDown", "footer-col-chev h-4 w-4 shrink-0 text-slate-soft sm:hidden")}
-    </summary>
-    <ul class="footer-col-body space-y-2.5">
-      ${c.links
-        .map(
-          (l) =>
-            `<li><a href="${l.href}" class="text-[0.9375rem] text-slate-soft transition-colors hover:text-white">${l.label}</a></li>`
-        )
-        .join("")}
-    </ul>
-  </details>`
-  ).join("");
-
   return `
 <footer class="no-print band-dark grain">
-  <div class="wrap relative z-10 py-16 md:py-20">
-    <div class="grid gap-12 lg:grid-cols-[1.15fr_2.4fr]">
-      <div>
-        ${logo({ light: true, cls: "h-14" })}
-        <p class="mt-5 max-w-sm text-[0.9375rem] leading-relaxed text-slate-soft">
-          ${SITE.fullName}. Outsourced finance, accounting and back-office delivery for
-          UK accountancy practices and growing UK businesses.
-        </p>
-        <div class="mt-7 space-y-3 text-[0.9375rem]">
-          <p class="flex items-start gap-3 text-slate-soft">${icon("mail", "mt-0.5 h-4 w-4 shrink-0 text-teal-light")}<a href="mailto:${SITE.email}" class="transition-colors hover:text-white">${SITE.email}</a></p>
-          ${
-            SITE.phone
-              ? `<p class="flex items-start gap-3 text-slate-soft">${icon("phone", "mt-0.5 h-4 w-4 shrink-0 text-teal-light")}<a href="tel:${SITE.phoneHref}" class="transition-colors hover:text-white">${SITE.phone}</a></p>`
-              : ""
-          }
-          <p class="flex items-start gap-3 text-slate-soft">${icon("clock", "mt-0.5 h-4 w-4 shrink-0 text-teal-light")}${SITE.hours}</p>
-        </div>
-      </div>
-      <div class="grid gap-1 sm:grid-cols-3 sm:gap-10">${cols}</div>
-    </div>
-
-    <div class="mt-14 border-t border-white/10 pt-8">
-      <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+  <div class="wrap relative z-10 py-10 md:py-12">
+    <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-5">
+        ${logo({ light: true, cls: "h-12" })}
         <p class="text-[0.8125rem] text-slate-soft/85">
           &copy; ${new Date().getFullYear()} ${SITE.name} (${SITE.fullName}). All rights reserved.
         </p>
-        <ul class="flex flex-wrap gap-x-6 gap-y-2">
-          ${LEGAL_NAV.map(
-            (l) =>
-              `<li><a href="${l.href}" class="text-[0.8125rem] text-slate-soft/85 transition-colors hover:text-white">${l.label}</a></li>`
-          ).join("")}
-        </ul>
       </div>
-      <p class="mt-6 max-w-4xl text-[0.75rem] leading-relaxed text-slate-soft/75">
+      <ul class="flex flex-wrap gap-x-6 gap-y-2">
+        ${LEGAL_NAV.map(
+          (l) =>
+            `<li><a href="${l.href}" class="text-[0.8125rem] text-slate-soft/85 transition-colors hover:text-white">${l.label}</a></li>`
+        ).join("")}
+      </ul>
+    </div>
+    <div class="mt-8 border-t border-white/10 pt-8">
+      <p class="max-w-4xl text-[0.75rem] leading-relaxed text-slate-soft/75">
         B4ES provides finance, accounting and business process delivery services. We are not a
         firm of registered auditors and we do not provide regulated audit opinions, regulated
         investment advice or legal advice. Where we support audit engagements we act solely as a
