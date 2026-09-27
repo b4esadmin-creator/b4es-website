@@ -467,6 +467,9 @@ export function videoBand() {
       one agreed scope, your brand and your software. Market-leading quality, materially better
       pricing, and the client relationship stays with you, in writing. b4es.co.uk, info@b4es.co.uk.
     </figcaption>
+    <a href="#explore" class="video-scroll-cue" aria-label="Scroll to the rest of the page">
+      ${icon("chevronDown", "h-5 w-5")}
+    </a>
   </figure>
 </section>`;
 }

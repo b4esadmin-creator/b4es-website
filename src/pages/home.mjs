@@ -44,6 +44,8 @@ export function homePage() {
   const body = `
 ${videoBand()}
 
+<div id="explore" aria-hidden="true"></div>
+
 ${hero({
   eyebrow: "Better 4 Enterprise Solutions",
   title: "Delivery capacity for UK accountancy practices and the businesses they serve.",

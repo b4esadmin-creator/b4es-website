@@ -59,6 +59,10 @@
 
   /* The logo's arrow: navy-blue into teal. */
   --gradient-brand: linear-gradient(135deg, #05527a 0%, #0a8aa3 100%);
+
+  /* Height of the sticky site header, so the home video can fill exactly one
+     screen below it (measured ~77px; slightly over-estimated to avoid overflow). */
+  --header-h: 5rem;
 }
 
 /* ============================================================
@@ -817,14 +821,14 @@
   .illo-float { animation: illo-float 7s ease-in-out 1.2s infinite; }
   @keyframes illo-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-  /* Full-bleed home video band (videoBand in components.mjs). The band spans
-     the full viewport width and takes the video's own 16:9 aspect ratio, so the
-     frame fills edge-to-edge with no letterbox bars AND no cropping of the
-     baked-in scene text (the container and the video share one aspect ratio). */
+  /* Full-bleed home video band (videoBand in components.mjs). On page open the
+     band fills exactly one screen below the sticky header, so the video is shown
+     full-screen with no cut-off. The video is scaled to cover the band; because
+     the scene text is centered, the small top/bottom crop never clips it. */
   .video-band { @apply bg-ink; }
   .video-band-inner {
     @apply relative m-0 w-full;
-    aspect-ratio: 16 / 9;
+    height: calc(100svh - var(--header-h));
   }
   .video-band-media {
     @apply block h-full w-full bg-ink;
@@ -838,6 +842,22 @@
            hover:bg-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold;
   }
   .video-band-btn[aria-pressed="true"] { @apply bg-gold text-ink hover:bg-gold-light; }
+
+  /* Down-arrow scroll cue anchored to the bottom of the video, inviting the
+     visitor to scroll to the rest of the page. Plain anchor + smooth scroll. */
+  .video-scroll-cue {
+    @apply absolute bottom-5 left-1/2 z-10 inline-flex h-11 w-11 -translate-x-1/2
+           items-center justify-center rounded-full bg-ink/70 text-white ring-1 ring-white/25
+           backdrop-blur-sm transition-colors hover:bg-ink
+           focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold;
+    animation: video-cue-bob 2s ease-in-out infinite;
+  }
+  @keyframes video-cue-bob {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, 6px); }
+  }
+  /* The scroll target sits just below the sticky header when jumped to. */
+  #explore { scroll-margin-top: var(--header-h); }
 
   /* ---------- counters ---------- */
 
