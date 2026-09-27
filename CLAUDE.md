@@ -116,32 +116,40 @@ partners (26 Sep 2026):
   (remote MCP on mcp.b4es.co.uk); 4 bank statement upload and
   reconciliation; 5 in-app AI categorisation (Anthropic API key); 6 VAT
   returns and more reports.
-- **Owner steps still needed:** enable R2 (backups,
-  statements), 2-step verification on the
-  shared Gmail and Cloudflare.
-- **Status:** stage 1 code is merged. The EU database `b4es-ledger`
-  exists (created 26 Sep 2026 via `ledger-db-create.yml`; id in
-  `apps/ledger/wrangler.jsonc`) and `ledger-deploy.yml` applies migrations
-  and deploys on merge. Cloudflare Access (team `damp-mode-0f67`, app for
-  ledger.b4es.co.uk, One-time PIN) is set up and its team domain and AUD
-  tag are in `wrangler.jsonc` (identifiers, not secrets). Partners are
-  allowed or removed only in the Access policy in the Zero Trust dashboard.
-- **Claude proposes entries (phase 2):** partners ask Claude in plain English;
-  Claude follows `.claude/skills/ledger-entries/SKILL.md` and uses
-  `apps/ledger/cli/ledger.mjs` with a Cloudflare Access **service token**
-  (env vars `LEDGER_CLIENT_ID` and `LEDGER_CLIENT_SECRET` in each partner's
-  Claude environment, never in the repo). The token's Client ID must be in
-  `AGENT_CLIENT_IDS` in `apps/ledger/wrangler.jsonc`. It becomes the "Claude"
+- **Status (27 Sep 2026): live at https://ledger.b4es.co.uk.** Phases 1
+  and 2 are shipped (PRs #25, #30, #34, #35, #36). The EU database
+  `b4es-ledger` (id in `apps/ledger/wrangler.jsonc`) has migrations 0001
+  and 0002 applied; `ledger-deploy.yml` applies migrations and deploys on
+  merge to `main`. Cloudflare Access (team `damp-mode-0f67`, One-time PIN)
+  protects the whole hostname; its team domain and AUD tag are in
+  `wrangler.jsonc` (identifiers, not secrets). Partners are added or
+  removed only in the "B4ES partners" Access policy in the Zero Trust
+  dashboard. Faisal has signed in and set up B4ES LLP; the other partners
+  have been sent sign-in instructions.
+- **Claude proposes entries (phase 2, live):** partners ask Claude in plain
+  English; Claude follows `.claude/skills/ledger-entries/SKILL.md` (workflow
+  and UK LLP bookkeeping rules) and uses `apps/ledger/cli/ledger.mjs`. It
+  signs in with the Access service token "B4ES Ledger - Claude" through a
+  Service Auth policy on the ledger app. The token's Client ID is in
+  `AGENT_CLIENT_IDS`; the Client Secret lives only in each partner's Claude
+  environment as `LEDGER_CLIENT_ID` / `LEDGER_CLIENT_SECRET` (new sessions
+  pick them up), never in the repo or chat. The token becomes the "Claude"
   agent, which can only read the books and send entries for approval: no
   posting, approving, editing, exports or audit log (Worker guard plus
   triggers in `migrations/0002_agent.sql`). Admins can switch Claude off in
-  Settings, Partners.
+  Settings, Partners. Faisal added the environment variables on 27 Sep
+  2026; the first end-to-end proposal from a new session is still to be
+  tried.
+- **Next:** first live Claude proposal and approval; then phase 3
+  (claude.ai connector), phase 4 (bank statement upload, needs R2).
+- **Owner steps still needed:** enable R2 (backups, statements) before
+  phase 4; 2-step verification on the shared Gmail and Cloudflare.
 - **Working on the ledger locally:** `apps/ledger/README.md` has the
-  commands (local D1, `wrangler dev` with `DEV_EMAIL` and
-  `--local-upstream`, tests). CI runs the report tests, the 34 database-rule
-  tests and a dry-run deploy.
+  commands (local D1, `wrangler dev` with `DEV_EMAIL` or `DEV_AGENT` and
+  `--local-upstream`, tests). CI runs the report tests, the 43
+  database-rule tests, syntax checks and a dry-run deploy.
 
-## Project state (as of 26 Sep 2026)
+## Project state (as of 27 Sep 2026)
 
 - **Branding:** logo, favicon and theme come from the brand kit (PRs #5, #6).
   Palette: navy `#022454`, blue `#05527A`, teal `#087A95` (logo teal
