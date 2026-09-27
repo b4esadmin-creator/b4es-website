@@ -24,6 +24,9 @@
 //   node apps/ledger/cli/ledger.mjs contact-add --name N [--kind customer|supplier|member|employee|other]
 //   node apps/ledger/cli/ledger.mjs year-add --start 2026-01-01 --end 2026-12-31
 //   node apps/ledger/cli/ledger.mjs principals | audit [--limit N]
+//   node apps/ledger/cli/ledger.mjs attach JOURNAL_ID FILE [FILE...] [--note N]   (supporting documents, any file up to 25 MB)
+//   node apps/ledger/cli/ledger.mjs docs JOURNAL_ID | detach DOCUMENT_ID | fetch-doc DOCUMENT_ID OUT_FILE
+//   propose and edit also take --attach FILE (repeatable) to add documents to the entry.
 //
 // Proposal JSON (amounts in pounds as strings, accounts by code):
 //   { "date": "2026-09-26", "narrative": "Xero subscription, September",
@@ -32,7 +35,8 @@
 //     "lines": [ { "account": "6200", "debit": "30.00" },
 //                { "account": "1200", "credit": "30.00", "contact": "Xero" } ] }
 
-import { readFileSync } from "node:fs";
+import { readFileSync, statSync } from "node:fs";
+import { basename, extname } from "node:path";
 
 const BASE = (process.env.LEDGER_URL || "https://ledger.b4es.co.uk").replace(/\/+$/, "");
 const args = process.argv.slice(2);
@@ -48,7 +52,7 @@ function die(msg) {
   process.exit(1);
 }
 
-async function api(path, { method = "GET", body } = {}) {
+async function api(path, { method = "GET", body, raw, headers: extra, rawResponse } = {}) {
   const id = process.env.LEDGER_CLIENT_ID;
   const secret = process.env.LEDGER_CLIENT_SECRET;
   if (!id || !secret) die("LEDGER_CLIENT_ID and LEDGER_CLIENT_SECRET must be set in the Claude environment");
@@ -60,10 +64,12 @@ async function api(path, { method = "GET", body } = {}) {
       "CF-Access-Client-Secret": secret,
       Origin: BASE,
       ...(body ? { "Content-Type": "application/json" } : {}),
+      ...(extra || {}),
     },
-    body: body ? JSON.stringify(body) : undefined,
+    body: raw || (body ? JSON.stringify(body) : undefined),
   });
   if (res.status >= 300 && res.status < 400) die("Cloudflare Access refused the service token (check the ID, secret and the Service Auth policy)");
+  if (rawResponse && res.ok) return res;
   let data = null;
   try {
     data = await res.json();
@@ -80,6 +86,45 @@ function pence(v) {
   const [a, b = ""] = t.split(".");
   return Number(a) * 100 + Number((b + "00").slice(0, 2));
 }
+// Content types for common files; anything else is sent as octet-stream.
+const TYPES = { ".pdf": "application/pdf", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".gif": "image/gif", ".webp": "image/webp",
+  ".heic": "image/heic", ".heif": "image/heif", ".txt": "text/plain", ".csv": "text/csv", ".xls": "application/vnd.ms-excel",
+  ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", ".doc": "application/msword",
+  ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document", ".eml": "message/rfc822", ".zip": "application/zip" };
+const MAX_DOC = 25 * 1024 * 1024;
+const size = (n) => (n >= 1048576 ? `${(n / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`);
+const multi = (name) => args.flatMap((a, i) => (a === `--${name}` && args[i + 1] ? [args[i + 1]] : []));
+
+function checkFiles(files) {
+  for (const f of files) {
+    let st;
+    try {
+      st = statSync(f);
+    } catch {
+      die(`cannot read ${f}`);
+    }
+    if (!st.isFile()) die(`${f} is not a file`);
+    if (!st.size) die(`${f} is empty`);
+    if (st.size > MAX_DOC) die(`${f} is over 25 MB`);
+  }
+}
+
+async function attachFiles(entity, journalId, files, note) {
+  for (const f of files) {
+    const buf = readFileSync(f);
+    const r = await api(`/entities/${entity.id}/journals/${journalId}/documents`, {
+      method: "POST",
+      raw: buf,
+      headers: {
+        "Content-Type": TYPES[extname(f).toLowerCase()] || "application/octet-stream",
+        "X-Filename": encodeURIComponent(basename(f)),
+        ...(note ? { "X-Note": encodeURIComponent(note) } : {}),
+      },
+    });
+    console.log(`Attached ${r.document.filename} (${size(r.document.size)}, sha256 ${r.document.sha256.slice(0, 12)}…)`);
+  }
+}
+
 const gbp = (p) => (p < 0 ? "-" : "") + "£" + (Math.abs(p) / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 const pad = (s, n) => String(s ?? "").padEnd(n).slice(0, n);
 const lpad = (s, n) => String(s ?? "").padStart(n);
@@ -144,6 +189,7 @@ async function main() {
       console.log(`${j.date}  ${j.status}${j.number ? " #" + j.number : ""}  ${j.narrative}`);
       for (const l of j.lines) console.log(`  ${pad(l.account_code + " " + l.account_name, 50)}${lpad(l.debit_p ? gbp(l.debit_p) : "", 12)}${lpad(l.credit_p ? gbp(l.credit_p) : "", 12)}`);
       if (j.decision_note) console.log(`Note: ${j.decision_note}`);
+      for (const d of j.documents || []) console.log(`  Document: ${d.filename} (${size(d.size)})  [${d.id}]`);
       console.log(`${BASE}/#/entries/${j.id}`);
       return;
     }
@@ -151,6 +197,8 @@ async function main() {
     case "edit": {
       const editId = cmd === "edit" ? args[1] : null;
       const src = cmd === "edit" ? args[2] : args[1];
+      const attach = multi("attach");
+      checkFiles(attach);
       if (!src) die(cmd === "edit" ? "usage: ledger edit JOURNAL_ID FILE.json|- [--dry-run]" : "usage: ledger propose FILE.json|- [--dry-run]");
       let p;
       try {
@@ -210,6 +258,7 @@ async function main() {
         console.log("Possible duplicates (same amount within a week):");
         for (const j of dupes) console.log(`  ${j.date} ${j.status} ${gbp(j.total_p)} ${j.narrative} (${j.id})`);
       }
+      for (const f of attach) console.log(`  Document to attach: ${basename(f)} (${size(statSync(f).size)})`);
       if (has("dry-run")) {
         console.log("Dry run: nothing was sent.");
         return;
@@ -226,6 +275,7 @@ async function main() {
           lines: lines.map(({ account_id, debit_p, credit_p, description, contact_id }) => ({ account_id, debit_p, credit_p, description, contact_id })),
         },
       });
+      if (attach.length) await attachFiles(e, r.journal.id, attach, flag("note"));
       console.log(`Sent for approval (status: ${r.journal.status}). A partner must approve it in the app:`);
       console.log(`${BASE}/#/entries/${r.journal.id}`);
       return;
@@ -292,6 +342,43 @@ async function main() {
       console.log(`Added financial year ${flag("start")} to ${flag("end")}.`);
       return;
     }
+    case "attach": {
+      const id = args[1];
+      const files = args.slice(2).filter((a, i, all) => !a.startsWith("--") && all[i - 1] !== "--note");
+      if (!id || !files.length) die("usage: ledger attach JOURNAL_ID FILE [FILE...] [--note N]");
+      checkFiles(files);
+      const e = await entityId();
+      await attachFiles(e, id, files, flag("note"));
+      console.log(`${BASE}/#/entries/${id}`);
+      return;
+    }
+    case "docs": {
+      const id = args[1];
+      if (!id) die("usage: ledger docs JOURNAL_ID");
+      const e = await entityId();
+      const { documents } = await api(`/entities/${e.id}/journals/${id}/documents`);
+      for (const d of documents) console.log(`${d.id}\t${d.filename}\t${size(d.size)}\t${d.uploaded_by_role === "agent" ? "Claude" : d.uploaded_by_name || d.uploaded_by_email}\t${d.uploaded_at}`);
+      if (!documents.length) console.log("No documents on this entry.");
+      return;
+    }
+    case "detach": {
+      const id = args[1];
+      if (!id) die("usage: ledger detach DOCUMENT_ID");
+      const e = await entityId();
+      await api(`/entities/${e.id}/documents/${id}`, { method: "DELETE" });
+      console.log("Removed.");
+      return;
+    }
+    case "fetch-doc": {
+      const [id, out] = [args[1], args[2]];
+      if (!id || !out) die("usage: ledger fetch-doc DOCUMENT_ID OUT_FILE");
+      const e = await entityId();
+      const res = await api(`/entities/${e.id}/documents/${id}?download=1`, { rawResponse: true });
+      const { writeFileSync } = await import("node:fs");
+      writeFileSync(out, Buffer.from(await res.arrayBuffer()));
+      console.log(`Saved ${out}`);
+      return;
+    }
     case "principals": {
       const { principals } = await api("/principals");
       for (const p of principals) console.log(`${p.id}\t${p.display_name || ""}\t${p.email}\t${p.role}${p.active ? "" : " (off)"}`);
@@ -304,7 +391,7 @@ async function main() {
       return;
     }
     default:
-      die("commands: check, entities, accounts, contacts, journals, show, propose, edit, withdraw, resend, delete, account-add, account-update, contact-add, year-add, principals, audit (see the top of this file)");
+      die("commands: check, entities, accounts, contacts, journals, show, propose, edit, withdraw, resend, delete, account-add, account-update, contact-add, year-add, principals, audit, attach, docs, detach, fetch-doc (see the top of this file)");
   }
 }
 

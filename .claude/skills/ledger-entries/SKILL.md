@@ -18,7 +18,8 @@ Tool: `node apps/ledger/cli/ledger.mjs <command>` from the repository root.
 Commands: `check`, `entities`, `accounts`, `contacts`, `journals`, `show ID`,
 `propose FILE.json [--dry-run]`, `edit ID FILE.json`, `withdraw ID`,
 `resend ID`, `delete ID`, `account-add`, `account-update`, `contact-add`,
-`year-add`, `principals`, `audit`. Details are at the top of that file.
+`year-add`, `principals`, `audit`, `attach`, `docs`, `detach`, `fetch-doc`.
+Details are at the top of that file.
 
 Set-up changes take effect at once and are in the audit log, so make them
 only when the partner asks or agrees: say which account or contact you will
@@ -77,6 +78,34 @@ Run `node apps/ledger/cli/ledger.mjs check`.
 8. If the partner wants a pending or rejected proposal changed, `edit ID
    FILE.json` replaces it and resends it for approval; `delete ID` removes a
    rejected one (`withdraw ID` first if it is still pending).
+
+### Supporting documents (receipts, invoices, statements, photos)
+
+When a partner shares a document in the chat (a pasted image or screenshot,
+an uploaded PDF, or a file path), it is on disk in this session: pasted
+images are saved under the session's `images/` folder, and the chat shows
+the path.
+
+1. Read it (the Read tool opens images and PDFs) and take the date, supplier,
+   amount paid in GBP, reference or invoice number and what it was for.
+2. If anything that changes the entry is unclear or missing (for example a
+   foreign-currency total, several items that may need splitting, a
+   personal card, or a date that does not match), ask **one** short
+   question before proposing.
+3. Put the document's own reference in `reference` and attach it:
+   `propose FILE.json --attach /path/to/receipt.pdf [--attach another]
+   [--note "what it is"]`. For an entry that already exists, including a
+   posted one: `attach JOURNAL_ID FILE [--note N]`.
+4. Say in the report which documents were attached.
+
+Any file up to 25 MB can be attached. The same file cannot be attached to an
+entry twice. Documents on a posted entry are kept permanently; Claude can
+remove (`detach`) only its own, and only before the entry is posted.
+`docs JOURNAL_ID` lists what is attached and `fetch-doc DOCUMENT_ID OUT` saves
+a copy locally to read. Cowork and claude.ai cannot attach documents until
+the ledger connector (roadmap phase 3) exists; until then ask the partner to
+use Claude Code, or upload in the app (entry page, "Upload file" or "Take
+photo").
 
 ### Checklist before sending
 

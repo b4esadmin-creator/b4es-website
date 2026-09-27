@@ -193,7 +193,8 @@ function list(v) {
  * (companies, accounts, contacts, financial years) and manage its own
  * proposals (send, edit, withdraw, resend, delete). It never posts, approves,
  * rejects or reverses an entry, locks or unlocks a year, archives a company
- * or changes who has access. The database triggers in 0002_agent.sql and
+ * or changes who has access. It can attach supporting documents to entries
+ * and remove its own from entries not yet posted. The database triggers in 0002_agent.sql and
  * 0003_agent_setup.sql enforce the entry and year limits as well.
  */
 function agentMayCall(method, pathname) {
@@ -212,7 +213,9 @@ function agentMayCall(method, pathname) {
     case "journals":
       if (p.length === 3) return method === "POST";
       if (p.length === 4) return method === "PUT" || method === "DELETE";
-      return method === "POST" && p.length === 5 && (p[4] === "submit" || p[4] === "withdraw");
+      return method === "POST" && p.length === 5 && (p[4] === "submit" || p[4] === "withdraw" || p[4] === "documents");
+    case "documents":
+      return method === "DELETE" && p.length === 4; // its own uploads, on entries not yet posted
   }
   return false;
 }
@@ -333,7 +336,9 @@ async function route(request, env, url, me) {
       case "contacts":
         return contactsRoute(request, db, me, entity, rest);
       case "journals":
-        return journalsRoute(request, db, me, entity, rest, q);
+        return journalsRoute(request, db, me, entity, rest, q, env);
+      case "documents":
+        return documentsRoute(request, env, db, me, entity, rest, q);
       case "approvals":
         if (m === "GET") return json({ journals: await listJournals(db, entity.id, { status: "pending", limit: 200 }) });
         break;
@@ -584,6 +589,7 @@ async function listJournals(db, entityId, { status, from, to, account, q, limit 
     .prepare(
       `SELECT j.id, j.number, j.date, j.reference, j.narrative, j.status, j.source, j.total_p, j.requires_second,
               j.created_at, j.reversal_of, j.reversed_by, j.requested_approver_id, j.origin_note,
+              (SELECT COUNT(*) FROM documents d WHERE d.journal_id = j.id) AS doc_count,
               c.display_name AS created_by_name, c.email AS created_by_email, j.created_by
          FROM journals j JOIN principals c ON c.id = j.created_by
         WHERE ${where.join(" AND ")}
@@ -617,7 +623,7 @@ async function getJournal(db, entityId, id) {
     )
     .bind(id)
     .all();
-  return { ...j, lines };
+  return { ...j, lines, documents: await listDocuments(db, id) };
 }
 
 /** Validates a journal body. Returns cleaned fields and lines. */
@@ -720,7 +726,7 @@ function postStmt(db, entityId, journalId, me, approval = null) {
     .bind(entityId, me.id, now, now, journalId);
 }
 
-async function journalsRoute(request, db, me, entity, rest, q) {
+async function journalsRoute(request, db, me, entity, rest, q, env) {
   const m = request.method;
   const now = new Date().toISOString();
 
@@ -803,12 +809,20 @@ async function journalsRoute(request, db, me, entity, rest, q) {
   if (rest.length === 2 && m === "DELETE") {
     if (!["draft", "rejected"].includes(cur.status)) throw bad("Only drafts and rejected entries can be deleted");
     if (cur.created_by !== me.id && me.role !== "admin") throw new HttpError(403, "Only the person who made this entry can delete it");
+    const docs = await listDocuments(db, id);
     await db.batch([
+      db.prepare("DELETE FROM documents WHERE journal_id = ?").bind(id),
       db.prepare("DELETE FROM journal_lines WHERE journal_id = ?").bind(id),
       db.prepare("DELETE FROM journals WHERE id = ?").bind(id),
-      audit(db, me, "journal.delete", entity.id, "journal", id, { status: cur.status, total_p: cur.total_p }),
+      audit(db, me, "journal.delete", entity.id, "journal", id, { status: cur.status, total_p: cur.total_p, documents: docs.map((d) => d.filename) }),
     ]);
+    if (docs.length && env.DOCS) await env.DOCS.delete(docs.map((d) => d.r2_key));
     return json({ ok: true });
+  }
+
+  if (rest.length === 3 && rest[2] === "documents") {
+    if (m === "GET") return json({ documents: await listDocuments(db, id) });
+    if (m === "POST") return json({ document: await uploadDocument(request, env, db, me, entity, cur) }, 201);
   }
 
   if (rest.length === 3 && m === "POST") {
@@ -891,6 +905,116 @@ async function journalsRoute(request, db, me, entity, rest, q) {
     }
   }
 
+  throw new HttpError(404, "Not found");
+}
+
+/* --------------------------------------------------------------- documents */
+
+// Supporting documents: any file up to 25 MB, stored in R2 (EU) under
+// entity/journal/id. Added to any entry at any time; removable (by whoever
+// added it, or an admin) only while the entry is not posted.
+const MAX_DOC = 25 * 1024 * 1024;
+// Shown in the browser; everything else downloads.
+const INLINE_TYPES = new Set(["application/pdf", "image/jpeg", "image/png", "image/gif", "image/webp", "text/plain"]);
+
+async function listDocuments(db, journalId) {
+  const { results } = await db
+    .prepare(
+      `SELECT d.id, d.journal_id, d.filename, d.content_type, d.size, d.sha256, d.r2_key, d.note, d.uploaded_by, d.uploaded_at,
+              p.display_name AS uploaded_by_name, p.email AS uploaded_by_email, p.role AS uploaded_by_role
+         FROM documents d JOIN principals p ON p.id = d.uploaded_by WHERE d.journal_id = ? ORDER BY d.uploaded_at, d.id`
+    )
+    .bind(journalId)
+    .all();
+  return results;
+}
+
+function headerText(request, name, max) {
+  let v = request.headers.get(name) || "";
+  try {
+    v = decodeURIComponent(v);
+  } catch {}
+  return v.replace(/[\u0000-\u001f\u007f]/g, "").trim().slice(0, max);
+}
+
+async function uploadDocument(request, env, db, me, entity, journal) {
+  if (!env.DOCS) throw new HttpError(503, "Document storage is not set up yet");
+  if (Number(request.headers.get("Content-Length")) > MAX_DOC) throw new HttpError(413, "Files can be up to 25 MB");
+  const buf = await request.arrayBuffer();
+  if (!buf.byteLength) throw bad("The file is empty");
+  if (buf.byteLength > MAX_DOC) throw new HttpError(413, "Files can be up to 25 MB");
+
+  const filename = headerText(request, "X-Filename", 200).replace(/[\\/]/g, "_") || "document";
+  const note = headerText(request, "X-Note", 300) || null;
+  let type = (request.headers.get("Content-Type") || "").split(";")[0].trim().toLowerCase();
+  if (!/^[a-z0-9.+-]+\/[a-z0-9.+-]+$/.test(type)) type = "application/octet-stream";
+
+  const sha256 = [...new Uint8Array(await crypto.subtle.digest("SHA-256", buf))].map((b) => b.toString(16).padStart(2, "0")).join("");
+  const dupe = await db.prepare("SELECT filename FROM documents WHERE journal_id = ? AND sha256 = ?").bind(journal.id, sha256).first();
+  if (dupe) throw bad(`This file is already attached (${dupe.filename})`);
+
+  const id = ulid();
+  const key = `${entity.id}/${journal.id}/${id}`;
+  await env.DOCS.put(key, buf, { httpMetadata: { contentType: type }, customMetadata: { filename, sha256 } });
+  try {
+    await db.batch([
+      db
+        .prepare(
+          "INSERT INTO documents (id, entity_id, journal_id, filename, content_type, size, sha256, r2_key, note, uploaded_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        )
+        .bind(id, entity.id, journal.id, filename, type, buf.byteLength, sha256, key, note, me.id),
+      audit(db, me, "document.add", entity.id, "document", id, { journal: journal.id, filename, size: buf.byteLength, sha256 }),
+    ]);
+  } catch (e) {
+    await env.DOCS.delete(key);
+    throw e;
+  }
+  return (await listDocuments(db, journal.id)).find((d) => d.id === id);
+}
+
+async function documentsRoute(request, env, db, me, entity, rest, q) {
+  const m = request.method;
+  if (rest.length !== 2) throw new HttpError(404, "Not found");
+  const d = await db
+    .prepare("SELECT d.*, j.status AS journal_status FROM documents d JOIN journals j ON j.id = d.journal_id WHERE d.id = ? AND d.entity_id = ?")
+    .bind(rest[1], entity.id)
+    .first();
+  if (!d) throw new HttpError(404, "Document not found");
+
+  if (m === "GET") {
+    if (!env.DOCS) throw new HttpError(503, "Document storage is not set up yet");
+    const obj = await env.DOCS.get(d.r2_key);
+    if (!obj) throw new HttpError(404, "The file is missing from storage");
+    const inline = q.get("download") !== "1" && INLINE_TYPES.has(d.content_type);
+    const name = encodeURIComponent(d.filename);
+    const ascii = d.filename.replace(/[^\x20-\x7e]/g, "_").replace(/["\\]/g, "_");
+    return withHeaders(
+      new Response(obj.body, {
+        headers: {
+          "Content-Type": inline ? d.content_type : "application/octet-stream",
+          "Content-Length": String(d.size),
+          "Content-Disposition": `${inline ? "inline" : "attachment"}; filename="${ascii}"; filename*=UTF-8''${name}`,
+        },
+      }),
+      {
+        "Cache-Control": "private, no-store",
+        // An uploaded file never runs as part of the app (PDFs keep the browser's viewer).
+        "Content-Security-Policy": d.content_type === "application/pdf" && inline ? "default-src 'none'; object-src 'self'; frame-ancestors 'self'" : "sandbox; default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; frame-ancestors 'self'",
+        "X-Frame-Options": "SAMEORIGIN",
+      }
+    );
+  }
+
+  if (m === "DELETE") {
+    if (d.journal_status === "posted") throw bad("Documents on a posted entry cannot be removed");
+    if (d.uploaded_by !== me.id && me.role !== "admin") throw new HttpError(403, "Only the person who added this document can remove it");
+    await db.batch([
+      db.prepare("DELETE FROM documents WHERE id = ?").bind(d.id),
+      audit(db, me, "document.remove", entity.id, "document", d.id, { journal: d.journal_id, filename: d.filename, sha256: d.sha256 }),
+    ]);
+    if (env.DOCS) await env.DOCS.delete(d.r2_key);
+    return json({ ok: true });
+  }
   throw new HttpError(404, "Not found");
 }
 
@@ -1102,12 +1226,13 @@ async function reportsRoute(db, entity, rest, q) {
 /* ------------------------------------------------------------------ export */
 
 async function exportEntity(db, entity) {
-  const [accounts, years, contacts, journals, lines] = await db.batch([
+  const [accounts, years, contacts, journals, lines, documents] = await db.batch([
     db.prepare("SELECT * FROM accounts WHERE entity_id = ? ORDER BY code").bind(entity.id),
     db.prepare("SELECT * FROM fiscal_years WHERE entity_id = ? ORDER BY start_date").bind(entity.id),
     db.prepare("SELECT * FROM contacts WHERE entity_id = ? ORDER BY name").bind(entity.id),
     db.prepare("SELECT * FROM journals WHERE entity_id = ? ORDER BY date, number").bind(entity.id),
     db.prepare("SELECT l.* FROM journal_lines l JOIN journals j ON j.id = l.journal_id WHERE j.entity_id = ? ORDER BY l.journal_id, l.line_no").bind(entity.id),
+    db.prepare("SELECT id, journal_id, filename, content_type, size, sha256, note, uploaded_by, uploaded_at FROM documents WHERE entity_id = ? ORDER BY journal_id, uploaded_at").bind(entity.id),
   ]);
   const data = {
     exported_at: new Date().toISOString(),
@@ -1117,6 +1242,8 @@ async function exportEntity(db, entity) {
     contacts: contacts.results,
     journals: journals.results,
     journal_lines: lines.results,
+    // File contents stay in R2; this lists them with their SHA-256.
+    documents: documents.results,
   };
   const name = `b4es-ledger-${entity.name.replace(/[^A-Za-z0-9]+/g, "-").toLowerCase()}-${today()}.json`;
   return withHeaders(new Response(JSON.stringify(data, null, 2), {

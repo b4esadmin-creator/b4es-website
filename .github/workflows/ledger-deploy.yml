@@ -55,6 +55,18 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
+      - name: Ensure documents bucket (EU)
+        if: steps.db.outputs.ready == 'true'
+        run: |
+          if npx wrangler r2 bucket info b4es-ledger-documents --jurisdiction eu >/dev/null 2>&1; then
+            echo "b4es-ledger-documents exists"
+          else
+            npx wrangler r2 bucket create b4es-ledger-documents --jurisdiction eu
+          fi
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
       - name: Deploy ledger Worker
         if: steps.db.outputs.ready == 'true'
         run: npx wrangler deploy -c apps/ledger/wrangler.jsonc

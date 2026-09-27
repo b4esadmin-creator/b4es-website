@@ -79,15 +79,16 @@
 
   class ApiError extends Error {}
 
-  async function api(path, { method = "GET", body } = {}) {
+  // body: JSON payload; raw: a File or Blob sent as is, with extra headers.
+  async function api(path, { method = "GET", body, raw, headers } = {}) {
     let res;
     try {
       res = await fetch("/api" + path, {
         method,
         credentials: "same-origin",
         redirect: "manual",
-        headers: body !== undefined ? { "Content-Type": "application/json" } : {},
-        body: body !== undefined ? JSON.stringify(body) : undefined,
+        headers: raw ? headers || {} : body !== undefined ? { "Content-Type": "application/json" } : {},
+        body: raw || (body !== undefined ? JSON.stringify(body) : undefined),
       });
     } catch (e) {
       throw new ApiError("You appear to be offline. Nothing was saved.");
@@ -418,7 +419,7 @@
     const rows = journals.map((j) => h("tr", { class: "clickable", tabindex: "0", onclick: () => go(`#/entries/${j.id}`), onkeydown: (ev) => ev.key === "Enter" && go(`#/entries/${j.id}`) },
       h("td", null, prettyDate(j.date)),
       h("td", { class: "num" }, j.number ? "#" + j.number : ""),
-      h("td", null, j.narrative, j.reference ? h("div", { class: "small muted" }, j.reference) : null),
+      h("td", null, j.narrative, j.doc_count ? h("span", { class: "doc-count", title: `${j.doc_count} supporting document${j.doc_count > 1 ? "s" : ""}` }, ` 📎${j.doc_count}`) : null, j.reference ? h("div", { class: "small muted" }, j.reference) : null),
       h("td", null, statusPill(j), " ", claudePill(j)),
       h("td", { class: "num" }, fmt(j.total_p))));
 
@@ -431,6 +432,95 @@
           : h("p", { class: "empty" }, "No entries match.")),
       account ? h("p", null, h("a", { href: `#/reports/ledger?account=${account}` }, "Open this account's ledger")) : null
     );
+  }
+
+  /* ============================================================ documents */
+
+  const MAX_DOC = 25 * 1024 * 1024;
+  const fileSize = (n) => (n >= 1048576 ? `${(n / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`);
+
+  // Camera captures arrive as "image.jpg"; give them a dated name.
+  function docName(file) {
+    const n = file.name || "";
+    if (n && !/^image\.(jpe?g|png|heic|heif|webp)$/i.test(n)) return n;
+    const d = new Date();
+    const stamp = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}-${String(d.getHours()).padStart(2, "0")}${String(d.getMinutes()).padStart(2, "0")}${String(d.getSeconds()).padStart(2, "0")}`;
+    return `photo-${stamp}.${(n.split(".").pop() || "jpg").toLowerCase()}`;
+  }
+
+  function uploadDoc(journalId, file) {
+    if (file.size > MAX_DOC) return Promise.reject(new Error(`${docName(file)} is over 25 MB`));
+    if (!file.size) return Promise.reject(new Error(`${docName(file)} is empty`));
+    return api(`${base()}/journals/${journalId}/documents`, {
+      method: "POST",
+      raw: file,
+      headers: { "Content-Type": file.type || "application/octet-stream", "X-Filename": encodeURIComponent(docName(file)) },
+    });
+  }
+
+  // Uploads one by one; returns the number that failed (each failure is shown).
+  async function uploadAll(journalId, files) {
+    let failed = 0;
+    for (const f of files) {
+      try {
+        await uploadDoc(journalId, f);
+      } catch (e) {
+        failed++;
+        toast(e.message, true);
+      }
+    }
+    return failed;
+  }
+
+  // "Upload file" and "Take photo" buttons. onFiles receives an array of File.
+  function docPickers(onFiles) {
+    const pick = (attrs) => {
+      const input = h("input", { type: "file", class: "visually-hidden", tabindex: "-1", "aria-hidden": "true", ...attrs });
+      input.addEventListener("change", () => {
+        const files = [...input.files];
+        input.value = "";
+        if (files.length) onFiles(files);
+      });
+      return input;
+    };
+    const fileIn = pick({ multiple: true });
+    const camIn = pick({ accept: "image/*", capture: "environment" });
+    return h("div", { class: "row" },
+      h("button", { class: "btn outline small", type: "button", onclick: () => fileIn.click() }, "Upload file"),
+      h("button", { class: "btn outline small", type: "button", onclick: () => camIn.click() }, "Take photo"),
+      fileIn, camIn);
+  }
+
+  function docsCard(j, canWrite) {
+    const me = state.me;
+    const docs = j.documents || [];
+    const status = h("p", { class: "small muted", role: "status" });
+    const items = docs.map((d) => h("li", { class: "doc" },
+      h("div", { class: "doc-main" },
+        h("a", { href: `/api${base()}/documents/${d.id}`, target: "_blank", rel: "noopener" }, d.filename),
+        h("div", { class: "small muted" },
+          `${fileSize(d.size)} · added by ${d.uploaded_by_role === "agent" ? "Claude" : who(d.uploaded_by_name, d.uploaded_by_email)} on ${prettyDate(d.uploaded_at)}`,
+          d.note ? ` · ${d.note}` : "")),
+      h("a", { class: "btn outline small", href: `/api${base()}/documents/${d.id}?download=1` }, "Download"),
+      canWrite && j.status !== "posted" && (d.uploaded_by === me.id || me.role === "admin")
+        ? h("button", { class: "btn danger small", type: "button", onclick: async () => {
+            if (!confirm(`Remove ${d.filename}?`)) return;
+            try { await api(`${base()}/documents/${d.id}`, { method: "DELETE" }); toast("Document removed"); render(); } catch (e) { toast(e.message, true); }
+          } }, "Remove")
+        : null));
+    return h("div", { class: "card" },
+      h("h2", null, "Supporting documents"),
+      items.length ? h("ul", { class: "docs" }, items) : h("p", { class: "muted" }, "No documents attached yet."),
+      canWrite ? docPickers(async (files) => {
+        status.textContent = `Uploading ${files.length} file${files.length > 1 ? "s" : ""}…`;
+        const failed = await uploadAll(j.id, files);
+        if (failed < files.length) toast(files.length - failed === 1 ? "Document added" : `${files.length - failed} documents added`);
+        render();
+      }) : null,
+      canWrite ? h("p", { class: "small muted" }, j.status === "posted"
+        ? "Any file up to 25 MB. Documents on a posted entry are kept permanently."
+        : "Any file up to 25 MB. Documents can be removed until the entry is posted.") : null,
+      status);
   }
 
   async function viewEntry(id) {
@@ -525,6 +615,7 @@
         h("div", { class: "table-wrap" }, h("table", null,
           h("thead", null, h("tr", null, h("th", null, "Account"), hasDesc ? h("th", null, "Line description") : null, h("th", { class: "num" }, "Debit"), h("th", { class: "num" }, "Credit"))),
           h("tbody", null, lines, h("tr", { class: "total" }, h("td", null, "Total"), hasDesc ? h("td") : null, h("td", { class: "num" }, fmt(j.total_p)), h("td", { class: "num" }, fmt(j.total_p))))))),
+      docsCard(j, canWrite),
       h("div", { class: "row" }, actions)
     );
   }
@@ -653,6 +744,27 @@
       return { ...base, lines, source: "manual" };
     }
 
+    // Documents chosen here are uploaded once the entry is saved.
+    const pendingFiles = [];
+    const pendingList = h("ul", { class: "docs" });
+    const showPending = () => pendingList.replaceChildren(...pendingFiles.map((f, i) => h("li", { class: "doc" },
+      h("div", { class: "doc-main" }, docName(f), h("div", { class: "small muted" }, `${fileSize(f.size)} · added when you save`)),
+      h("button", { class: "btn outline small", type: "button", onclick: () => { pendingFiles.splice(i, 1); showPending(); } }, "Remove"))));
+    const docsBox = h("div", { class: "card" },
+      h("h3", null, "Supporting documents"),
+      existing && existing.documents && existing.documents.length
+        ? h("p", { class: "small muted" }, `${existing.documents.length} already attached. You can add or remove them on the entry page.`)
+        : null,
+      pendingList,
+      docPickers((files) => {
+        for (const f of files) {
+          if (f.size > MAX_DOC) toast(`${docName(f)} is over 25 MB`, true);
+          else pendingFiles.push(f);
+        }
+        showPending();
+      }),
+      h("p", { class: "small muted" }, "Receipts, invoices, statements or photos. Any file up to 25 MB."));
+
     const busy = (b) => form.querySelectorAll("button[type=submit], .act").forEach((x) => (x.disabled = b));
     async function save(action, approverId) {
       let payload;
@@ -668,7 +780,8 @@
         const r = id
           ? await api(`${base()}/journals/${id}`, { method: "PUT", body })
           : await api(`${base()}/journals`, { method: "POST", body });
-        toast(action === "post" ? `Posted as entry #${r.journal.number}` : action === "submit" ? "Sent for approval" : "Draft saved");
+        const failed = pendingFiles.length ? await uploadAll(r.journal.id, pendingFiles) : 0;
+        toast((action === "post" ? `Posted as entry #${r.journal.number}` : action === "submit" ? "Sent for approval" : "Draft saved") + (failed ? `; ${failed} document${failed > 1 ? "s" : ""} not added` : ""), !!failed);
         state.accounts = null;
         await refreshEntities();
         go(`#/entries/${r.journal.id}`);
@@ -689,6 +802,7 @@
         h("label", { class: "field wide" }, "Description", narrative)),
       h("div", { class: "row" }, modeSeg),
       modeBox,
+      docsBox,
       h("div", { class: "card" },
         h("h3", null, "How should this be recorded?"),
         h("div", { class: "row" },

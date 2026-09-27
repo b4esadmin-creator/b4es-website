@@ -119,7 +119,7 @@ partners (26 Sep 2026):
 - **Status (27 Sep 2026): live at https://ledger.b4es.co.uk.** Phases 1
   and 2 are shipped (PRs #25, #30, #34, #35, #36). The EU database
   `b4es-ledger` (id in `apps/ledger/wrangler.jsonc`) has migrations 0001
-  to 0003 applied; `ledger-deploy.yml` applies migrations and deploys on
+  to 0004 applied; `ledger-deploy.yml` applies migrations and deploys on
   merge to `main`. Cloudflare Access (team `damp-mode-0f67`, One-time PIN)
   protects the whole hostname; its team domain and AUD tag are in
   `wrangler.jsonc` (identifiers, not secrets). Partners are added or
@@ -158,15 +158,28 @@ partners (26 Sep 2026):
   pending dinner capital entry was edited to use them, and a transfer of
   entry #1's £3.90 from 3000 to 3001 is awaiting approval; after that 3000
   should stay at nil. Drawings remain one account (3100) with contacts.
-- **Next:** partner approval of the pending entries; then phase 3 (claude.ai connector), phase 4
-  (bank statement upload, needs R2).
-- **R2** is enabled on the account (27 Sep 2026); no buckets yet. Phase 4
-  creates the statements bucket with EU jurisdiction.
+- **Supporting documents (27 Sep 2026, Faisal):** any file up to 25 MB can
+  be attached to an entry, in the app (entry page or the entry editor:
+  "Upload file" or "Take photo", which opens the phone camera) or by Claude
+  Code (`ledger propose --attach`, `ledger attach`). Files live in the R2
+  bucket `b4es-ledger-documents` (EU; `ledger-deploy.yml` creates it if
+  missing), with a `documents` row holding name, size and SHA-256
+  (migration 0004). Documents can be added at any time; once the entry is
+  posted they cannot be removed (database trigger). Only the uploader or an
+  admin removes one before posting. Downloads are sandboxed so an uploaded
+  file never runs inside the app. The export lists documents but not their
+  contents. Cowork and claude.ai get this with the connector (phase 3).
+- **Next:** partner approval of the pending entries; then phase 3 (claude.ai
+  connector, including attaching documents), phase 4 (bank statement upload
+  and reconciliation, reusing the documents bucket).
+- **R2** is enabled on the account (27 Sep 2026). The ledger's documents
+  bucket `b4es-ledger-documents` (EU) holds supporting documents; phase 4
+  can keep statements there too.
 - **Owner steps still needed:** 2-step verification on the shared Gmail and
   Cloudflare.
 - **Working on the ledger locally:** `apps/ledger/README.md` has the
   commands (local D1, `wrangler dev` with `DEV_EMAIL` or `DEV_AGENT` and
-  `--local-upstream`, tests). CI runs the report tests, the 53
+  `--local-upstream`, tests). CI runs the report tests, the 61
   database-rule tests, syntax checks and a dry-run deploy.
 
 ## Project state (as of 27 Sep 2026)
