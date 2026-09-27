@@ -701,7 +701,7 @@ export function newsletterDialog() {
     </div>
     <div id="nlStatus" class="mt-3" role="status" aria-live="polite"></div>
     <p class="mt-4 text-[0.8125rem] leading-relaxed text-slate-deep">
-      We will email you a link to confirm. We use your address only to send these emails, through our email provider Resend. See our
+      We will email you a link to confirm. We use your address only to send these emails. See our
       <a href="/privacy/" class="font-semibold text-teal hover:underline">privacy notice</a>.
     </p>
     <p class="mt-3 text-right">

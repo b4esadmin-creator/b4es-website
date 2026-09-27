@@ -151,12 +151,11 @@ ${sec(
 
     <div class="space-y-5">
       <div class="card">
-        <p class="eyebrow">Direct</p>
-        <ul class="mt-5 space-y-5">
+        <ul class="space-y-5">
           <li class="flex gap-4">
             <span class="icon-tile">${icon("mail", "h-5 w-5")}</span>
             <span>
-              <span class="block text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-slate-mid">General</span>
+              <span class="eyebrow block">Email</span>
               <a href="mailto:${SITE.email}" class="mt-0.5 block font-display text-[1.0625rem] text-ink hover:text-teal">${SITE.email}</a>
             </span>
           </li>
@@ -174,7 +173,7 @@ ${sec(
           <li class="flex gap-4">
             <span class="icon-tile">${icon("clock", "h-5 w-5")}</span>
             <span>
-              <span class="block text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-slate-mid">Hours</span>
+              <span class="eyebrow block">Hours</span>
               <span class="mt-0.5 block text-[0.9375rem] text-slate-deep">${SITE.hours}</span>
             </span>
           </li>

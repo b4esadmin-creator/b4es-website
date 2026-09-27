@@ -476,6 +476,9 @@
   /* Desktop: always expanded, no toggle. */
   @media (width >= 40rem) {
     .footer-col-body { display: block !important; }
+    .footer-col[open] .footer-col-body,
+    .footer-col .footer-col-body { content-visibility: visible !important; }
+    .footer-col::details-content { content-visibility: visible !important; display: block !important; }
     .footer-col-head { pointer-events: none; }
   }
 
