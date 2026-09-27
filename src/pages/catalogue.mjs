@@ -539,8 +539,8 @@ ${sec(
     ${callout({
       tone: "plain",
       ic: "spark",
-      title: "Your sector not listed?",
-      body: "If your client base sits somewhere we have not listed, tell us during scoping. We will say plainly whether we already hold the process knowledge or would be learning it on your files, and if it is the latter, the price and the pace should reflect that.",
+      title: "The right people on every assignment",
+      body: "We only take on work we have the expertise to do well. Our partners bring experience from a wide range of sectors and practices, and we match each assignment to the people whose skills fit it best. That means experienced professionals on your files from the first day. If your sector is not shown above, tell us about your client base and we will tell you who would work on it.",
     })}
   </div>`
 )}
