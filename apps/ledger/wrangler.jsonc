@@ -38,7 +38,7 @@
     // separated). Claude may only read the books and send entries for
     // approval. The Client ID is an identifier; the Client Secret stays in
     // each partner's Claude environment and never goes in this repo.
-    "AGENT_CLIENT_IDS": ""
+    "AGENT_CLIENT_IDS": "75f9feb9b1f75e9c195cb0e5b331aabc.access"
   },
 
   // Only the custom domain, which sits behind Cloudflare Access. The
