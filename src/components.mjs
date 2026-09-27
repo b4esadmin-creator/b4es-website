@@ -532,7 +532,7 @@ export function capacityTransfer() {
     ${sectionHead({
       eyebrow: "The core idea",
       title: "Watch where your fee earners' week goes",
-      lede: "Cost per hour matters less than whether your most expensive people spend their hours on work that only they can do. Both rows show the same team, with the same headcount.",
+      lede: "What matters is whether your most expensive people spend their hours on work only they can do. Same team, same headcount.",
       max: "max-w-3xl",
     })}
 

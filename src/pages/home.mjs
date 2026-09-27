@@ -24,20 +24,20 @@ const proposition = `
     <div data-reveal="up">
       <p class="eyebrow mb-4">The proposition</p>
       <p class="font-display text-[1.625rem] leading-snug text-ink sm:text-[1.875rem]">
-        Market-leading quality. Materially better pricing. Your client stays yours.
+        Top-tier quality. Better pricing. Your client stays yours.
       </p>
       <div class="mt-7 flex items-start gap-3 border-t border-line pt-5">
         <span class="mt-0.5 text-teal">${icon("shield", "h-5 w-5")}</span>
         <p class="text-[0.9375rem] leading-snug text-slate-deep">
-          UK GDPR Article 28 data processing agreement on every engagement. No client data leaves your systems.
+          UK GDPR Article 28 DPA on every engagement. No client data leaves your systems.
         </p>
       </div>
     </div>
     <ul class="check-list" data-reveal="up" style="--d:1">
-      <li>Delivery capacity for UK accountancy practices, fully white-labelled</li>
-      <li>A complete outsourced finance function for growing UK businesses</li>
-      <li>Backed by a specialist finance and advisory firm operating since 2014</li>
-      <li>Structured, staffed and managed around UK deadlines and UK working hours</li>
+      <li>White-labelled delivery capacity for UK practices</li>
+      <li>A complete finance function for growing businesses</li>
+      <li>Backed by a specialist firm operating since 2014</li>
+      <li>Run to UK deadlines and UK working hours</li>
     </ul>
   </div>
 </section>`;
@@ -53,7 +53,7 @@ ${hero({
   eyebrow: "Better 4 Enterprise Solutions",
   title: "Delivery capacity for UK accountancy practices and the businesses they serve.",
   lede:
-    "Outsourced accounting, tax, payroll and back-office delivery for UK firms and growing UK businesses. The technical standard of the established outsourcing names, at a materially better rate, with the client relationship staying with you.",
+    "Outsourced accounting, tax and payroll for UK practices and businesses — top-tier quality, better pricing, and your client relationship stays yours.",
   primary: { href: "/contact/", label: "Contact us" },
   secondary: { href: "/why-us/", label: "Why B4ES" },
 })}
@@ -85,16 +85,16 @@ ${sec(
   ${sectionHead({
     eyebrow: "Explore B4ES",
     title: "Everything you need to decide, in four places",
-    lede: "Each page is short and gets to the point. Start wherever your question is.",
+    lede: "Short pages, straight to the point. Start wherever your question is.",
     max: "max-w-2xl",
   })}
   <div class="mt-10">
     ${grid(
       [
-        linkCard({ href: "/about/", ic: "compass", title: "About Us", body: "Who we are, what the name means, and the commitments we work to.", cta: "About B4ES" }),
-        linkCard({ href: "/why-us/", ic: "target", title: "Why Us", body: "Our edge, how an engagement runs, how you buy it and how data is protected.", cta: "Why B4ES" }),
-        linkCard({ href: "/services/", ic: "layers", title: "Services", body: "Fourteen service lines across accounts, tax, payroll, audit and advisory.", cta: "All services" }),
-        linkCard({ href: "/strategic-partners/", ic: "handshake", title: "Strategic Partners", body: "The established delivery firm behind our UK-facing team.", cta: "Our partners" }),
+        linkCard({ href: "/about/", ic: "compass", title: "About Us", body: "Who we are and what we commit to.", cta: "About B4ES" }),
+        linkCard({ href: "/why-us/", ic: "target", title: "Why Us", body: "Our edge, how engagements run, how data is protected.", cta: "Why B4ES" }),
+        linkCard({ href: "/services/", ic: "layers", title: "Services", body: "Fourteen lines across accounts, tax, payroll, audit and advisory.", cta: "All services" }),
+        linkCard({ href: "/strategic-partners/", ic: "handshake", title: "Strategic Partners", body: "The delivery firm behind our UK team.", cta: "Our partners" }),
       ],
       4
     )}
@@ -110,7 +110,7 @@ ${sec(
     ${sectionHead({
       eyebrow: "Services",
       title: "Who we help, and how",
-      lede: "Choose your situation. Every card opens the full detail for that service.",
+      lede: "Pick your situation — every card opens the full detail.",
       max: "max-w-2xl",
     })}
     <a href="/services/" class="link-arrow shrink-0">All fourteen services ${arrow("h-4 w-4")}</a>
@@ -134,7 +134,7 @@ ${sec(
         )}
         <div class="card-quiet mt-5">
           <p class="font-display text-[1.0625rem] text-ink">Already have an accountant?</p>
-          <p class="mt-2 text-[0.9375rem] leading-relaxed text-slate-deep">Good, keep them. We run the finance function; they keep the statutory accounts and the tax advice. <a href="/for-business/" class="font-semibold text-teal hover:underline">How it works for businesses</a></p>
+          <p class="mt-2 text-[0.9375rem] leading-relaxed text-slate-deep">Keep them. We run the finance function; they keep the statutory accounts and tax advice. <a href="/for-business/" class="font-semibold text-teal hover:underline">How it works for businesses</a></p>
         </div>`,
       },
     ],
