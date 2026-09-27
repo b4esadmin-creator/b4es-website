@@ -142,8 +142,10 @@ partners (26 Sep 2026):
   tried.
 - **Next:** first live Claude proposal and approval; then phase 3
   (claude.ai connector), phase 4 (bank statement upload, needs R2).
-- **Owner steps still needed:** enable R2 (backups, statements) before
-  phase 4; 2-step verification on the shared Gmail and Cloudflare.
+- **R2** is enabled on the account (27 Sep 2026); no buckets yet. Phase 4
+  creates the statements bucket with EU jurisdiction.
+- **Owner steps still needed:** 2-step verification on the shared Gmail and
+  Cloudflare.
 - **Working on the ledger locally:** `apps/ledger/README.md` has the
   commands (local D1, `wrangler dev` with `DEV_EMAIL` or `DEV_AGENT` and
   `--local-upstream`, tests). CI runs the report tests, the 43
@@ -242,10 +244,11 @@ partners (26 Sep 2026):
   Cloudflare Email Routing, the contact-form notification must be switched
   to that provider's SMTP or Resend. MX records now point to Cloudflare
   Email Routing (see below).
-- **Sheet bridge**: `scripts/sheet-bridge.gs` is written and a copy is in
-  Drive ("B4ES sheet bridge script (paste into Apps Script)"). The partners
-  are deploying it; afterwards `B4ES_SHEET_URL` and `B4ES_SHEET_SECRET` must
-  be added to each Claude environment that should update the sheet.
+- **Sheet bridge**: `scripts/sheet-bridge.gs` is deployed as an Apps Script
+  web app (27 Sep 2026; it answers and rejects a wrong secret). A Claude
+  environment can update the sheet once it has `B4ES_SHEET_URL` (the web
+  app URL) and `B4ES_SHEET_SECRET` (the script's `SECRET` property) as
+  environment variables; neither goes in this repo.
 - **Abacus.AI**: partners may use it via GitHub. Do **not** point
   b4es.co.uk DNS at Abacus (it asked for A records → 66.71.220.1); that
   would take the live site and contact form off Cloudflare. Test on a
