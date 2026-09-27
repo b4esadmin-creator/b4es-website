@@ -112,13 +112,13 @@ Common entries (debit first):
 
 | Transaction | Debit | Credit |
 | --- | --- | --- |
-| Member pays in capital | 1200 bank | 3000 Members' capital |
+| Member pays in capital | 1200 bank | that member's capital account (3001 to 3004) |
 | Member takes money out (drawings, profit on account) | 3100 Members' drawings | 1200 bank |
 | Expense paid from the bank or card | expense account | 1200 bank |
 | Supplier bill received, not yet paid | expense account | 2100 Trade creditors |
 | That bill paid | 2100 Trade creditors | 1200 bank |
 | B4ES cost paid personally by a member, to be repaid | expense account | 2300 Other creditors |
-| Same, but the member agrees it counts as capital | expense account | 3000 Members' capital |
+| Same, but the member agrees it counts as capital | expense account | that member's capital account (3001 to 3004) |
 | Invoice issued to a client, not yet paid | 1100 Trade debtors | 4000 to 4040 income |
 | Client pays that invoice | 1200 bank | 1100 Trade debtors |
 | Client pays with no invoice raised first | 1200 bank | income account |
@@ -127,6 +127,11 @@ Common entries (debit first):
 
 Choosing the account:
 
+- **Each member has their own capital account** (27 Sep 2026): 3001 Faisal,
+  3002 Rao Junaid, 3003 Yawar, 3004 Ghufran. Use these, not the pooled 3000,
+  and put the member's contact on the line too. A new member gets the next
+  code: `account-add --code 3005 --name "Members' capital: NAME" --like 3000`.
+  Drawings are still one account (3100) with the member as contact.
 - LLP members are not employees. Payments to members are **drawings (3100)**,
   never salaries (6000). Profit shares are allocated at the year end, not
   booked as expenses.

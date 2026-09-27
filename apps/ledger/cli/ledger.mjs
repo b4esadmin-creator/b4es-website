@@ -19,7 +19,7 @@
 //   node apps/ledger/cli/ledger.mjs propose FILE.json|- [--entity ID] [--dry-run]
 //   node apps/ledger/cli/ledger.mjs edit JOURNAL_ID FILE.json|- [--dry-run]   (Claude's own entry; resent for approval)
 //   node apps/ledger/cli/ledger.mjs withdraw|resend|delete JOURNAL_ID       (Claude's own entry)
-//   node apps/ledger/cli/ledger.mjs account-add --code 6520 --name "Entertainment" --type expense [--bank]
+//   node apps/ledger/cli/ledger.mjs account-add --code 6520 --name "Entertainment" (--type expense | --like CODE) [--bank]
 //   node apps/ledger/cli/ledger.mjs account-update CODE [--name N] [--code NEW] [--active yes|no]
 //   node apps/ledger/cli/ledger.mjs contact-add --name N [--kind customer|supplier|member|employee|other]
 //   node apps/ledger/cli/ledger.mjs year-add --start 2026-01-01 --end 2026-12-31
@@ -249,7 +249,14 @@ async function main() {
     case "account-add": {
       const e = await entityId();
       const body = { code: flag("code"), name: flag("name"), type: flag("type"), is_bank: has("bank") };
-      if (!body.code || !body.name || !body.type) die('usage: ledger account-add --code 6520 --name "Entertainment" --type expense [--bank]');
+      // --like CODE copies type and report mapping from an existing account.
+      if (flag("like")) {
+        const { accounts } = await api(`/entities/${e.id}/accounts`);
+        const t = accounts.find((x) => x.code === flag("like"));
+        if (!t) die(`no account with code ${flag("like")}`);
+        Object.assign(body, { type: body.type || t.type, subtype: t.subtype, fs_line: t.fs_line, cf_class: t.cf_class, is_bank: body.is_bank || !!t.is_bank });
+      }
+      if (!body.code || !body.name || !body.type) die('usage: ledger account-add --code 6520 --name "Entertainment" (--type expense | --like CODE) [--bank]');
       await api(`/entities/${e.id}/accounts`, { method: "POST", body });
       console.log(`Added account ${body.code} ${body.name} (${body.type}).`);
       return;

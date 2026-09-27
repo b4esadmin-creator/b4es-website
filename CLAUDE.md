@@ -151,9 +151,14 @@ partners (26 Sep 2026):
   Once approved, B4ES owes Faisal £51 and Yawar and Ghufran each owe £25.50;
   when they pay Faisal, book debit 2300 (Faisal) / credit 1110 (partner).
   Claude added account 6520 Entertainment and member contacts Faisal, Yawar,
-  Ghufran and Rao Junaid (use these contacts on member lines).
-- **Next:** partner approval of those entries; consider per-partner capital
-  accounts before year end; then phase 3 (claude.ai connector), phase 4
+  Ghufran and Rao Junaid (use these contacts on member lines). The domain
+  entry was approved (entry #1).
+- **Per-partner capital accounts (27 Sep 2026, Faisal):** 3001 Faisal, 3002
+  Rao Junaid, 3003 Yawar, 3004 Ghufran (same report mapping as 3000). The
+  pending dinner capital entry was edited to use them, and a transfer of
+  entry #1's £3.90 from 3000 to 3001 is awaiting approval; after that 3000
+  should stay at nil. Drawings remain one account (3100) with contacts.
+- **Next:** partner approval of the pending entries; then phase 3 (claude.ai connector), phase 4
   (bank statement upload, needs R2).
 - **R2** is enabled on the account (27 Sep 2026); no buckets yet. Phase 4
   creates the statements bucket with EU jurisdiction.
