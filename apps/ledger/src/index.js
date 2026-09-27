@@ -190,7 +190,8 @@ function list(v) {
 
 /**
  * What Claude (role 'agent') may do: read everything, set up the books
- * (companies, accounts, contacts, financial years) and manage its own
+ * (companies, accounts, contacts, financial years; it can edit or hide a
+ * contact but not remove one) and manage its own
  * proposals (send, edit, withdraw, resend, delete). It never posts, approves,
  * rejects or reverses an entry, locks or unlocks a year, archives a company
  * or changes who has access. It can attach supporting documents to entries
@@ -207,7 +208,7 @@ function agentMayCall(method, pathname) {
     case "accounts":
       return (method === "POST" && (p.length === 3 || (p.length === 4 && p[3] === "template"))) || (method === "PATCH" && p.length === 4);
     case "contacts":
-      return method === "POST" && p.length === 3;
+      return (method === "POST" && p.length === 3) || (method === "PATCH" && p.length === 4); // removing stays with the partners
     case "fiscal-years":
       return method === "POST" && p.length === 3; // add a year; locking stays with the partners
     case "journals":
@@ -544,19 +545,49 @@ function validAccount(b) {
 async function contactsRoute(request, db, me, entity, rest) {
   const m = request.method;
   if (rest.length === 1 && m === "GET") {
-    const { results } = await db.prepare("SELECT * FROM contacts WHERE entity_id = ? ORDER BY name").bind(entity.id).all();
+    const { results } = await db
+      .prepare(
+        "SELECT c.*, (SELECT COUNT(*) FROM journal_lines l WHERE l.contact_id = c.id) AS line_count FROM contacts c WHERE c.entity_id = ? ORDER BY c.name"
+      )
+      .bind(entity.id)
+      .all();
     return json({ contacts: results });
   }
   if (rest.length === 1 && m === "POST") {
-    const b = await body(request);
-    const name = String(b.name || "").trim().slice(0, 120);
-    const kind = ["customer", "supplier", "member", "employee", "other"].includes(b.kind) ? b.kind : "other";
-    if (!name) throw bad("Contact name is required");
-    const r = await db.prepare("INSERT INTO contacts (entity_id, name, kind) VALUES (?, ?, ?) RETURNING id").bind(entity.id, name, kind).first();
-    await audit(db, me, "contact.create", entity.id, "contact", r.id, { name, kind }).run();
+    const c = validContact(await body(request));
+    const r = await db.prepare("INSERT INTO contacts (entity_id, name, kind) VALUES (?, ?, ?) RETURNING id").bind(entity.id, c.name, c.kind).first();
+    await audit(db, me, "contact.create", entity.id, "contact", r.id, c).run();
     return json({ id: r.id }, 201);
   }
+  if (rest.length === 2 && (m === "PATCH" || m === "DELETE")) {
+    const id = int(rest[1]);
+    const cur = await db.prepare("SELECT * FROM contacts WHERE id = ? AND entity_id = ?").bind(id, entity.id).first();
+    if (!cur) throw new HttpError(404, "Contact not found");
+    if (m === "PATCH") {
+      const b = await body(request);
+      const c = validContact({ name: b.name ?? cur.name, kind: b.kind ?? cur.kind });
+      const active = b.active === undefined ? cur.active : b.active ? 1 : 0;
+      await db.batch([
+        db.prepare("UPDATE contacts SET name = ?, kind = ?, active = ? WHERE id = ?").bind(c.name, c.kind, active, id),
+        audit(db, me, "contact.update", entity.id, "contact", id, { before: cur, after: { ...c, active } }),
+      ]);
+      return json({ ok: true });
+    }
+    // Remove only a contact no entry uses; one on an entry is hidden instead,
+    // so past entries keep their contact.
+    const del = await db.prepare("DELETE FROM contacts WHERE id = ? AND NOT EXISTS (SELECT 1 FROM journal_lines WHERE contact_id = ?)").bind(id, id).run();
+    if (!del.meta.changes) throw new HttpError(409, "This contact is used on entries, so it cannot be removed. Hide it instead.");
+    await audit(db, me, "contact.delete", entity.id, "contact", id, { before: cur }).run();
+    return json({ ok: true });
+  }
   throw new HttpError(404, "Not found");
+}
+
+function validContact(b) {
+  const name = String(b.name || "").trim().slice(0, 120);
+  if (!name) throw bad("Contact name is required");
+  const kind = ["customer", "supplier", "member", "employee", "other"].includes(b.kind) ? b.kind : "other";
+  return { name, kind };
 }
 
 /* ---------------------------------------------------------------- journals */

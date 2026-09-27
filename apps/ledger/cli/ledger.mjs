@@ -22,6 +22,7 @@
 //   node apps/ledger/cli/ledger.mjs account-add --code 6520 --name "Entertainment" (--type expense | --like CODE) [--bank]
 //   node apps/ledger/cli/ledger.mjs account-update CODE [--name N] [--code NEW] [--active yes|no]
 //   node apps/ledger/cli/ledger.mjs contact-add --name N [--kind customer|supplier|member|employee|other]
+//   node apps/ledger/cli/ledger.mjs contact-update NAME [--name NEW] [--kind K] [--active yes|no]   (--active no hides it from new entries)
 //   node apps/ledger/cli/ledger.mjs year-add --start 2026-01-01 --end 2026-12-31
 //   node apps/ledger/cli/ledger.mjs principals | audit [--limit N]
 //   node apps/ledger/cli/ledger.mjs attach JOURNAL_ID FILE [FILE...] [--note N]   (supporting documents, any file up to 25 MB)
@@ -335,6 +336,22 @@ async function main() {
       console.log(`Added contact ${name}.`);
       return;
     }
+    case "contact-update": {
+      const name = args[1];
+      if (!name || name.startsWith("--")) die("usage: ledger contact-update NAME [--name NEW] [--kind K] [--active yes|no]");
+      const e = await entityId();
+      const { contacts } = await api(`/entities/${e.id}/contacts`);
+      const c = contacts.find((x) => x.name.toLowerCase() === name.toLowerCase());
+      if (!c) die(`no contact named "${name}"`);
+      const body = {};
+      if (flag("name")) body.name = flag("name");
+      if (flag("kind")) body.kind = flag("kind");
+      if (flag("active")) body.active = flag("active") === "yes";
+      if (!Object.keys(body).length) die("nothing to change");
+      await api(`/entities/${e.id}/contacts/${c.id}`, { method: "PATCH", body });
+      console.log(`Updated contact ${c.name}.`);
+      return;
+    }
     case "year-add": {
       const e = await entityId();
       if (!flag("start") || !flag("end")) die("usage: ledger year-add --start YYYY-MM-DD --end YYYY-MM-DD");
@@ -391,7 +408,7 @@ async function main() {
       return;
     }
     default:
-      die("commands: check, entities, accounts, contacts, journals, show, propose, edit, withdraw, resend, delete, account-add, account-update, contact-add, year-add, principals, audit, attach, docs, detach, fetch-doc (see the top of this file)");
+      die("commands: check, entities, accounts, contacts, journals, show, propose, edit, withdraw, resend, delete, account-add, account-update, contact-add, contact-update, year-add, principals, audit, attach, docs, detach, fetch-doc (see the top of this file)");
   }
 }
 
