@@ -651,7 +651,7 @@
         h("optgroup", { label: type[0].toUpperCase() + type.slice(1) },
           accs.filter((a) => a.type === type && filter(a)).map((a) => h("option", { value: a.id, selected: a.id === selected }, `${a.code} ${a.name}`)))),
     ];
-    const contactOptions = (selected) => [h("option", { value: "" }, "No contact"), ...cts.map((c) => h("option", { value: c.id, selected: c.id === selected }, c.name))];
+    const contactOptions = (selected) => [h("option", { value: "" }, "No contact"), ...cts.filter((c) => c.active || c.id === selected).map((c) => h("option", { value: c.id, selected: c.id === selected }, c.name))];
 
     const date = h("input", { type: "date", required: true, value: existing ? existing.date : today() });
     const reference = h("input", { placeholder: "Invoice or receipt number", value: src ? src.reference || "" : "" });
@@ -1123,10 +1123,42 @@
 
       // Contacts
       const cts = await contacts(true);
+      const kinds = [["customer", "Customer"], ["supplier", "Supplier"], ["member", "Member"], ["employee", "Employee"], ["other", "Other"]];
+      const kindSelect = (sel) => h("select", { "aria-label": "Type" }, kinds.map(([v, t]) => h("option", { value: v, selected: v === sel }, t)));
+      const saveContact = async (c, patch, msg) => {
+        try { await api(`${base()}/contacts/${c.id}`, { method: "PATCH", body: patch }); toast(msg); state.contacts = null; render(); } catch (err) { toast(err.message, true); }
+      };
+      const contactRow = (c) => {
+        const row = h("tr");
+        const show = () => row.replaceChildren(
+          h("td", null, c.name, c.active ? null : h("div", { class: "small muted" }, "Hidden from new entries")),
+          h("td", { class: "num" }, kinds.find(([v]) => v === c.kind)?.[1] || c.kind),
+          h("td", { class: "num" }, c.line_count),
+          canWrite ? h("td", { class: "num" }, h("div", { class: "row end" },
+            h("button", { class: "btn small outline", type: "button", onclick: edit }, "Edit"),
+            c.line_count
+              ? h("button", { class: "btn small outline", type: "button", onclick: () => saveContact(c, { active: !c.active }, c.active ? "Contact hidden" : "Contact shown") }, c.active ? "Hide" : "Show")
+              : h("button", { class: "btn small danger", type: "button", onclick: async () => {
+                  if (!confirm(`Remove ${c.name}?`)) return;
+                  try { await api(`${base()}/contacts/${c.id}`, { method: "DELETE" }); toast("Contact removed"); state.contacts = null; render(); } catch (err) { toast(err.message, true); }
+                } }, "Remove"))) : null);
+        const edit = () => {
+          const n = h("input", { value: c.name, "aria-label": "Name", required: true });
+          const k = kindSelect(c.kind);
+          row.replaceChildren(h("td", { colspan: 4 }, h("form", { class: "row", onsubmit: (ev) => { ev.preventDefault(); saveContact(c, { name: n.value, kind: k.value }, "Contact saved"); } },
+            n, k,
+            h("button", { class: "btn small primary", type: "submit" }, "Save"),
+            h("button", { class: "btn small outline", type: "button", onclick: show }, "Cancel"))));
+          n.focus();
+        };
+        show();
+        return row;
+      };
       const cn = h("input", { placeholder: "Name" });
-      const ck = h("select", null, [["customer", "Customer"], ["supplier", "Supplier"], ["member", "Member"], ["employee", "Employee"], ["other", "Other"]].map(([v, t]) => h("option", { value: v }, t)));
+      const ck = kindSelect("customer");
       sections.push(h("div", { class: "card" }, h("h2", null, "Customers and suppliers"),
-        cts.length ? h("p", null, cts.map((c) => `${c.name} (${c.kind})`).join(" · ")) : h("p", { class: "muted" }, "None yet."),
+        cts.length ? table(canWrite ? ["Name", "Type", "Entries", ""] : ["Name", "Type", "Entries"], cts.map(contactRow)) : h("p", { class: "muted" }, "None yet."),
+        cts.some((c) => c.line_count) && canWrite ? h("p", { class: "small muted" }, "A contact used on entries cannot be removed, so past entries keep it. Hide it to leave it out of new entries.") : null,
         canWrite ? h("form", { class: "row", onsubmit: async (ev) => { ev.preventDefault(); try { await api(`${base()}/contacts`, { method: "POST", body: { name: cn.value, kind: ck.value } }); toast("Contact added"); state.contacts = null; render(); } catch (err) { toast(err.message, true); } } },
           h("label", { class: "field" }, "Name", cn), h("label", { class: "field" }, "Type", ck), h("button", { class: "btn outline", type: "submit" }, "Add")) : null));
     }

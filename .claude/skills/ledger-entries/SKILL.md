@@ -18,8 +18,14 @@ Tool: `node apps/ledger/cli/ledger.mjs <command>` from the repository root.
 Commands: `check`, `entities`, `accounts`, `contacts`, `journals`, `show ID`,
 `propose FILE.json [--dry-run]`, `edit ID FILE.json`, `withdraw ID`,
 `resend ID`, `delete ID`, `account-add`, `account-update`, `contact-add`,
+`contact-update`,
 `year-add`, `principals`, `audit`, `attach`, `docs`, `detach`, `fetch-doc`.
 Details are at the top of that file.
+
+Claude can rename a contact, change its type or hide it from new entries
+(`contact-update NAME [--name NEW] [--kind K] [--active no]`). Removing a
+contact is for partners, in the app (Settings, Customers and suppliers), and
+only works for one no entry uses.
 
 Set-up changes take effect at once and are in the audit log, so make them
 only when the partner asks or agrees: say which account or contact you will

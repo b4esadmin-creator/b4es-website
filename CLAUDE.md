@@ -169,6 +169,13 @@ partners (26 Sep 2026):
   admin removes one before posting. Downloads are sandboxed so an uploaded
   file never runs inside the app. The export lists documents but not their
   contents. Cowork and claude.ai get this with the connector (phase 3).
+- **Contacts (27 Sep 2026, Faisal):** Settings, Customers and suppliers
+  lists each contact with its entry count, with Edit (name, type), Hide or
+  Show, and Remove. Remove works only for a contact no entry uses; a used
+  one is hidden instead so past entries keep it (hidden contacts drop out
+  of the new-entry picker). Claude can edit and hide (`ledger
+  contact-update`) but not remove. Supplier "Chaiwala" was added for a £20
+  tea party entry sent for approval.
 - **Next:** partner approval of the pending entries; then phase 3 (claude.ai
   connector, including attaching documents), phase 4 (bank statement upload
   and reconciliation, reusing the documents bucket).
