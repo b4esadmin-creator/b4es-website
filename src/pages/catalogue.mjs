@@ -368,9 +368,9 @@ ${sec(
       ${sectionHead({
         eyebrow: "The problem",
         title: "You have outgrown bookkeeping and cannot yet justify a finance team",
-        lede: "It is one of the most common and least discussed stages of growth. The numbers arrive late, nobody owns the forecast, and the founder is still approving purchase invoices at eleven at night.",
       })}
-      <div class="prose-body mt-6">
+      <div class="prose-body mt-6 sm:mt-11">
+        <p>It is one of the most common and least discussed stages of growth. The numbers arrive late, nobody owns the forecast, and the founder is still approving purchase invoices at eleven at night.</p>
         <p>A financial controller, a management accountant and a purchase ledger clerk is a substantial fixed commitment before employer National Insurance, pension contributions, software, holiday cover and recruitment fees. Employer NI at 15% with a £5,000 secondary threshold has made that arithmetic materially worse.</p>
         <p>Meanwhile the need is real and growing: lenders want forecasts, investors want board packs and suppliers want paying on terms. The person holding it all together is either the founder or a single bookkeeper whose departure would be a crisis.</p>
       </div>

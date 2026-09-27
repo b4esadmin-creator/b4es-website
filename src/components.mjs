@@ -81,8 +81,8 @@ export function sectionHead({
   const a = align === "center" ? `mx-auto text-center ${max}` : max;
   return `<div class="${a}">
     ${eyebrow ? `<p class="${light ? "eyebrow-light" : "eyebrow"} mb-4" data-reveal="up" style="--d:0">${eyebrow}</p>` : ""}
-    <h2 class="h-section ${light ? "text-white" : ""}" data-reveal="up" style="--d:1">${title}</h2>
-    ${lede ? `<p class="mt-6 sm:mt-8 lg:mt-11 ${light ? "text-[1.0625rem] leading-[1.7] text-slate-soft" : "lede"}" data-reveal="up" style="--d:2">${lede}</p>` : ""}
+    <h2 class="h-section ${light ? "text-white" : ""} ${lede ? "mb-6 sm:mb-11" : ""}" data-reveal="up" style="--d:1">${title}</h2>
+    ${lede ? `<p class="${light ? "text-[1.0625rem] leading-[1.7] text-slate-soft" : "lede"}" data-reveal="up" style="--d:2">${lede}</p>` : ""}
   </div>`;
 }
 
