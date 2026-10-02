@@ -323,3 +323,28 @@ partners (26 Sep 2026):
   if the partners want to reply as info@.
 - Placeholders still empty in `src/data/site.mjs`: phone, Companies House
   number, ICO reference, LinkedIn URL.
+- **Market research and prospects (2 Oct 2026, Faisal):** in the shared
+  Drive folder "B4ES Market Research (2 Oct 2026)", one Google Sheet per
+  topic (summary, top 25 targets, 135 scored prospects, segments,
+  opportunities, market facts, competitors, pricing, channels, risks, action
+  plan, platform access). Faisal also has the full 18-tab workbook, which
+  adds a 495-firm Essex practice list from Companies House. Prospect contact
+  details live only there, never in this repo. Conclusion: lead with paid
+  Self Assessment and year-end pilots for small incorporated practices in
+  Essex and London, then MTD quarterly-update capacity for landlord
+  specialists, an engine room for fractional CFOs, and UK compliance for
+  UK-Pakistan corridor companies; leave public tenders until B4ES has
+  accounts, references and Cyber Essentials/ISO 27001.
+- **Before any outreach:** pay the ICO data protection fee (then fill
+  `icoRef`), add a "business contacts and prospects" section to the privacy
+  notice, sign an IDTA with the delivery partner, create the LinkedIn page.
+  PECR: cold email only to companies and LLPs; sole traders and traditional
+  partnerships get LinkedIn, a TPS/CTPS-screened call or a letter.
+- **Research notes for next time:** Reed search pages carry their results as
+  JSON in `__NEXT_DATA__` (93% of practice adverts come via recruiters);
+  Companies House search pages and the monthly bulk file work without a key;
+  Indeed and ICAEW's directory block automated access; Bing returns junk to
+  scripts. Run at most two or three workflows at once: ten in parallel hit
+  the account's usage limit within 15 minutes. Partners could add
+  `COMPANIES_HOUSE_API_KEY`, `ADZUNA_APP_ID`/`ADZUNA_APP_KEY` and
+  `REED_API_KEY` to the Claude environment for faster refreshes.
